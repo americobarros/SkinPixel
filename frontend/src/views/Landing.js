@@ -28,7 +28,11 @@ export default function Landing() {
         </Button>
       </div>
       <div id="skinsDisplay">
-        {[1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5].map((_, idx) => <Link key={`link-${idx}`} to={`/skin/${idx}`}><SkinCard key={`skinCard-${idx}`}/></Link> )}
+        {[1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5].map((_, idx) =>
+          <Link key={`link-${idx}`} to={`/skin/${idx}`}>
+            <SkinCard />
+          </Link>
+        )}
       </div>
     </div>
   );
