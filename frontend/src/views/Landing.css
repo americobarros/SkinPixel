@@ -14,8 +14,3 @@
 .icon {
     margin-left: 10px;
 }
-
-#skinsDisplay {
-    display: flex;
-    flex-flow: wrap;
-}

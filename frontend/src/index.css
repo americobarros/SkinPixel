@@ -16,3 +16,8 @@ content {
   margin: 20px;
   display: block;
 }
+
+#skinsDisplay {
+  display: flex;
+  flex-flow: wrap;
+}
