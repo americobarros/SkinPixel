@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from '@material-ui/core/Button';
 
-import './ViewSkin.css';
+import './EditSkin.css';
 
 export default function ViewSkin() {
   let { skinId } = useParams();
@@ -14,16 +14,16 @@ export default function ViewSkin() {
         <Link to="/" style={{ color: 'black', alignSelf: 'center' }}>
           <ArrowBackIcon className="backIcon" />
         </Link>
-        <h2>xX_terminator_Xx</h2>
+        <h2>hannah_minecraft_version</h2>
         <h2 style={{ display: 'none' }}>{skinId}</h2>
       </div>
       <div style={{ display: 'flex' }}>
         <div id="threeDView" />
-        <div id="userInfo" />
-      </div>
-      <div style={{ display: 'flex' }}>
-        <div id="comment" />
-        <Button className="CommentButton" variant="outlined">Save</Button>
+        <div className="rightItems">
+          <div id="colorPicker" />
+          <Button className="ButtonStyle" variant="outlined">Save</Button>
+          <Button className="ButtonStyle" variant="outlined">Delete</Button>
+        </div>
       </div>
       <div id="twoDViews" />
     </div>

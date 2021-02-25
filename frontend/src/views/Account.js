@@ -22,7 +22,7 @@ export default function Account() {
             <div className="drawer">
                 <div style={{ marginTop: '80px' }} scroll="no">
                     {["Account Settings", "My Skins", "Admin Settings"].map((item, idx) =>
-                        <div className="listItem" id={idx} onClick={() => setDrawerItem(item)}>
+                        <div className="listItem" key={idx} onClick={() => setDrawerItem(item)}>
                             {item}
                         </div>
                     )}
@@ -46,7 +46,7 @@ export default function Account() {
 
                 {drawerItem === "My Skins" && (
                     <div id="skinsDisplay">
-                        {[1,2,3].map((_, idx) => <Link key={`link-${idx}`} to={`/skin/${idx}`}><SkinCard key={`skinCard-${idx}`}/></Link> )}
+                        {[1,2,3].map((_, idx) => <Link key={`link-${idx}`} to={`/skin/edit/${idx}`}><SkinCard key={`skinCard-${idx}`}/></Link> )}
                     </div>
                 )}
 
@@ -55,7 +55,7 @@ export default function Account() {
                         <h2>Remove Users</h2>
                         <div>
                             {["hannahbrooks", "americobarros", "ianchan", "penguin"].map((item, idx) =>
-                                <div className="deleteUser" id={idx} onClick={handleDeleteUser}>
+                                <div className="deleteUser" key={idx} onClick={handleDeleteUser}>
                                     {item} <DeleteIcon style={{ cursor: 'pointer' }} />
                                 </div>
                             )}
