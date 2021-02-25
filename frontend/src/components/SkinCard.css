@@ -1,0 +1,16 @@
+.CardStyle {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    width: 200px;
+    height: 400px;
+    border-radius: 5px;
+    margin: 15px 15px 15px 0px;
+}
+
+.CardStyle:hover {
+    border: 1px solid rgba(0, 0, 0);
+}
+
+.skinsDisplay {
+    display: flex;
+    flex-flow: wrap;
+}

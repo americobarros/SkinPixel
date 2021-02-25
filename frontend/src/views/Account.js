@@ -1,8 +1,8 @@
 export default function Account() {
     return (
-        <div>
+        <h3>
             this is the account page
-        </div>
+        </h3>
     );
 }
   

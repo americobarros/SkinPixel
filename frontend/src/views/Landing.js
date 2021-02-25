@@ -5,10 +5,11 @@ import SortIcon from '@material-ui/icons/Sort';
 
 import '../index.css';
 import './Landing.css';
+import SkinCard from '../components/SkinCard';
 
 export default function Landing() {
   return (
-    <content>
+    <div>
       <div id="searchFunctionality">
         <TextField className="TextFieldStyle" label="Search" variant="outlined" />
         <Button className="ButtonStyle">
@@ -20,6 +21,9 @@ export default function Landing() {
           <SortIcon className="icon"/>
         </Button>
       </div>
-    </content>
+      <div id="skinsDisplay">
+        {[1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5].map(() => <SkinCard /> )}
+      </div>
+    </div>
   );
 }

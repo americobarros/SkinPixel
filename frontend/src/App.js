@@ -22,7 +22,7 @@ export default function App() {
     <StylesProvider injectFirst>
       <Router>
         <div>
-          <ul style={{ position: 'absolute', bottom: '0' }}>
+          <ul style={{ position: 'fixed', bottom: '0' }}>
             <li>
               <Link to="/">Landing</Link>
             </li>
@@ -34,12 +34,13 @@ export default function App() {
             </li>
           </ul>
           <Header />
-
-          <Switch>
-            <Route path="/account" children={<Account />}/>
-            <Route path="/skin/:skinId" children={<SkinView />}/>
-            <Route path="/" children={<Landing />} />
-          </Switch>
+          <content>
+            <Switch>
+              <Route path="/account" children={<Account />}/>
+              <Route path="/skin/:skinId" children={<SkinView />}/>
+              <Route exact path="/" children={<Landing />} />
+            </Switch>
+          </content>          
         </div>
       </Router>
       </StylesProvider>
