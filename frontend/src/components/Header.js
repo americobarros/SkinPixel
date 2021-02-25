@@ -43,7 +43,9 @@ export default function Header(props) {
         <HideOnScroll {...props}>
           <AppBar className="AppBarStyle">
             <Toolbar>
-              <h2 style={{ flexGrow: '1' }}>SkinPixel</h2>
+              <Link to="/" className="title">
+                <h2>SkinPixel</h2>
+              </Link>
               <Link to="/account" style={{ textDecoration: 'none' }}>
                 <Button className="AppBarButton">
                   Account

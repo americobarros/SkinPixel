@@ -1,3 +1,12 @@
+import {
+  // BrowserRouter as Router,
+  // Switch,
+  // Route,
+  Link,
+  // useRouteMatch,
+  // useParams
+} from "react-router-dom";
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -26,7 +35,7 @@ export default function Landing() {
         </Button>
       </div>
       <div id="skinsDisplay">
-        {[1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5].map((_, idx) => <SkinCard key={idx}/> )}
+        {[1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5].map((_, idx) => <Link to={`/skin/${idx}`}><SkinCard key={idx}/></Link> )}
       </div>
     </div>
   );

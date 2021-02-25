@@ -22,17 +22,6 @@ export default function App() {
     <StylesProvider injectFirst>
       <Router>
         <div>
-          <ul style={{ position: 'fixed', bottom: '0' }}>
-            <li>
-              <Link to="/">Landing</Link>
-            </li>
-            <li>
-              <Link to="/skin/3">View Skin</Link>
-            </li>
-            <li>
-              <Link to="/account">Account</Link>
-            </li>
-          </ul>
           <Header />
           <content>
             <Switch>
