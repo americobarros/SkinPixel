@@ -14,7 +14,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
-import { StylesProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
@@ -40,7 +39,6 @@ export default function Header(props) {
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
-    <StylesProvider injectFirst>
       <React.Fragment>
         <HideOnScroll {...props}>
           <AppBar className="AppBarStyle">
@@ -63,7 +61,6 @@ export default function Header(props) {
         </HideOnScroll>
         <Toolbar />
       </React.Fragment>
-    </StylesProvider>
   );
 }
 
