@@ -1,0 +1,43 @@
+.drawer {
+    width: 300px;
+    background-color: gainsboro;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.listItem {
+    text-align: center;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.listItem:hover {
+    background-color: rgba(0,0,0,0.2);
+    color: white;
+    transition-duration: 0.2s;
+}
+
+#main {
+    position: absolute;
+    left: 300px;
+    padding-left: 100px;
+}
+
+.mediumInput {
+    width: 200px;
+}
+
+.fullInput {
+    width: 495px;
+}
+
+#saveChanges {
+    margin-top: 50px;
+}
+
+.deleteUser {
+    display: flex;
+    justify-content: space-between;
+}

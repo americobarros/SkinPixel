@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Link } from "react-router-dom";
 
 import PropTypes from 'prop-types';
@@ -27,7 +27,7 @@ function HideOnScroll(props) {
   
 export default function Header(props) {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -38,7 +38,7 @@ export default function Header(props) {
   };
 
   return (
-      <React.Fragment>
+      <Fragment>
         <SignInModal open={open} handleClose={handleClose} />
         <HideOnScroll {...props}>
           <AppBar className="AppBarStyle">
@@ -62,7 +62,7 @@ export default function Header(props) {
           </AppBar>
         </HideOnScroll>
         <Toolbar />
-      </React.Fragment>
+      </Fragment>
   );
 }
 
