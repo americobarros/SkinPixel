@@ -12,12 +12,15 @@ import './App.css';
 
 import Landing from './views/Landing';
 import SkinView from './views/ViewSkin';
+import Account from './views/Account';
 
-function App() {
+import Header from './components/Header';
+
+export default function App() {
   return (
     <Router>
       <div>
-        <ul>
+        <ul style={{ position: 'absolute', bottom: '0' }}>
           <li>
             <Link to="/">Landing</Link>
           </li>
@@ -25,8 +28,10 @@ function App() {
             <Link to="/skin/3">View Skin</Link>
           </li>
         </ul>
+        <Header />
 
         <Switch>
+          <Route path="/account" children={<Account />}/>
           <Route path="/skin/:skinId" children={<SkinView />}/>
           <Route path="/" children={<Landing />} />
         </Switch>
@@ -34,5 +39,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;

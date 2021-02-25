@@ -2,7 +2,7 @@ import {
     useParams
   } from "react-router-dom";
 
-function ViewSkin() {
+  export default function ViewSkin() {
     let { skinId } = useParams();
     return (
       <div>
@@ -10,6 +10,4 @@ function ViewSkin() {
       </div>
     );
   }
-  
-  export default ViewSkin;
   
