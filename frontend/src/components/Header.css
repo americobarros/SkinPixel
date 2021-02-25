@@ -18,15 +18,9 @@
     margin: 20px 10px;
 }
 
-
-/* button {
-    background-color: rgba(255, 255, 255, 0.3);
+.title {
+    text-decoration: none;
+    flex-grow: 1;
     color: white;
-    padding: 10px 30px;
-    border-radius: 5px;
-    border: 1px solid grey;
-    cursor: pointer;
-    transition-duration: 0.4s;
-    margin-right: 20px;
-} */
+}
 
