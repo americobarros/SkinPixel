@@ -1,24 +1,37 @@
-import logo from './logo.svg';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  // useRouteMatch,
+  // useParams
+} from "react-router-dom";
+
 import './App.css';
+
+import Landing from './views/Landing';
+import SkinView from './views/ViewSkin';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Landing</Link>
+          </li>
+          <li>
+            <Link to="/skin/3">View Skin</Link>
+          </li>
+        </ul>
+
+        <Switch>
+          <Route path="/skin/:skinId" children={<SkinView />}/>
+          <Route path="/" children={<Landing />} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
