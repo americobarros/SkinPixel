@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-
-import {
-  // BrowserRouter as Router,
-  // Switch,
-  // Route,
-  Link,
-  // useRouteMatch,
-  // useParams
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,6 +8,8 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+
+import SignInModal from './SignInModal';
 
 import './Header.css';
 
@@ -30,16 +24,22 @@ function HideOnScroll(props) {
     </Slide>
   );
 }
-
-function handleLogInOrOut() {
-  console.log('logging in or logging out')
-}
   
 export default function Header(props) {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
       <React.Fragment>
+        <SignInModal open={open} handleClose={handleClose} />
         <HideOnScroll {...props}>
           <AppBar className="AppBarStyle">
             <Toolbar>
@@ -52,10 +52,10 @@ export default function Header(props) {
                 </Button>
               </Link>
               <Divider orientation="vertical" flexItem className="AppBarDivider" />
-              <Button className="AppBarButton" onClick={handleLogInOrOut}>
+              <Button className="AppBarButton" onClick={handleClickOpen}>
                 {loggedIn 
-                  ? <>Log Out</>
-                  : <>Log In</>
+                  ? <>Sign Out</>
+                  : <>Sign In</>
                 }
               </Button>
             </Toolbar>

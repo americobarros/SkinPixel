@@ -2,9 +2,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  // useRouteMatch,
-  // useParams
 } from "react-router-dom";
 
 import { StylesProvider } from '@material-ui/core/styles';
