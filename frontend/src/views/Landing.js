@@ -7,11 +7,15 @@ import '../index.css';
 import './Landing.css';
 import SkinCard from '../components/SkinCard';
 
+function handleSearch(e) {
+  console.log(e.target.value)
+}
+
 export default function Landing() {
   return (
     <div>
       <div id="searchFunctionality">
-        <TextField className="TextFieldStyle" label="Search" variant="outlined" />
+        <TextField className="TextFieldStyle" label="Search" variant="outlined" onChange={handleSearch} />
         <Button className="ButtonStyle">
           Filter
           <FilterListIcon className="icon"/>
@@ -22,7 +26,7 @@ export default function Landing() {
         </Button>
       </div>
       <div id="skinsDisplay">
-        {[1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5].map(() => <SkinCard /> )}
+        {[1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5].map((_, idx) => <SkinCard key={idx}/> )}
       </div>
     </div>
   );
