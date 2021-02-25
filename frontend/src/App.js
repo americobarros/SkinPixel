@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,6 +6,8 @@ import {
   // useRouteMatch,
   // useParams
 } from "react-router-dom";
+
+import { StylesProvider } from '@material-ui/core/styles';
 
 import './App.css';
 
@@ -18,24 +19,29 @@ import Header from './components/Header';
 
 export default function App() {
   return (
-    <Router>
-      <div>
-        <ul style={{ position: 'absolute', bottom: '0' }}>
-          <li>
-            <Link to="/">Landing</Link>
-          </li>
-          <li>
-            <Link to="/skin/3">View Skin</Link>
-          </li>
-        </ul>
-        <Header />
+    <StylesProvider injectFirst>
+      <Router>
+        <div>
+          <ul style={{ position: 'absolute', bottom: '0' }}>
+            <li>
+              <Link to="/">Landing</Link>
+            </li>
+            <li>
+              <Link to="/skin/3">View Skin</Link>
+            </li>
+            <li>
+              <Link to="/account">Account</Link>
+            </li>
+          </ul>
+          <Header />
 
-        <Switch>
-          <Route path="/account" children={<Account />}/>
-          <Route path="/skin/:skinId" children={<SkinView />}/>
-          <Route path="/" children={<Landing />} />
-        </Switch>
-      </div>
-    </Router>
+          <Switch>
+            <Route path="/account" children={<Account />}/>
+            <Route path="/skin/:skinId" children={<SkinView />}/>
+            <Route path="/" children={<Landing />} />
+          </Switch>
+        </div>
+      </Router>
+      </StylesProvider>
   );
 }
