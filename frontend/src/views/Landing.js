@@ -111,8 +111,8 @@ export default function Landing() {
         </AppBar>
       <TabPanel className="pb-3 pl-3" value={value} index={0}>
         <div id="skinsDisplay">
-            {allSkins.map((skin, idx) =>
-              <Link key={`link-${idx}`} to={`/skin/${idx}`}>
+            {allSkins.map(skin =>
+              <Link key={`link-${skin.id}`} to={`/skin/${skin.id}`}>
                 <SkinCard skin={skin} />
               </Link>
             )}

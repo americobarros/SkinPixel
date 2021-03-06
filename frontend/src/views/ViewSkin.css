@@ -35,15 +35,13 @@
     margin-left: 15px;
 }
 
-#comment {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    height: 80px;
+.comment {
     border-radius: 5px;
     margin: 15px;
     width: 80%;
 }
 
-.CommentButton {
+.commentButton {
     width: 20%;
     margin: 15px 0px;
 }
