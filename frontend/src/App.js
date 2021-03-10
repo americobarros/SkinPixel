@@ -18,6 +18,7 @@ import ViewSkin from './views/ViewSkin';
 import EditSkin from './views/EditSkin';
 import Account from './views/Account';
 import ViewMap from './views/ViewMap';
+import EditMap from './views/EditMap';
 
 import Header from './components/Header';
 import SignInModal from './components/SignInModal';
@@ -85,10 +86,11 @@ export default function App() {
           <Switch>
             <Route exact path="/" children={<Landing allUsers={allUsers} allSkins={allSkins} allMaps={allMaps} />} />
             {currUser
-              ? <Route exact path="/account" children={<Account currUser={currUser} allSkins={allSkins} allUsers={allUsers} handleSnackbarClick={handleSnackbarClick}/>}/>
+              ? <Route exact path="/account" children={<Account currUser={currUser} allSkins={allSkins} allUsers={allUsers} handleSnackbarClick={handleSnackbarClick} allMaps={allMaps} />}/>
               : <Redirect exact to="/" allUsers={allUsers} allSkins={allSkins} allMaps={allMaps}/>
             }
             <Route exact path="/skin/edit/:skinId" children={<EditSkin allSkins={allSkins} handleSnackbarClick={handleSnackbarClick} currUser={currUser}/>}/>
+            <Route exact path="/map/edit/:mapId" children={<EditMap allMaps={allMaps} handleSnackbarClick={handleSnackbarClick} currUser={currUser}/>}/>
             <Route exact path="/skin/:skinId" children={<ViewSkin allSkins={allSkins} currUser={currUser} />}/>
             <Route exact path="/map/:mapId" children={<ViewMap allMaps={allMaps} currUser={currUser} />}/>
             <Route exact path="/newskin" children={<EditSkin allSkins={allSkins} currUser={currUser} emptySkin={emptySkin} currUser={currUser} handleSnackbarClick={handleSnackbarClick} />}/>

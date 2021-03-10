@@ -40,7 +40,10 @@ export default function EditSkin(props) {
       if (newName != "") {
         skin.name = newName;
       }
-      skin.image = file;
+      if (skin.image != null) {
+        skin.image = file;
+      }
+      
       handleSnackbarClick({ message: 'Successfully saved skin', color: 'green' });
       history.push("/account")
     }
