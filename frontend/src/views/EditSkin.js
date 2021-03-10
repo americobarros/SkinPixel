@@ -97,7 +97,7 @@ export default function ViewSkin(props) {
         </Link>
         <EditText
           name="skinName"
-          style={{padding: '10px', 'font-weight':'bold', fontSize: '1.5em'}}
+          style={{padding: '10px', 'font-weight':'bold', fontSize: '1.5em', backgroundColor: "#EEE"}}
           defaultValue={skin.name}
           onSave={handleRename}
         />
