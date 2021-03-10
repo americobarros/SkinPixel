@@ -1,17 +1,16 @@
 import { useState } from 'react';
 import { Link, useParams, useHistory } from "react-router-dom";
 import { SwatchesPicker } from 'react-color';
+import Dropzone from 'react-dropzone-uploader'
+import 'react-dropzone-uploader/dist/styles.css'
 
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
-import {EditText} from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
 
 import './EditSkin.css';
@@ -20,6 +19,7 @@ export default function EditSkin(props) {
   const { allSkins, handleSnackbarClick, emptySkin, currUser } = props;
   let { skinId } = useParams();
   let history = useHistory()
+  // const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
 
   const skin = allSkins.find(skin => skin.id == skinId);
 
@@ -27,8 +27,8 @@ export default function EditSkin(props) {
   const [rerender, setRerender] = useState(false);
   const [editingSkin, setEditingSkin] = useState(skin ? skin.skin2D : emptySkin);
   const [open, setOpen] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState(null);
   const [newName, setNewName] = useState("");
+  const [file, setFile] = useState("")
 
   function handleChangeComplete(color, event) {
     setColor(color.hex.toString());
@@ -40,6 +40,7 @@ export default function EditSkin(props) {
       if (newName != "") {
         skin.name = newName;
       }
+      skin.image = file;
       handleSnackbarClick({ message: 'Successfully saved skin', color: 'green' });
     }
     else {
@@ -48,7 +49,7 @@ export default function EditSkin(props) {
       const newSkin = {
           id: latestId,
           createdAt: 10,
-          image: uploadedImage || "",
+          image: file,
           name: newName,
           skin2D: editingSkin,
           user: currUser,
@@ -57,8 +58,8 @@ export default function EditSkin(props) {
 
       allSkins.push(newSkin);
       handleSnackbarClick({ message: 'New skin successfully saved', color: 'green' });
-      history.push("/account");
     }
+    history.push("/account")
   }
 
   function handleDelete() {
@@ -92,9 +93,15 @@ export default function EditSkin(props) {
     setRerender(!rerender)
   }
 
+  // Return array of uploaded files after submit button is clicked
+  const handleSubmit = (files, allFiles) => {
+      setFile(URL.createObjectURL(files[0].file))
+      allFiles.forEach(f => f.remove())
+  }
+
   return (
     <div style={{ maxWidth: '1300px' }}>
-      {console.log(newName)}
+      {console.log(file)}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -136,7 +143,13 @@ export default function EditSkin(props) {
           <Button className="ButtonStyle" variant="outlined" onClick={handleClickOpen}>{skin ? "Delete" : "Cancel"}</Button>
         </div>
       </div>
-      <div id="twoDViews" />
+      <Dropzone
+        onSubmit={handleSubmit}
+        maxFiles={1}
+        inputContent="Drop an cover image, or click to browse"
+        submitButtonDisabled={files => files.length > 1}
+        accept="image/*"
+      />
     </div>
   );
 }
