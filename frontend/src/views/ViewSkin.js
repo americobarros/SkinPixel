@@ -63,12 +63,12 @@ export default function ViewSkin(props) {
             </div>
           )}
         </div>
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
           <div id="skinInfo">
             <span>
               <text>Skin Info:</text>
               <h3>{skin.name}</h3>
-              <img src={skin.image} alt={skin.name} className = "skinImage"/>
+              <img src={skin.image} alt={skin.name} className="skinImage"/>
               <p>Skin Created On: {skin.createdAt}</p>
             </span>
           </div>
