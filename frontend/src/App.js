@@ -86,19 +86,23 @@ export default function App() {
             />
           <Switch>
             <Route exact path="/" children={<Landing allUsers={allUsers} allSkins={allSkins} allMaps={allMaps} allResourcePacks={allResourcePacks}/>} />
+            
             {currUser
               ? <Route exact path="/account" children={<Account currUser={currUser} allSkins={allSkins} allUsers={allUsers} handleSnackbarClick={handleSnackbarClick} allMaps={allMaps} />}/>
               : <Redirect exact to="/" allUsers={allUsers} allSkins={allSkins} allMaps={allMaps}/>
             }
+            
             <Route exact path="/skin/edit/:skinId" children={<EditSkin allSkins={allSkins} handleSnackbarClick={handleSnackbarClick} currUser={currUser}/>}/>
             <Route exact path="/map/edit/:mapId" children={<EditMap allMaps={allMaps} handleSnackbarClick={handleSnackbarClick} currUser={currUser}/>}/>
-            <Route exact path="/skin/:skinId" children={<ViewSkin allSkins={allSkins} currUser={currUser} />}/>
+            
             <Route exact path="/map/:mapId" children={<ViewMap allMaps={allMaps} currUser={currUser} />}/>
-            <Route exact path="/newskin" children={<EditSkin allSkins={allSkins} currUser={currUser} emptySkin={emptySkin} currUser={currUser} handleSnackbarClick={handleSnackbarClick} />}/>
+            <Route exact path="/skin/:skinId" children={<ViewSkin allSkins={allSkins} currUser={currUser} />}/>
+            
+            <Route exact path="/newskin" children={<EditSkin allSkins={allSkins} emptySkin={emptySkin} currUser={currUser} handleSnackbarClick={handleSnackbarClick} />}/>
+            <Route exact path="/newmap" children={<EditMap allMaps={allMaps} currUser={currUser} handleSnackbarClick={handleSnackbarClick} />}/>
 
             <Route exact path="/resource/edit/:resourceId" children={<EditSkin allResourcePacks={allSkins} handleSnackbarClick={handleSnackbarClick} currUser={currUser}/>}/>
             <Route exact path="/resource/:resourceId" children={<ViewResource allResourcePacks={allSkins} currUser={currUser} />}/>
-            {/* <Route exact path="/newskin" children={<EditResource allResourcePacks={allSkins} currUser={currUser} emptySkin={emptySkin} currUser={currUser} handleSnackbarClick={handleSnackbarClick} />}/> */}
           </Switch>
           </content>          
         </div>
