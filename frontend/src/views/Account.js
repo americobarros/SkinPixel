@@ -5,22 +5,64 @@ import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import SkinCard from '../components/SkinCard';
 
 import './Account.css';
 
 export default function Account(props) {
-    const { currUser, allSkins } = props;
+    const { currUser, allSkins, allUsers } = props;
 
     const [drawerItem, setDrawerItem] = useState("Account Settings");
+    const [open, setOpen] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null);
 
-    function handleDeleteUser(e) {
-        console.log(e.target.value)
+    const handleClickOpen = (user) => {
+        setUserToDelete(user)
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    function handleDeleteUser() {
+        const index = allUsers.indexOf(userToDelete);
+
+        if (index > -1) {
+          allUsers.splice(index, 1);
+        }
+        handleClose();
     }
 
     return (
         <div>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Are you sure you want to delete this user?
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                    Close
+                </Button>
+                <Button onClick={handleDeleteUser} color="secondary" autoFocus>
+                    DELETE
+                </Button>
+                </DialogActions>
+            </Dialog>
             <div className="drawer">
                 <div style={{ marginTop: '80px' }} scroll="no">
                     {currUser.isAdmin
@@ -76,10 +118,10 @@ export default function Account(props) {
                     <>
                         <h2>Remove Users</h2>
                         <div>
-                            {["hannahbrooks", "americobarros", "ianchan", "penguin"].map((item, idx) =>
-                                <div className="deleteUser" key={idx} onClick={handleDeleteUser}>
-                                    {item}
-                                    <DeleteIcon style={{ cursor: 'pointer' }} />
+                            {allUsers.map((user, idx) =>
+                                <div className="deleteUser" key={idx}>
+                                    {user.username}
+                                    <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => handleClickOpen(user)}/>
                                 </div>
                             )}
                         </div>

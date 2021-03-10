@@ -8,7 +8,8 @@ const hannah = {
     username: 'hannahbrooks',
     email: 'hannah@user.com',
     password: 'password',
-    isAdmin: true
+    isAdmin: true,
+    bio: ""
 };
 
 const someoneElse = {
@@ -17,7 +18,8 @@ const someoneElse = {
     username: 'someone',
     email: 'someone@user.com',
     password: 'password',
-    isAdmin: false
+    isAdmin: false,
+    bio: ""
 };
 
 const hannahsSkins = [

@@ -35,7 +35,7 @@ export default function ViewSkin(props) {
 
   function handleDelete() {
     const index = allSkins.indexOf(skin);
-    console.log(index)
+
     if (index > -1) {
       allSkins.splice(index, 1);
     }
