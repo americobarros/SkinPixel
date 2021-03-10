@@ -9,8 +9,6 @@ import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-import SignInModal from './SignInModal';
-
 import './Header.css';
 
 function HideOnScroll(props) {
@@ -25,7 +23,7 @@ function HideOnScroll(props) {
 }
   
 export default function Header(props) {
-  const { setCurrUser, allUsers, handleClickOpen } = props;
+  const { currUser, handleClickOpen } = props;
 
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -37,14 +35,18 @@ export default function Header(props) {
               <Link to="/" className="title">
                 <h2>SkinPixel</h2>
               </Link>
-              <Link to="/account" style={{ textDecoration: 'none' }}>
-                <Button className="AppBarButton">
-                  Account
-                </Button>
-              </Link>
-              <Divider orientation="vertical" flexItem className="AppBarDivider" />
+              { currUser && (
+                <>
+                  <Link to="/account" style={{ textDecoration: 'none' }}>
+                    <Button className="AppBarButton">
+                      Account
+                    </Button>
+                  </Link>
+                  <Divider orientation="vertical" flexItem className="AppBarDivider" />
+                </>
+              )}
               <Button className="AppBarButton" onClick={handleClickOpen}>
-                {loggedIn 
+                {currUser 
                   ? <>Sign Out</>
                   : <>Sign In</>
                 }
