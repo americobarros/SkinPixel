@@ -69,9 +69,13 @@ export default function Landing(props) {
   
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [skinsShowing, setSkinsShowing] = useState(allSkins);
 
   function handleSearch(e) {
-    console.log(e.target.value)
+    const searchTerm = e.target.value;
+    const searchResults = allSkins.filter(skin => skin.name.includes(searchTerm));
+
+    setSkinsShowing(searchResults);
   }
 
   const handleChange = (event, newValue) => {
@@ -110,7 +114,7 @@ export default function Landing(props) {
         </AppBar>
       <TabPanel className="pb-3 pl-3" value={value} index={0}>
         <div id="skinsDisplay">
-            {allSkins.map(skin =>
+            {skinsShowing.map(skin =>
               <Link key={`link-${skin.id}`} to={`/skin/${skin.id}`}>
                 <SkinCard skin={skin} id={skin.id} />
               </Link>
