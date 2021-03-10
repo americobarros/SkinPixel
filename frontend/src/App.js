@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect
 } from "react-router-dom";
 
 import { StylesProvider } from '@material-ui/core/styles';
@@ -32,7 +33,11 @@ export default function App() {
                                           });
   
   const handleClickOpen = () => {
-    setOpen(true);
+    if (currUser) {
+      setCurrUser(null)
+    } else {
+      setOpen(true);
+    }
   };
 
   const handleClose = () => {
@@ -52,15 +57,22 @@ export default function App() {
 
   return (
     <StylesProvider injectFirst>
-      <SignInModal open={open} handleClose={handleClose} allUsers={allUsers} setCurrUser={setCurrUser} handleSnackbarClick={handleSnackbarClick} handleSnackbarClose={handleSnackbarClose} />
+      <SignInModal
+        open={open}
+        handleClose={handleClose}
+        allUsers={allUsers}
+        setCurrUser={setCurrUser}
+        handleSnackbarClick={handleSnackbarClick}
+        handleSnackbarClose={handleSnackbarClose}
+      />
       <Router>
         <div>
-          <Header allUsers={allUsers} setCurrUser={setCurrUser} currUser={currUser} handleClickOpen={handleClickOpen} />
+          <Header currUser={currUser} handleClickOpen={handleClickOpen} />
           <content>
             <Snackbar
               open={snackbar.open}
               message={snackbar.message}
-              autoHideDuration={5000}
+              autoHideDuration={4000}
               onClose={handleSnackbarClose}
               ContentProps={{
                 style: {
@@ -70,10 +82,13 @@ export default function App() {
               
             />
           <Switch>
-            <Route path="/account" children={<Account currUser={currUser} />}/>
+            <Route exact path="/" children={<Landing allUsers={allUsers} allSkins={allSkins} />} />
+            {currUser
+              ? <Route path="/account" children={<Account currUser={currUser} allSkins={allSkins} />}/>
+              : <Redirect to="/" />
+            }
             <Route path="/skin/edit/:skinId" children={<EditSkin />}/>
             <Route path="/skin/:skinId" children={<ViewSkin />}/>
-            <Route exact path="/" children={<Landing allUsers={allUsers} allSkins={allSkins} />} />
           </Switch>
           </content>          
         </div>

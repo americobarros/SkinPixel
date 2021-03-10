@@ -10,7 +10,9 @@ import SkinCard from '../components/SkinCard';
 
 import './Account.css';
 
-export default function Account() {
+export default function Account(props) {
+    const { currUser, allSkins } = props;
+
     const [drawerItem, setDrawerItem] = useState("Account Settings");
 
     function handleDeleteUser(e) {
@@ -21,11 +23,23 @@ export default function Account() {
         <div>
             <div className="drawer">
                 <div style={{ marginTop: '80px' }} scroll="no">
-                    {["Account Settings", "My Skins", "Admin Settings"].map((item, idx) =>
-                        <div className="listItem" key={idx} onClick={() => setDrawerItem(item)}>
-                            {item}
-                        </div>
-                    )}
+                    {currUser.isAdmin
+                        ? <>
+                            {["Account Settings", "My Skins", "Admin Settings"].map((item, idx) =>
+                                <div className="listItem" key={idx} onClick={() => setDrawerItem(item)}>
+                                    {item}
+                                </div>
+                            )}
+                        </>
+                        : <>
+                            {["Account Settings", "My Skins"].map((item, idx) =>
+                                <div className="listItem" key={idx} onClick={() => setDrawerItem(item)}>
+                                    {item}
+                                </div>
+                            )}
+                        </>
+                    }
+                    
                 </div>
             </div>
             <div id="main">
@@ -46,7 +60,13 @@ export default function Account() {
 
                 {drawerItem === "My Skins" && (
                     <div id="skinsDisplay">
-                        {[1,2,3].map((_, idx) => <Link key={`link-${idx}`} to={`/skin/edit/${idx}`}><SkinCard key={`skinCard-${idx}`}/></Link> )}
+                        {allSkins.map(skin =>
+                            <>{skin.user.id == currUser.id && (
+                                <Link key={`link-${skin.id}`} to={`/edit/skin/${skin.id}`}>
+                                    <SkinCard skin={skin} />
+                                </Link>
+                            )}</>
+                        )}
                     </div>
                 )}
 

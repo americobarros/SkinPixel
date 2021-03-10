@@ -7,7 +7,8 @@ const hannah = {
     name: 'Hannah Brooks',
     username: 'hannahbrooks',
     email: 'hannah@user.com',
-    password: 'password'
+    password: 'password',
+    isAdmin: true
 };
 
 const someoneElse = {
@@ -15,7 +16,8 @@ const someoneElse = {
     name: 'Someone Else',
     username: 'someone',
     email: 'someone@user.com',
-    password: 'password'
+    password: 'password',
+    isAdmin: false
 };
 
 const hannahsSkins = [
@@ -79,4 +81,4 @@ const theirSkins = [
 
 
 export const allSkins = theirSkins.concat(hannahsSkins);
-export const allUsers = [hannah, someoneElse]
+export const allUsers = [hannah, someoneElse];
