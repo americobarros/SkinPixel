@@ -10,6 +10,7 @@ export default function ViewSkin() {
 
   return (
     <div style={{ maxWidth: '1400px' }}>
+      {console.log('hi')}
       <div style={{ display: 'flex' }}>
         <Link to="/" style={{ color: 'black', alignSelf: 'center' }}>
           <ArrowBackIcon className="backIcon" />

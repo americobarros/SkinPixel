@@ -11,7 +11,7 @@ import { StylesProvider } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import './App.css';
-import { currUser, allUsers, allSkins } from './dummyData.js';
+import { currUserX, allUsers, allSkins } from './dummyData.js';
 
 import Landing from './views/Landing';
 import ViewSkin from './views/ViewSkin';
@@ -22,7 +22,7 @@ import Header from './components/Header';
 import SignInModal from './components/SignInModal';
 
 export default function App() {
-  const [currUser, setCurrUser] = useState(null);
+  const [currUser, setCurrUser] = useState(currUserX);
 
   const [open, setOpen] = useState(false);
 
@@ -84,11 +84,11 @@ export default function App() {
           <Switch>
             <Route exact path="/" children={<Landing allUsers={allUsers} allSkins={allSkins} />} />
             {currUser
-              ? <Route path="/account" children={<Account currUser={currUser} allSkins={allSkins} />}/>
-              : <Redirect to="/" />
+              ? <Route exact path="/account" children={<Account currUser={currUser} allSkins={allSkins} />}/>
+              : <Redirect exact to="/" />
             }
-            <Route path="/skin/edit/:skinId" children={<EditSkin />}/>
-            <Route path="/skin/:skinId" children={<ViewSkin />}/>
+            <Route exact path="/skin/edit/:skinId" children={<EditSkin />}/>
+            <Route exact path="/skin/:skinId" children={<ViewSkin />}/>
           </Switch>
           </content>          
         </div>

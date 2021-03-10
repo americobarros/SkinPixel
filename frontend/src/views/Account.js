@@ -61,11 +61,13 @@ export default function Account(props) {
                 {drawerItem === "My Skins" && (
                     <div id="skinsDisplay">
                         {allSkins.map(skin =>
-                            <>{skin.user.id == currUser.id && (
-                                <Link key={`link-${skin.id}`} to={`/edit/skin/${skin.id}`}>
-                                    <SkinCard skin={skin} />
-                                </Link>
-                            )}</>
+                            <>
+                                {skin.user.id == currUser.id && (
+                                    <Link key={`link-${skin.id}`} to={`/skin/edit/${skin.id}`}>
+                                        <SkinCard skin={skin} id={skin.id} />
+                                    </Link>
+                                )}
+                            </>
                         )}
                     </div>
                 )}
@@ -76,7 +78,8 @@ export default function Account(props) {
                         <div>
                             {["hannahbrooks", "americobarros", "ianchan", "penguin"].map((item, idx) =>
                                 <div className="deleteUser" key={idx} onClick={handleDeleteUser}>
-                                    {item} <DeleteIcon style={{ cursor: 'pointer' }} />
+                                    {item}
+                                    <DeleteIcon style={{ cursor: 'pointer' }} />
                                 </div>
                             )}
                         </div>

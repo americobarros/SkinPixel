@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Link } from "react-router-dom";
 
 import PropTypes from 'prop-types';
@@ -24,8 +24,6 @@ function HideOnScroll(props) {
   
 export default function Header(props) {
   const { currUser, handleClickOpen } = props;
-
-  const [loggedIn, setLoggedIn] = useState(false);
 
   return (
       <Fragment>

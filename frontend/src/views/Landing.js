@@ -112,7 +112,7 @@ export default function Landing(props) {
         <div id="skinsDisplay">
             {allSkins.map(skin =>
               <Link key={`link-${skin.id}`} to={`/skin/${skin.id}`}>
-                <SkinCard skin={skin} />
+                <SkinCard skin={skin} id={skin.id} />
               </Link>
             )}
           </div>

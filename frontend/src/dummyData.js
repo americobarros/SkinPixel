@@ -82,3 +82,4 @@ const theirSkins = [
 
 export const allSkins = theirSkins.concat(hannahsSkins);
 export const allUsers = [hannah, someoneElse];
+export const currUserX = hannah;
