@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import SkinCard from '../components/SkinCard';
 
@@ -151,6 +152,13 @@ export default function Account(props) {
                 )}
 
                 {drawerItem === "My Skins" && (
+                    <>
+                    <Link key={`link-newskin`} to={`/newskin`}>
+                        <div className="newSkinButton">
+                            <AddCircleIcon style={{ marginRight: '10px' }} />
+                            <div>Add a New Skin</div>
+                        </div>
+                    </Link>
                     <div id="skinsDisplay">
                         {allSkins.map(skin =>
                             <>
@@ -162,6 +170,7 @@ export default function Account(props) {
                             </>
                         )}
                     </div>
+                    </>
                 )}
 
                 {drawerItem === "Admin Settings" && (

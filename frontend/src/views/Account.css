@@ -41,3 +41,9 @@
     display: flex;
     justify-content: space-between;
 }
+
+.newSkinButton {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
