@@ -19,6 +19,7 @@ import '../index.css';
 import './Landing.css';
 
 import SkinCard from '../components/SkinCard';
+import ResourceCard from '../components/ResourceCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,17 +68,24 @@ function TabPanel(props) {
 }
 
 export default function Landing(props) {
-  const { allSkins } = props;
+  const { allSkins, allResourcePacks} = props;
   
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [skinsShowing, setSkinsShowing] = useState(allSkins);
+  const [resourcesShowing, setResourcesShowing] = useState(allResourcePacks);
   const [anchorEl, setAnchorEl] = useState(null);
 
   function handleSearch(e) {
     const searchTerm = e.target.value.toLowerCase();
+    
+    // skins
     const searchResults = allSkins.filter(skin => skin.name.toLowerCase().includes(searchTerm));
+    
+    // resources
+    const searchResourceResults = allResourcePacks.filter(resource => resource.nametoLowerCase().includes(searchTerm));
 
+    setResourcesShowing(searchResourceResults);
     setSkinsShowing(searchResults);
   }
 
@@ -94,21 +102,28 @@ export default function Landing(props) {
   };
 
   function handleSort(sort) {
-    let results = [];
+    let resultsSkins = [];
+    let resultResources = [];
+
     if (sort == "name") {
-      results = allSkins.sort(function(a, b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
+      resultsSkins = allSkins.sort(function(a, b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
+      resultResources = allResourcePacks.sort(function(a, b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
     }
     else if (sort == "newest") {
-      results = allSkins.sort(function(a, b) {return (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0);} );
+      resultsSkins = allSkins.sort(function(a, b) {return (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0);} );
+      resultResources = allResourcePacks.sort(function(a, b) {return (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0);} );
     }
     else if (sort == "oldest") {
-      results = allSkins.sort(function(a, b) {return (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0);} );
+      resultsSkins = allSkins.sort(function(a, b) {return (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0);} );
+      resultResources = allResourcePacks.sort(function(a, b) {return (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0);} );
     }
     else if (sort == "comments") {
-      results = allSkins.sort(function(a, b) {return (a.comments.length > b.comments.length) ? 1 : ((b.comments.length > a.comments.length) ? -1 : 0);} );
+      resultsSkins = allSkins.sort(function(a, b) {return (a.comments.length > b.comments.length) ? 1 : ((b.comments.length > a.comments.length) ? -1 : 0);} );
+      resultResources = allResourcePacks.sort(function(a, b) {return (a.comments.length > b.comments.length) ? 1 : ((b.comments.length > a.comments.length) ? -1 : 0);} );
     }
 
-    setSkinsShowing(results);
+    setSkinsShowing(resultsSkins);
+    setResourcesShowing(resultResources);
     handleClose();
   }
 
@@ -159,6 +174,16 @@ export default function Landing(props) {
             {skinsShowing.map(skin =>
               <Link key={`link-${skin.id}`} to={`/skin/${skin.id}`}>
                 <SkinCard skin={skin} id={skin.id} />
+              </Link>
+            )}
+          </div>
+      </TabPanel>
+
+      <TabPanel className="pb-3 pl-3" value={value} index={1}>
+        <div id="resourcesDisplay">
+            {resourcesShowing.map(resource =>
+              <Link key={`link-${resource.id}`} to={`/resource/${resource.id}`}>
+                <ResourceCard resource={resource} id={resource.id} />
               </Link>
             )}
           </div>

@@ -19,7 +19,7 @@
     "web-vitals": "^1.0.1",
     "material-ui-dropzone": "^3.5.0",
     "react-dropzone": "^10.2.2",
-    "react-dropzone-uploader": "^2.11.0",
+    "react-dropzone-uploader": "^2.11.0"
   },
   "scripts": {
     "start": "react-scripts start",

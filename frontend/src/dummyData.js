@@ -4,6 +4,8 @@ import cat3 from './images/cat3.JPG';
 import cat4 from './images/cat4.PNG';
 import cat5 from './images/cat5.PNG';
 
+// users
+
 const hannah = {
     id: 1,
     name: 'Hannah Brooks',
@@ -14,8 +16,18 @@ const hannah = {
     bio: "mining by day, making skins by night:)"
 };
 
-const someoneElse = {
+const ian = {
     id: 2,
+    name: 'Ian Chan',
+    username: 'yanktc',
+    email: 'yan@user.com',
+    password: 'password',
+    isAdmin: false,
+    bio: "crafty"
+};
+
+const someoneElse = {
+    id: 3,
     name: 'Someone Else',
     username: 'someone',
     email: 'someone@user.com',
@@ -23,6 +35,8 @@ const someoneElse = {
     isAdmin: false,
     bio: ""
 };
+
+// skins
 
 const hannahsSkins = [
     {
@@ -160,10 +174,29 @@ const theirSkins = [
     }
 ];
 
+// resources
+
+const iansResourcePacks = [ 
+    {
+        id: 1,
+        createdAt: 1,
+        image: cat4,
+        name: 'Cool Texture',
+        user: ian,
+        comments: [
+            {
+                createdAt: 0,
+                user: hannah,
+                text: 'wow this is awesome!'
+            }
+        ]
+    }
+];
 
 
 export const allSkins = theirSkins.concat(hannahsSkins);
 export const allUsers = [hannah, someoneElse];
+export const allResourcePacks = iansResourcePacks;
 export const currUserX = hannah;
 export const emptySkin = [["#fff", "ffff", "#fff", "ffff"],
 ["#fff", "ffff", "#fff", "ffff"],
