@@ -7,6 +7,10 @@
     left: 0;
 }
 
+#settings{
+    margin-top: 80px;
+}
+
 .listItem {
     text-align: center;
     padding: 15px;

@@ -110,7 +110,7 @@ export default function Account(props) {
                 </DialogActions>
             </Dialog>
             <div className="drawer">
-                <div style={{ marginTop: '80px' }} scroll="no">
+                <div id="settings" scroll="no">
                     {currUser.isAdmin
                         ? <>
                             {["Account Settings", "My Skins", "Admin Settings"].map((item, idx) =>

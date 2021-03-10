@@ -44,14 +44,18 @@ export default function ViewSkin(props) {
   }
 
   return (
-    <div style={{ maxWidth: '1400px' }}>
-      <div style={{ display: 'flex' }}>
-        <Link to="/" style={{ color: 'black', alignSelf: 'center' }}>
+    <div id="skinContainer">
+      
+      {/* title */}
+      <div class="displayFlex">
+        <Link to="/" id="backButton">
           <ArrowBackIcon className="backIcon" />
         </Link>
         <h2>{skin.name}</h2>
       </div>
-      <div style={{ display: 'flex' }}>
+
+      {/* container for skin image, actual skin display, and creator */}
+      <div class="displayFlex">
         <div id="threeDView">
           {skin.skin2D.map((row, outer_idx) =>
             <div style={{ display: 'flex' }}>
@@ -82,10 +86,14 @@ export default function ViewSkin(props) {
           </div>
         </div>
       </div>
-      <div style={{ display: 'flex' }}>
+
+      {/* comment bar */}
+      <div class="displayFlex">
         <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} onChange={(e) => setNewComment(e.target.value)}/>
         <Button className="commentButton" variant="outlined" onClick={handlePost}>Post</Button>
       </div>
+
+      {/* comment display */}
       <div>
         {skin.comments.map(comment => 
           <div id="userComments">
@@ -94,6 +102,7 @@ export default function ViewSkin(props) {
           </div>
         )}
       </div>
+      
     </div>
   );
 }
