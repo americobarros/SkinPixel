@@ -8,6 +8,8 @@ import map2 from './zippedMaps/map2.zip';
 import imgMap1 from './images/map1.jpg';
 import imgMap2 from './images/map2.jpg'
 
+// users
+
 const hannah = {
     id: 1,
     createdAt: 0,
@@ -19,8 +21,19 @@ const hannah = {
     bio: "mining by day, making skins by night:)"
 };
 
-const someoneElse = {
+const ian = {
     id: 2,
+    createdAt: 0,
+    name: 'Ian Chan',
+    username: 'yanktc',
+    email: 'yan@user.com',
+    password: 'password',
+    isAdmin: false,
+    bio: "crafty"
+};
+
+const someoneElse = {
+    id: 3,
     createdAt: 0,
     name: 'Someone Else',
     username: 'someone',
@@ -50,6 +63,7 @@ const maps = [
     },
 ]
 
+// skins
 const hannahsSkins = [
     {
         id: 1,
@@ -186,9 +200,28 @@ const theirSkins = [
     }
 ];
 
+// resources
+const iansResourcePacks = [ 
+    {
+        id: 1,
+        createdAt: 1,
+        image: cat4,
+        name: 'Cool Texture',
+        user: ian,
+        comments: [
+            {
+                createdAt: 0,
+                user: hannah,
+                text: 'wow this is awesome!'
+            }
+        ]
+    }
+];
+
 export const allMaps = maps;
 export const allSkins = theirSkins.concat(hannahsSkins);
 export const allUsers = [hannah, someoneElse];
+export const allResourcePacks = iansResourcePacks;
 export const currUserX = hannah;
 export const emptySkin = [["#fff", "ffff", "#fff", "ffff"],
                             ["#fff", "ffff", "#fff", "ffff"],

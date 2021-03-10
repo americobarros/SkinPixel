@@ -17,7 +17,7 @@
     height: 400px;
     border-radius: 5px;
     width: 20vw;
-    margin: 15px 0px;
+    margin-top: 15px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -38,6 +38,7 @@
 }
 
 #skinInfo{
+    border: 1px solid rgba(0, 0, 0, 0.2);
     height: 400px;
     border-radius: 5px;
     width: 20vw;

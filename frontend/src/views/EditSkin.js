@@ -109,8 +109,8 @@ export default function EditSkin(props) {
   }
 
   return (
-    <div style={{ maxWidth: '1300px' }}>
-      {console.log(file)}
+    <div id="skinEditView">
+      {console.log(newName)}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -127,17 +127,19 @@ export default function EditSkin(props) {
           </Button>
         </DialogActions>
       </Dialog>
-      <div style={{ display: 'flex' }}>
+
+      <div class="displayFlex">
         <Link to="/account" style={{ color: 'black', alignSelf: 'center' }}>
           <ArrowBackIcon className="backIcon" />
         </Link>
-        <TextField id="filled-basic" style={{ width: '900px' }} label={skin ? skin.name : "New Skin Name"} variant="filled" onChange={(e) => setNewName(e.target.value)}/>
+        <TextField id="filled-basic" id="textfield" label={skin ? skin.name : "New Skin Name"} variant="filled" onChange={(e) => setNewName(e.target.value)}/>
         <h2 style={{ display: 'none' }}>{skinId}</h2>
       </div>
-      <div style={{ display: 'flex' }}>
+
+      <div class="displayFlex">
         <div id="threeDView">
           {editingSkin.map((row, outer_idx) =>
-            <div style={{ display: 'flex' }}>
+            <div class="displayFlex">
               {row.map((color, inner_idx) => (
                 <div>
                   <div className="cube" onClick={() => setSkinColor(outer_idx, inner_idx)} style={{ backgroundColor: color }} />

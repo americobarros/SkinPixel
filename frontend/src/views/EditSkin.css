@@ -8,6 +8,18 @@
     padding-top: 15px;
 } */
 
+#skinEditView{
+    max-width: 1300px;
+}
+
+.displayFlex{
+    display: flex;
+}
+
+#textfield{
+    width: 900px;
+}
+
 #threeDView {
     border: 1px solid rgba(0, 0, 0, 0.2);
     height: 800px;
