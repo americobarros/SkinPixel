@@ -1,3 +1,5 @@
+
+import { useState } from 'react'
 import { Link, useParams } from "react-router-dom";
 import classnames from "classnames";
 
@@ -7,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 import './ViewSkin.css';
-import { allSkins } from '../dummyData.js';
+import { allSkins, currUserX } from '../dummyData.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,11 +29,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function ViewSkin() {
+export default function ViewSkin(props) {
+  const { allSkins, currUser } = props;
+
   const classes = useStyles();
   let { skinId } = useParams();
 
   const skin = allSkins.find(skin => skin.id == skinId);
+  const [newComment, setNewComment] = useState("");
+  const [rerender, setRerender] = useState(false);
+
+  function handlePost() {
+    skin.comments.push({ createdAt: 3, user: currUser, text: newComment});
+    setRerender(!rerender);
+  }
 
   return (
     <div style={{ maxWidth: '1400px' }}>
@@ -47,11 +58,15 @@ export default function ViewSkin() {
         <div id="userInfo" />
       </div>
       <div style={{ display: 'flex' }}>
-        <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} />
-        <Button className="commentButton" variant="outlined">Post</Button>
+        <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} onChange={(e) => setNewComment(e.target.value)}/>
+        <Button className="commentButton" variant="outlined" onClick={handlePost}>Post</Button>
       </div>
       <div id="userComments">
-        
+        {skin.comments.map(comment => 
+          <div>
+            {comment.text}
+          </div>
+        )}
       </div>
     </div>
   );

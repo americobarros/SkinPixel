@@ -88,7 +88,7 @@ export default function App() {
               : <Redirect exact to="/" />
             }
             <Route exact path="/skin/edit/:skinId" children={<EditSkin allSkins={allSkins} handleSnackbarClick={handleSnackbarClick} />}/>
-            <Route exact path="/skin/:skinId" children={<ViewSkin />}/>
+            <Route exact path="/skin/:skinId" children={<ViewSkin allSkins={allSkins} currUser={currUser} />}/>
           </Switch>
           </content>          
         </div>

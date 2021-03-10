@@ -60,7 +60,7 @@ export default function ViewSkin(props) {
   }
 
   return (
-    <div style={{ maxWidth: '1400px' }}>
+    <div style={{ maxWidth: '1300px' }}>
       <Dialog
         open={open}
         onClose={handleClose}
