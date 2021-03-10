@@ -75,8 +75,8 @@ export default function Landing(props) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   function handleSearch(e) {
-    const searchTerm = e.target.value;
-    const searchResults = allSkins.filter(skin => skin.name.includes(searchTerm));
+    const searchTerm = e.target.value.toLowerCase();
+    const searchResults = allSkins.filter(skin => skin.name.toLowerCase().includes(searchTerm));
 
     setSkinsShowing(searchResults);
   }

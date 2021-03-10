@@ -48,9 +48,11 @@ export default function ViewSkin() {
       </div>
       <div style={{ display: 'flex' }}>
         <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} />
-        <Button className="commentButton" variant="outlined">Save</Button>
+        <Button className="commentButton" variant="outlined">Post</Button>
       </div>
-      <div id="twoDViews" />
+      <div id="userComments">
+        
+      </div>
     </div>
   );
 }
