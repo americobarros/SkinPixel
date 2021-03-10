@@ -9,14 +9,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
 
 import {EditText} from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
 
 import './EditSkin.css';
 
-export default function ViewSkin(props) {
-  const { allSkins, handleSnackbarClick, emptySkin } = props;
+export default function EditSkin(props) {
+  const { allSkins, handleSnackbarClick, emptySkin, currUser } = props;
   let { skinId } = useParams();
   let history = useHistory()
 
@@ -26,14 +27,38 @@ export default function ViewSkin(props) {
   const [rerender, setRerender] = useState(false);
   const [editingSkin, setEditingSkin] = useState(skin ? skin.skin2D : emptySkin);
   const [open, setOpen] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [newName, setNewName] = useState("");
 
   function handleChangeComplete(color, event) {
     setColor(color.hex.toString());
   };
 
   function handleSave() {
-    skin.skin2D = editingSkin;
-    handleSnackbarClick({ message: 'Successfully saved skin', color: 'green' });
+    if (skin) {
+      skin.skin2D = editingSkin;
+      if (newName != "") {
+        skin.name = newName;
+      }
+      handleSnackbarClick({ message: 'Successfully saved skin', color: 'green' });
+    }
+    else {
+      const latestId = Math.max.apply(Math, allSkins.map(function(skin) { return skin.id; })) + 1;
+      
+      const newSkin = {
+          id: latestId,
+          createdAt: 10,
+          image: uploadedImage || "",
+          name: newName,
+          skin2D: editingSkin,
+          user: currUser,
+          comments: []
+      };
+
+      allSkins.push(newSkin);
+      handleSnackbarClick({ message: 'New skin successfully saved', color: 'green' });
+      history.push("/account");
+    }
   }
 
   function handleDelete() {
@@ -45,12 +70,13 @@ export default function ViewSkin(props) {
     history.push("/account")
   }
 
-  const handleRename = (e) => {
-    skin.name = e.value;
-  }
-
   const handleClickOpen = () => {
-    setOpen(true);
+    if (skin) {
+      setOpen(true);
+    }
+    else {
+      history.push("/account")
+    }
   };
 
   const handleClose = () => {
@@ -68,18 +94,14 @@ export default function ViewSkin(props) {
 
   return (
     <div style={{ maxWidth: '1300px' }}>
+      {console.log(newName)}
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this skin?
-          </DialogContentText>
-        </DialogContent>
+        <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete this skin?"}</DialogTitle>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Close
@@ -93,17 +115,7 @@ export default function ViewSkin(props) {
         <Link to="/account" style={{ color: 'black', alignSelf: 'center' }}>
           <ArrowBackIcon className="backIcon" />
         </Link>
-        <EditText
-          name="skinName"
-          style={{padding: '10px', 'font-weight':'bold', fontSize: '1.5em', backgroundColor: "#EEE"}}
-          defaultValue={skin ? skin.name : "New Skin"}
-          onSave={handleRename}
-        />
-        {/* <span className="editNameIcon">
-          <IconButton onClick={handleRename} color="primary">
-            <EditIcon style={{ color: '#90caf9', alignSelf: 'center' }}/>
-          </IconButton>
-        </span> */}
+        <TextField id="filled-basic" style={{ width: '900px' }} label={skin ? skin.name : "New Skin Name"} variant="filled" onChange={(e) => setNewName(e.target.value)}/>
         <h2 style={{ display: 'none' }}>{skinId}</h2>
       </div>
       <div style={{ display: 'flex' }}>
@@ -121,7 +133,7 @@ export default function ViewSkin(props) {
         <div className="rightItems">
             <SwatchesPicker height="600px" onChangeComplete={handleChangeComplete}/>
           <Button className="ButtonStyle" variant="outlined" onClick={handleSave}>Save</Button>
-          <Button className="ButtonStyle" variant="outlined" onClick={handleClickOpen}>Delete</Button>
+          <Button className="ButtonStyle" variant="outlined" onClick={handleClickOpen}>{skin ? "Delete" : "Cancel"}</Button>
         </div>
       </div>
       <div id="twoDViews" />

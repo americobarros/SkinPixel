@@ -99,12 +99,7 @@ export default function Account(props) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
-                <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Are you sure you want to delete this user?
-                </DialogContentText>
-                </DialogContent>
+                <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete this user?"}</DialogTitle>
                 <DialogActions>
                 <Button onClick={handleClose} color="primary">
                     Close
