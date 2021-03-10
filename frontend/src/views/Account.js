@@ -16,11 +16,16 @@ import SkinCard from '../components/SkinCard';
 import './Account.css';
 
 export default function Account(props) {
-    const { currUser, allSkins, allUsers } = props;
+    const { currUser, allSkins, allUsers, handleSnackbarClick } = props;
 
     const [drawerItem, setDrawerItem] = useState("Account Settings");
     const [open, setOpen] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
+    const [newUsername, setNewUsername] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [oldPassword, setOldPassword] = useState("");
+    const [newBio, setNewBio] = useState("");
+    const [newEmail, setNewEmail] = useState("");
 
     const handleClickOpen = (user) => {
         setUserToDelete(user)
@@ -38,6 +43,51 @@ export default function Account(props) {
           allUsers.splice(index, 1);
         }
         handleClose();
+    }
+
+    function handleSaveChanges() {
+        let saveUsername = true, savePassword = true, saveEmail = true;
+
+        if (newUsername != "") {
+            const userExists = allUsers.find(user => user.username == newUsername);
+            if (userExists) {
+                handleSnackbarClick({ message: "User with this username exists", color: 'red' })
+                saveUsername = false;
+            }
+        }
+        if (newPassword != "" && oldPassword != "") {
+            if (oldPassword != currUser.password) {
+                handleSnackbarClick({ message: "Passwords don't match", color: 'red' })
+                savePassword = false;
+            }
+
+        }
+        if (newBio != "") {
+            currUser.bio = newBio;
+        }
+        if (newEmail != "") {
+            var re = /\S+@\S+\.\S+/;
+            if (!re.test(newEmail)) {
+                handleSnackbarClick({ message: "Email is incorrect format", color: 'red' })
+                saveEmail = false;
+            }
+        }
+
+        if (saveUsername && savePassword && saveEmail) {
+            if (saveUsername && newUsername != "") {
+                currUser.username = newUsername
+            }
+            if (savePassword && newPassword != "") {
+                currUser.password = newPassword
+            }
+            if (newBio != "") {
+                currUser.bio = newBio
+            }
+            if (newEmail != "") {
+                currUser.email = newEmail
+            }
+            handleSnackbarClick({ message: "Successfully saved changes", color: 'green' })
+        }
     }
 
     return (
@@ -88,15 +138,15 @@ export default function Account(props) {
                 {drawerItem === "Account Settings" && (
                     <>
                         <h2>Username</h2>
-                        <Input className="mediumInput" placeholder="hannahbrooks" />
+                        <Input className="mediumInput" placeholder={currUser.username} onChange={(e) => setNewUsername(e.target.value)} />
                         <h2>Change Password</h2>
-                        <TextField className="TextFieldStyle" label="Old Password" variant="outlined" style={{ marginBottom: '10px' }} />
-                        <TextField className="TextFieldStyle" label="New Password" variant="outlined" />
+                        <TextField className="TextFieldStyle" label="Old Password" variant="outlined" onChange={(e) => setOldPassword(e.target.value)}style={{ marginBottom: '10px' }} />
+                        <TextField className="TextFieldStyle" label="New Password" variant="outlined" onChange={(e) => setNewPassword(e.target.value)}/>
                         <h2>Bio</h2>
-                        <Input className="fullInput" multiline placeholder="hi! if you're lost follow me :P" />
+                        <Input className="fullInput" multiline placeholder={currUser.bio} onChange={(e) => setNewBio(e.target.value)}/>
                         <h2>Email</h2>
-                        <Input className="mediumInput" placeholder="hannah@skinpixel.com" />
-                        <div><Button id="saveChanges" variant="outlined">Save Changes</Button></div>
+                        <Input className="mediumInput" placeholder={currUser.email} onChange={(e) => setNewEmail(e.target.value)}/>
+                        <div><Button id="saveChanges" variant="outlined" onClick={handleSaveChanges}>Save Changes</Button></div>
                     </>
                 )}
 

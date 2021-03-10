@@ -16,8 +16,14 @@ export default function SignInModal(props) {
     const [password, setPassword] = useState(null);
 
     function handleEmail(e) {
-        // TODO: email error checking
-        setEmail(e.target.value);
+        var re = /\S+@\S+\.\S+/;
+        if (re.test(e.target.value)) {
+            setEmail(e.target.value);
+            handleSnackbarClick({ message: "Email successfully changed", color: 'green' })
+        }
+        else {
+            handleSnackbarClick({ message: "Email is incorrect format", color: 'red' })
+        }
     }
 
     function handlePassword(e) {

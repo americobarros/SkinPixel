@@ -72,7 +72,7 @@ export default function App() {
             <Snackbar
               open={snackbar.open}
               message={snackbar.message}
-              autoHideDuration={4000}
+              autoHideDuration={3000}
               onClose={handleSnackbarClose}
               ContentProps={{
                 style: {
@@ -84,7 +84,7 @@ export default function App() {
           <Switch>
             <Route exact path="/" children={<Landing allUsers={allUsers} allSkins={allSkins} />} />
             {currUser
-              ? <Route exact path="/account" children={<Account currUser={currUser} allSkins={allSkins} allUsers={allUsers} />}/>
+              ? <Route exact path="/account" children={<Account currUser={currUser} allSkins={allSkins} allUsers={allUsers} handleSnackbarClick={handleSnackbarClick}/>}/>
               : <Redirect exact to="/" />
             }
             <Route exact path="/skin/edit/:skinId" children={<EditSkin allSkins={allSkins} handleSnackbarClick={handleSnackbarClick} />}/>
