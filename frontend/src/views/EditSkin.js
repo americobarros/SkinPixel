@@ -92,7 +92,7 @@ export default function ViewSkin(props) {
         </DialogActions>
       </Dialog>
       <div style={{ display: 'flex' }}>
-        <Link to="/" style={{ color: 'black', alignSelf: 'center' }}>
+        <Link to="/account" style={{ color: 'black', alignSelf: 'center' }}>
           <ArrowBackIcon className="backIcon" />
         </Link>
         <EditText
