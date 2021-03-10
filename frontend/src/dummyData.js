@@ -1,6 +1,8 @@
 import cat1 from './images/cat1.PNG';
 import cat2 from './images/cat2.JPG';
 import cat3 from './images/cat3.JPG';
+import cat4 from './images/cat4.PNG';
+import cat5 from './images/cat5.PNG';
 
 const hannah = {
     id: 1,
@@ -105,6 +107,54 @@ const theirSkins = [
                 createdAt: 0,
                 user: hannah,
                 text: 'OMG i love your cat'
+            }
+        ]
+    },
+    {
+        id: 4,
+        createdAt: 5,
+        image: cat4,
+        name: 'Miss Meow Meow',
+        skin2D: [["#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff"]],
+        user: someoneElse,
+        comments: [
+            {
+                createdAt: 0,
+                user: hannah,
+                text: 'wow this is awesome!'
+            }
+        ]
+    },
+    {
+        id: 5,
+        createdAt: 6,
+        image: cat5,
+        name: 'This puthy talk',
+        skin2D: [["#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff"],
+            ["#fff", "ffff", "#fff", "ffff"]],
+        user: someoneElse,
+        comments: [
+            {
+                createdAt: 0,
+                user: hannah,
+                text: 'she talk english spanish and french!'
             }
         ]
     }

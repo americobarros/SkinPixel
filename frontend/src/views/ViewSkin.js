@@ -37,11 +37,10 @@ export default function ViewSkin(props) {
 
   const skin = allSkins.find(skin => skin.id == skinId);
   const [newComment, setNewComment] = useState("");
-  const [rerender, setRerender] = useState(false);
 
   function handlePost() {
     skin.comments.push({ createdAt: 3, user: currUser, text: newComment});
-    setRerender(!rerender);
+    setNewComment("");
   }
 
   return (
@@ -54,6 +53,15 @@ export default function ViewSkin(props) {
       </div>
       <div style={{ display: 'flex' }}>
         <div id="threeDView">
+          {skin.skin2D.map((row, outer_idx) =>
+            <div style={{ display: 'flex' }}>
+              {row.map((color, inner_idx) => (
+                <div>
+                  <div className="cube" style={{ backgroundColor: color }} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <div>
           <div id="skinInfo">
@@ -78,10 +86,11 @@ export default function ViewSkin(props) {
         <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} onChange={(e) => setNewComment(e.target.value)}/>
         <Button className="commentButton" variant="outlined" onClick={handlePost}>Post</Button>
       </div>
-      <div id="userComments">
+      <div>
         {skin.comments.map(comment => 
-          <div>
+          <div id="userComments">
             {comment.text}
+            <div><b>Comment By: </b>{comment.user.name}</div>
           </div>
         )}
       </div>
