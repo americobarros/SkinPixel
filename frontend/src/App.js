@@ -11,7 +11,7 @@ import { StylesProvider } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import './App.css';
-import { currUserX, allUsers, allSkins } from './dummyData.js';
+import { currUserX, allUsers, allSkins, emptySkin } from './dummyData.js';
 
 import Landing from './views/Landing';
 import ViewSkin from './views/ViewSkin';
@@ -88,8 +88,8 @@ export default function App() {
               : <Redirect exact to="/" />
             }
             <Route exact path="/skin/edit/:skinId" children={<EditSkin allSkins={allSkins} handleSnackbarClick={handleSnackbarClick} />}/>
-            <Route exact path="/skin/edit/:skinId" children={<EditSkin allSkins={allSkins} handleSnackbarClick={handleSnackbarClick} />}/>
-            <Route exact path="/newskin" children={<ViewSkin allSkins={allSkins} currUser={currUser} />}/>
+            <Route exact path="/skin/:skinId" children={<ViewSkin allSkins={allSkins} currUser={currUser} />}/>
+            <Route exact path="/newskin" children={<EditSkin allSkins={allSkins} currUser={currUser} emptySkin={emptySkin} />}/>
           </Switch>
           </content>          
         </div>

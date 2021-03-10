@@ -9,8 +9,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import EditIcon from '@material-ui/icons/Edit';
-import IconButton from '@material-ui/core/IconButton';
 
 import {EditText} from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
@@ -18,7 +16,7 @@ import 'react-edit-text/dist/index.css';
 import './EditSkin.css';
 
 export default function ViewSkin(props) {
-  const { allSkins, handleSnackbarClick } = props;
+  const { allSkins, handleSnackbarClick, emptySkin } = props;
   let { skinId } = useParams();
   let history = useHistory()
 
@@ -26,7 +24,7 @@ export default function ViewSkin(props) {
 
   const [color, setColor] = useState(null);
   const [rerender, setRerender] = useState(false);
-  const [editingSkin, setEditingSkin] = useState(skin.skin2D);
+  const [editingSkin, setEditingSkin] = useState(skin ? skin.skin2D : emptySkin);
   const [open, setOpen] = useState(false);
 
   function handleChangeComplete(color, event) {
@@ -98,7 +96,7 @@ export default function ViewSkin(props) {
         <EditText
           name="skinName"
           style={{padding: '10px', 'font-weight':'bold', fontSize: '1.5em', backgroundColor: "#EEE"}}
-          defaultValue={skin.name}
+          defaultValue={skin ? skin.name : "New Skin"}
           onSave={handleRename}
         />
         {/* <span className="editNameIcon">
@@ -110,7 +108,7 @@ export default function ViewSkin(props) {
       </div>
       <div style={{ display: 'flex' }}>
         <div id="threeDView">
-          {skin.skin2D.map((row, outer_idx) =>
+          {editingSkin.map((row, outer_idx) =>
             <div style={{ display: 'flex' }}>
               {row.map((color, inner_idx) => (
                 <div>
