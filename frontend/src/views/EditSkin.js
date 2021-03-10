@@ -143,13 +143,18 @@ export default function EditSkin(props) {
           <Button className="ButtonStyle" variant="outlined" onClick={handleClickOpen}>{skin ? "Delete" : "Cancel"}</Button>
         </div>
       </div>
-      <Dropzone
-        onSubmit={handleSubmit}
-        maxFiles={1}
-        inputContent="Drop an cover image, or click to browse"
-        submitButtonDisabled={files => files.length > 1}
-        accept="image/*"
-      />
+        <div style={{ marginLeft: '15px', display: 'flex' }}>
+          <div style={{ width: '500px', filter: 'grayscale(100%)' }}>
+            <Dropzone
+              onSubmit={handleSubmit}
+              maxFiles={1}
+              inputContent="Drop an cover image, or click to browse"
+              submitButtonDisabled={files => files.length > 1}
+              accept="image/*"
+            />
+          </div>
+          <img src={skin ? skin.image : file} style={{ maxHeight: "115px", marginLeft: '30px', filter: 'grayscale(0%)' }}/>
+        </div>
     </div>
   );
 }
