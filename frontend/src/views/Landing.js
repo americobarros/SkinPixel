@@ -16,8 +16,6 @@ import Box from '@material-ui/core/Box';
 import '../index.css';
 import './Landing.css';
 
-import { allSkins } from '../dummyData.js';
-
 import SkinCard from '../components/SkinCard';
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +64,9 @@ function TabPanel(props) {
   );
 }
 
-export default function Landing() {
+export default function Landing(props) {
+  const { allSkins } = props;
+  
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -80,7 +80,6 @@ export default function Landing() {
 
   return (
     <div>
-      {console.log(allSkins)}
       <div id="searchFunctionality">
         <TextField className="TextFieldStyle" label="Search" variant="outlined" onChange={handleSearch} />
         <Button className="ButtonStyle">

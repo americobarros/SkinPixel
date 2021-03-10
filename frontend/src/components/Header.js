@@ -13,7 +13,6 @@ import SignInModal from './SignInModal';
 
 import './Header.css';
 
-
 function HideOnScroll(props) {
   const { children, window } = props;
   const trigger = useScrollTrigger({ target: window ? window() : undefined });
@@ -26,20 +25,12 @@ function HideOnScroll(props) {
 }
   
 export default function Header(props) {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [open, setOpen] = useState(false);
-  
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const { setCurrUser, allUsers, handleClickOpen } = props;
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [loggedIn, setLoggedIn] = useState(false);
 
   return (
       <Fragment>
-        <SignInModal open={open} handleClose={handleClose} />
         <HideOnScroll {...props}>
           <AppBar className="AppBarStyle">
             <Toolbar>
