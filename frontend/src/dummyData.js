@@ -6,12 +6,16 @@ const hannah = {
     id: 1,
     name: 'Hannah Brooks',
     username: 'hannahbrooks',
+    email: 'hannah@user.com',
+    password: 'password'
 };
 
 const someoneElse = {
     id: 2,
     name: 'Someone Else',
-    username: 'user1',
+    username: 'someone',
+    email: 'someone@user.com',
+    password: 'password'
 };
 
 const hannahsSkins = [
@@ -75,3 +79,4 @@ const theirSkins = [
 
 
 export const allSkins = theirSkins.concat(hannahsSkins);
+export const allUsers = [hannah, someoneElse]
