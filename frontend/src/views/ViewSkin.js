@@ -55,7 +55,24 @@ export default function ViewSkin(props) {
       <div style={{ display: 'flex' }}>
         <div id="threeDView">
         </div>
-        <div id="userInfo" />
+        <div>
+          <div id="skinInfo">
+            <span>
+              <text>Skin Info:</text>
+              <h3>{skin.name}</h3>
+              <img src={skin.image} alt={skin.name} className = "skinImage"/>
+              <p>Skin Created On: {skin.createdAt}</p>
+            </span>
+          </div>
+          <div id="userInfo">
+          <span>
+              <text>Creator:</text>
+              <h3>{skin.user.name}</h3>
+              <h4>@{skin.user.username}</h4>
+              <p>{skin.user.bio}</p>
+            </span>
+          </div>
+        </div>
       </div>
       <div style={{ display: 'flex' }}>
         <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} onChange={(e) => setNewComment(e.target.value)}/>
