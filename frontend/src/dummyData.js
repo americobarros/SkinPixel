@@ -27,18 +27,18 @@ const hannahsSkins = [
         image: cat1,
         name: 'The best cat ever',
         user: hannah,
-        // comments: [
-        //     {
-        //         createdAt: 0,
-        //         user: someoneElse,
-        //         text: 'wow cool cat!'
-        //     },
-        //     {
-        //         createdAt: 1,
-        //         user: someoneElse,
-        //         text: 'i hope that cat is okay'
-        //     }
-        // ]
+        comments: [
+            {
+                createdAt: 0,
+                user: someoneElse,
+                text: 'wow cool cat!'
+            },
+            {
+                createdAt: 1,
+                user: someoneElse,
+                text: 'i hope that cat is okay'
+            }
+        ]
     },
     {
         id: 2,
@@ -46,18 +46,18 @@ const hannahsSkins = [
         image: cat2,
         name: 'Another cool cat',
         user: hannah,
-        // comments: [
-        //     {
-        //         createdAt: 0,
-        //         user: someoneElse,
-        //         text: 'Look at that cat go!'
-        //     },
-        //     {
-        //         createdAt: 1,
-        //         user: someoneElse,
-        //         text: 'Wow it looks like that cat could use a pet!'
-        //     }
-        // ]
+        comments: [
+            {
+                createdAt: 0,
+                user: someoneElse,
+                text: 'Look at that cat go!'
+            },
+            {
+                createdAt: 1,
+                user: someoneElse,
+                text: 'Wow it looks like that cat could use a pet!'
+            }
+        ]
     }
 ];
 
@@ -68,13 +68,13 @@ const theirSkins = [
         image: cat3,
         name: 'This is my cat',
         user: someoneElse,
-        // comments: [
-        //     {
-        //         createdAt: 0,
-        //         user: hannah,
-        //         text: 'OMG i love your cat'
-        //     }
-        // ]
+        comments: [
+            {
+                createdAt: 0,
+                user: hannah,
+                text: 'OMG i love your cat'
+            }
+        ]
     }
 ];
 

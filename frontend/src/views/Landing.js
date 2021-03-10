@@ -12,6 +12,8 @@ import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import '../index.css';
 import './Landing.css';
@@ -70,6 +72,7 @@ export default function Landing(props) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [skinsShowing, setSkinsShowing] = useState(allSkins);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   function handleSearch(e) {
     const searchTerm = e.target.value;
@@ -82,6 +85,33 @@ export default function Landing(props) {
     setValue(newValue);
   };
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  function handleSort(sort) {
+    let results = [];
+    if (sort == "name") {
+      results = allSkins.sort(function(a, b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
+    }
+    else if (sort == "newest") {
+      results = allSkins.sort(function(a, b) {return (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0);} );
+    }
+    else if (sort == "oldest") {
+      results = allSkins.sort(function(a, b) {return (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0);} );
+    }
+    else if (sort == "comments") {
+      results = allSkins.sort(function(a, b) {return (a.comments.length > b.comments.length) ? 1 : ((b.comments.length > a.comments.length) ? -1 : 0);} );
+    }
+
+    setSkinsShowing(results);
+    handleClose();
+  }
+
   return (
     <div>
       <div id="searchFunctionality">
@@ -90,10 +120,22 @@ export default function Landing(props) {
           Filter
           <FilterListIcon className="icon"/>
         </Button>
-        <Button className="ButtonStyle">
+        <Button className="ButtonStyle" onClick={handleClick}>
           Sort By
           <SortIcon className="icon"/>
         </Button>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={() => handleSort('name')}>Name</MenuItem>
+          <MenuItem onClick={() => handleSort('newest')}>Newest</MenuItem>
+          <MenuItem onClick={() => handleSort('oldest')}>Oldest</MenuItem>
+          <MenuItem onClick={() => handleSort('comments')}>Number of Comments</MenuItem>
+        </Menu>
       </div>
       <AppBar position="static" className={classes.root}>
         <Tabs
