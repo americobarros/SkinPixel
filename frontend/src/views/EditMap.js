@@ -26,7 +26,7 @@ export default function EditMap(props) {
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState("");
   const [file, setFile] = useState(null)
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(map ? map.image : "");
 
   function handleSave() {
     if (map) {
@@ -41,7 +41,7 @@ export default function EditMap(props) {
       if (map.file != null) {
           map.file = file;
       }
-      
+
       handleSnackbarClick({ message: 'Successfully saved map', color: 'green' });
       history.push("/account")
     }
@@ -128,7 +128,7 @@ export default function EditMap(props) {
       </div>
       <div style={{ display: 'flex' }}>
         <div id="threeDView">
-            <img src={map.image} alt={map.name} className="skinImage"/>
+            {image && (<img src={image} alt={newName} className="skinImage"/>)}
             <div style={{ marginLeft: '15px', display: 'flex' }}>
           <div style={{ width: '500px', filter: 'grayscale(100%)', margin: '15px 0px' }}>
             <Dropzone
@@ -147,7 +147,6 @@ export default function EditMap(props) {
               maxFiles={1}
               inputContent="Drop a zipped map image, or click to browse"
               submitButtonDisabled={files => files.length > 1}
-              accept="image/*"
             />
           </div>
         </div>
@@ -155,6 +154,8 @@ export default function EditMap(props) {
         <div className="rightItems">
           <Button className="ButtonStyle" variant="outlined" style={{ marginTop: '30px' }} onClick={handleSave}>Save</Button>
           <Button className="ButtonStyle" variant="outlined" onClick={handleClickOpen}>{map ? "Delete" : "Cancel"}</Button>
+          {!map && !file && (<span style={{ alignSelf: 'center' }}>No map currently uploaded</span>)}
+          {(map || file) && (<a href={file ? file : map.file} download>View Map</a>)}
         </div>
       </div>
         

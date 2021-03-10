@@ -148,7 +148,7 @@ export default function Account(props) {
 
                 {drawerItem === "My Maps" && (
                     <>
-                    <Link key={`link-newskin`} to={`/newskin`}>
+                    <Link key={`link-newskin`} to={`/newmap`}>
                         <div className="newSkinButton">
                             <AddCircleIcon style={{ marginRight: '10px' }} />
                             <div>Add a New Map</div>
