@@ -4,6 +4,10 @@
     padding-right: 30px;
 }
 
+/* .editNameIcon {
+    padding-top: 15px;
+} */
+
 #threeDView {
     border: 1px solid rgba(0, 0, 0, 0.2);
     height: 800px;

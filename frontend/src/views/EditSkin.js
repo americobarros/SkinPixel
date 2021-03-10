@@ -9,6 +9,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import EditIcon from '@material-ui/icons/Edit';
+import IconButton from '@material-ui/core/IconButton';
+
+import {EditText} from 'react-edit-text';
+import 'react-edit-text/dist/index.css';
 
 import './EditSkin.css';
 
@@ -40,6 +45,10 @@ export default function ViewSkin(props) {
       allSkins.splice(index, 1);
     }
     history.push("/account")
+  }
+
+  const handleRename = (e) => {
+    skin.name = e.value;
   }
 
   const handleClickOpen = () => {
@@ -83,10 +92,20 @@ export default function ViewSkin(props) {
         </DialogActions>
       </Dialog>
       <div style={{ display: 'flex' }}>
-        <Link to="/" style={{ color: 'black', alignSelf: 'center' }}>
+        <Link to="/account" style={{ color: 'black', alignSelf: 'center' }}>
           <ArrowBackIcon className="backIcon" />
         </Link>
-        <h2>hannah_minecraft_version</h2>
+        <EditText
+          name="skinName"
+          style={{padding: '10px', 'font-weight':'bold', fontSize: '1.5em', backgroundColor: "#EEE"}}
+          defaultValue={skin.name}
+          onSave={handleRename}
+        />
+        {/* <span className="editNameIcon">
+          <IconButton onClick={handleRename} color="primary">
+            <EditIcon style={{ color: '#90caf9', alignSelf: 'center' }}/>
+          </IconButton>
+        </span> */}
         <h2 style={{ display: 'none' }}>{skinId}</h2>
       </div>
       <div style={{ display: 'flex' }}>

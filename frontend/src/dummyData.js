@@ -9,7 +9,7 @@ const hannah = {
     email: 'hannah@user.com',
     password: 'password',
     isAdmin: true,
-    bio: ""
+    bio: "mining by day, making skins by night:)"
 };
 
 const someoneElse = {
