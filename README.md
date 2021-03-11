@@ -26,12 +26,11 @@ If you want to check out the version with the 3D skin editor checkout the 3d bra
 
 
 # 3rd Party Libraries
-Classnames
-Material UI/{core,icons,lab}
-Testing Library/{jest-dom, react, user-event}
-React
-React-{color,dom,edit-text,router-dom,scripts,dropzone,dropzone-uploader}
-Material Ui Dropzone
-Web Vitals
-React Three Fiber
+* Classnames
+* Material UI/{core,icons,lab}
+* Testing Library/{jest-dom, react, user-event}
+* React
+* React-{color, dom, router-dom, script , dropzone, dropzone-uploader}
+* Web Vitals
+* React Three Fiber
 
