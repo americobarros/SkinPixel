@@ -40,26 +40,35 @@ export default function EditSkin(props) {
       if (newName != "") {
         skin.name = newName;
       }
-      skin.image = file;
+      if (skin.image != null) {
+        skin.image = file;
+      }
+      
       handleSnackbarClick({ message: 'Successfully saved skin', color: 'green' });
+      history.push("/account")
     }
     else {
-      const latestId = Math.max.apply(Math, allSkins.map(function(skin) { return skin.id; })) + 1;
-      
-      const newSkin = {
-          id: latestId,
-          createdAt: 10,
-          image: file,
-          name: newName,
-          skin2D: editingSkin,
-          user: currUser,
-          comments: []
-      };
+      if (newName != "" && file != null) {
+        const latestId = Math.max.apply(Math, allSkins.map(function(skin) { return skin.id; })) + 1;
+        
+        const newSkin = {
+            id: latestId,
+            createdAt: 10,
+            image: file,
+            name: newName,
+            skin2D: editingSkin,
+            user: currUser,
+            comments: []
+        };
 
-      allSkins.push(newSkin);
-      handleSnackbarClick({ message: 'New skin successfully saved', color: 'green' });
+        allSkins.push(newSkin);
+        handleSnackbarClick({ message: 'New skin successfully saved', color: 'green' });
+        history.push("/account")
+      }
+      else {
+        handleSnackbarClick({ message: 'Not all info for skin included', color: 'red' });
+      }
     }
-    history.push("/account")
   }
 
   function handleDelete() {
@@ -140,8 +149,8 @@ export default function EditSkin(props) {
           )}
         </div>
         <div className="rightItems">
-            <SwatchesPicker height="600px" onChangeComplete={handleChangeComplete}/>
-          <Button className="ButtonStyle" variant="outlined" onClick={handleSave}>Save</Button>
+          <SwatchesPicker height="600px" onChangeComplete={handleChangeComplete}/>
+          <Button className="ButtonStyle" variant="outlined" style={{ marginTop: '30px' }} onClick={handleSave}>Save</Button>
           <Button className="ButtonStyle" variant="outlined" onClick={handleClickOpen}>{skin ? "Delete" : "Cancel"}</Button>
         </div>
       </div>

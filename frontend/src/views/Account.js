@@ -17,7 +17,7 @@ import SkinCard from '../components/SkinCard';
 import './Account.css';
 
 export default function Account(props) {
-    const { currUser, allSkins, allUsers, handleSnackbarClick } = props;
+    const { currUser, allSkins, allUsers, handleSnackbarClick, allMaps } = props;
 
     const [drawerItem, setDrawerItem] = useState("Account Settings");
     const [open, setOpen] = useState(false);
@@ -113,14 +113,14 @@ export default function Account(props) {
                 <div id="settings" scroll="no">
                     {currUser.isAdmin
                         ? <>
-                            {["Account Settings", "My Skins", "Admin Settings"].map((item, idx) =>
+                            {["Account Settings", "My Skins", "My Maps", "Admin Settings"].map((item, idx) =>
                                 <div className="listItem" key={idx} onClick={() => setDrawerItem(item)}>
                                     {item}
                                 </div>
                             )}
                         </>
                         : <>
-                            {["Account Settings", "My Skins"].map((item, idx) =>
+                            {["Account Settings", "My Maps", "My Skins"].map((item, idx) =>
                                 <div className="listItem" key={idx} onClick={() => setDrawerItem(item)}>
                                     {item}
                                 </div>
@@ -143,6 +143,28 @@ export default function Account(props) {
                         <h2>Email</h2>
                         <Input className="mediumInput" placeholder={currUser.email} onChange={(e) => setNewEmail(e.target.value)}/>
                         <div><Button id="saveChanges" variant="outlined" onClick={handleSaveChanges}>Save Changes</Button></div>
+                    </>
+                )}
+
+                {drawerItem === "My Maps" && (
+                    <>
+                    <Link key={`link-newskin`} to={`/newmap`}>
+                        <div className="newSkinButton">
+                            <AddCircleIcon style={{ marginRight: '10px' }} />
+                            <div>Add a New Map</div>
+                        </div>
+                    </Link>
+                    <div id="skinsDisplay">
+                        {allMaps.map(map =>
+                            <>
+                                {map.user.id == currUser.id && (
+                                    <Link key={`link-${map.id}`} to={`/map/edit/${map.id}`}>
+                                        <SkinCard skin={map} />
+                                    </Link>
+                                )}
+                            </>
+                        )}
+                    </div>
                     </>
                 )}
 

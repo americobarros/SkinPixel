@@ -19,6 +19,7 @@ import '../index.css';
 import './Landing.css';
 
 import SkinCard from '../components/SkinCard';
+import MapCard from '../components/MapCard';
 import ResourceCard from '../components/ResourceCard';
 
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +69,7 @@ function TabPanel(props) {
 }
 
 export default function Landing(props) {
-  const { allSkins, allResourcePacks} = props;
+  const { allSkins, allMaps, allResourcePacks} = props;
   
   const classes = useStyles();
   const [value, setValue] = useState(0);
@@ -173,7 +174,17 @@ export default function Landing(props) {
         <div id="skinsDisplay">
             {skinsShowing.map(skin =>
               <Link key={`link-${skin.id}`} to={`/skin/${skin.id}`}>
-                <SkinCard skin={skin} id={skin.id} />
+                <SkinCard skin={skin} />
+              </Link>
+            )}
+          </div>
+      </TabPanel>
+      <TabPanel className="pb-3 pl-3" value={value} index={2}>
+        <div id="skinsDisplay">
+          {console.log(allMaps)}
+            {allMaps.map(map =>
+              <Link key={`link-${map.id}`} to={`/map/${map.id}`}>
+                <MapCard map={map} />
               </Link>
             )}
           </div>

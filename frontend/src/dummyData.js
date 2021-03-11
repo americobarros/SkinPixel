@@ -3,11 +3,16 @@ import cat2 from './images/cat2.JPG';
 import cat3 from './images/cat3.JPG';
 import cat4 from './images/cat4.PNG';
 import cat5 from './images/cat5.PNG';
+import map1 from './zippedMaps/map1.zip';
+import map2 from './zippedMaps/map2.zip';
+import imgMap1 from './images/map1.jpg';
+import imgMap2 from './images/map2.jpg'
 
 // users
 
 const hannah = {
     id: 1,
+    createdAt: 0,
     name: 'Hannah Brooks',
     username: 'hannahbrooks',
     email: 'hannah@user.com',
@@ -18,6 +23,7 @@ const hannah = {
 
 const ian = {
     id: 2,
+    createdAt: 0,
     name: 'Ian Chan',
     username: 'yanktc',
     email: 'yan@user.com',
@@ -28,6 +34,7 @@ const ian = {
 
 const someoneElse = {
     id: 3,
+    createdAt: 0,
     name: 'Someone Else',
     username: 'someone',
     email: 'someone@user.com',
@@ -36,8 +43,27 @@ const someoneElse = {
     bio: ""
 };
 
-// skins
+const maps = [
+    {
+        id: 1,
+        user: hannah,
+        createdAt: 0,
+        name: "Super cool Map",
+        file: map1,
+        image: imgMap1,
+        comments: []
+    },
+    {   id: 2,
+        user: someoneElse,
+        createdAt: 0,
+        name: "Empire map",
+        file: map2,
+        image: imgMap2,
+        comments: []
+    },
+]
 
+// skins
 const hannahsSkins = [
     {
         id: 1,
@@ -175,7 +201,6 @@ const theirSkins = [
 ];
 
 // resources
-
 const iansResourcePacks = [ 
     {
         id: 1,
@@ -193,18 +218,18 @@ const iansResourcePacks = [
     }
 ];
 
-
+export const allMaps = maps;
 export const allSkins = theirSkins.concat(hannahsSkins);
 export const allUsers = [hannah, someoneElse];
 export const allResourcePacks = iansResourcePacks;
 export const currUserX = hannah;
 export const emptySkin = [["#fff", "ffff", "#fff", "ffff"],
-["#fff", "ffff", "#fff", "ffff"],
-["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-["#fff", "ffff", "#fff", "ffff"],
-["#fff", "ffff", "#fff", "ffff"],
-["#fff", "ffff", "#fff", "ffff"],
-["#fff", "ffff", "#fff", "ffff"]];
+                            ["#fff", "ffff", "#fff", "ffff"],
+                            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+                            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+                            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+                            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+                            ["#fff", "ffff", "#fff", "ffff"],
+                            ["#fff", "ffff", "#fff", "ffff"],
+                            ["#fff", "ffff", "#fff", "ffff"],
+                            ["#fff", "ffff", "#fff", "ffff"]];
