@@ -94,7 +94,7 @@ export default function App() {
 
             <Route exact path="/resource/edit/:resourceId" children={<EditSkin allResourcePacks={allSkins} handleSnackbarClick={handleSnackbarClick} currUser={currUser}/>}/>
             <Route exact path="/resource/:resourceId" children={<ViewResource allResourcePacks={allSkins} currUser={currUser} />}/>
-            <Route exact path="/newskin" children={<EditResource allResourcePacks={allSkins} currUser={currUser} emptySkin={emptySkin} currUser={currUser} handleSnackbarClick={handleSnackbarClick} />}/>
+            <Route exact path="/newskin" children={<EditSkin allResourcePacks={allSkins} currUser={currUser} emptySkin={emptySkin} currUser={currUser} handleSnackbarClick={handleSnackbarClick} />}/>
           </Switch>
           </content>          
         </div>
