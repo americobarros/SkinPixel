@@ -3,3 +3,13 @@ Currently we have two main branches, the "main" branch has the most functional v
 
 To run view the instructions in frontend/README.md
 
+# 3rd Party Libraries
+Classnames
+Material UI/{core,icons,lab}
+Testing Library/{jest-dom, react, user-event}
+React
+React-{color,dom,edit-text,router-dom,scripts,dropzone,dropzone-uploader}
+Material Ui Dropzone
+Web Vitals
+React Three Fiber
+
