@@ -7,6 +7,7 @@ Our web application enables the sharing of resources relating to minecraft, cent
 
 ## Login Credentials
 **Email:** hannah@user.com [admin], someone@user.com [normal]
+
 **Password:** password
 
 ## How To Use
