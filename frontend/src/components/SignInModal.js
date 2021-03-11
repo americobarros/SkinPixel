@@ -54,7 +54,7 @@ export default function SignInModal(props) {
             <DialogTitle id="alert-dialog-title">{"Sign In"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Sign in for more functionality.
                 </DialogContentText>
                 <TextField className="TextFieldStyle" label="Email" variant="outlined" style={{ marginBottom: '10px' }} onChange={handleEmail} />
                 <TextField className="TextFieldStyle" label="Password" variant="outlined" onChange={handlePassword} />

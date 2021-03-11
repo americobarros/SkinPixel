@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function ViewResourcePack(props) {
-  const { allResourcePacks, currUser} = props;
+  const { allResourcePacks, currUser } = props;
 
   const classes = useStyles();
   let { resourceId } = useParams();
@@ -44,67 +44,48 @@ export default function ViewResourcePack(props) {
   }
 
   return (
-    // <div id="skinContainer">
-      
-    //   {/* title */}
-    //   <div class="displayFlex">
-    //     <Link to="/" id="backButton">
-    //       <ArrowBackIcon className="backIcon" />
-    //     </Link>
-    //     <h2>{skin.name}</h2>
-    //   </div>
-
-    //   {/* container for skin image, actual skin display, and creator */}
-    //   <div class="displayFlex">
-    //     <div id="threeDView">
-    //       {skin.skin2D.map((row, outer_idx) =>
-    //         <div style={{ display: 'flex' }}>
-    //           {row.map((color, inner_idx) => (
-    //             <div>
-    //               <div className="cube" style={{ backgroundColor: color }} />
-    //             </div>
-    //           ))}
-    //         </div>
-    //       )}
-    //     </div>
-    //     <div>
-    //       <div id="skinInfo">
-    //         <span>
-    //           <text>Skin Info:</text>
-    //           <h3>{skin.name}</h3>
-    //           <img src={skin.image} alt={skin.name} className = "skinImage"/>
-    //           <p>Skin Created On: {skin.createdAt}</p>
-    //         </span>
-    //       </div>
-    //       <div id="userInfo">
-    //       <span>
-    //           <text>Creator:</text>
-    //           <h3>{skin.user.name}</h3>
-    //           <h4>@{skin.user.username}</h4>
-    //           <p>{skin.user.bio}</p>
-    //         </span>
-    //       </div>
-    //     </div>
-    //   </div>
-
-    //   {/* comment bar */}
-    //   <div class="displayFlex">
-    //     <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} onChange={(e) => setNewComment(e.target.value)}/>
-    //     <Button className="commentButton" variant="outlined" onClick={handlePost}>Post</Button>
-    //   </div>
-
-    //   {/* comment display */}
-    //   <div>
-    //     {skin.comments.map(comment => 
-    //       <div id="userComments">
-    //         {comment.text}
-    //         <div><b>Comment By: </b>{comment.user.name}</div>
-    //       </div>
-    //     )}
-    //   </div>
-      
-    // </div>
-    <div>Hi</div>
+    <div style={{ maxWidth: '1400px' }}>
+      <div style={{ display: 'flex' }}>
+        <Link to="/" style={{ color: 'black', alignSelf: 'center' }}>
+          <ArrowBackIcon className="backIcon" />
+        </Link>
+        <h2>{resource.name}</h2>
+      </div>
+      <div style={{ display: 'flex' }}>
+        <div id="threeDView">
+          <img src={resource.image} alt={resource.name} className="skinImage"/>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+          <div id="skinInfo">
+            <span>
+              <text>Resource Info:</text>
+              <h3>{resource.name}</h3>
+              <a href={resource.file} download style={{ textDecoration: 'underline' }}>Download Map</a>
+              <p>Resource Pack Created On: {resource.createdAt}</p>
+            </span>
+          </div>
+          <div id="userInfo">
+          <span>
+              <text>Creator:</text>
+              <h3>{resource.user.name}</h3>
+              <h4>@{resource.user.username}</h4>
+              <p>{resource.user.bio}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div style={{ display: 'flex' }}>
+        <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} onChange={(e) => setNewComment(e.target.value)}/>
+        <Button className="commentButton" variant="outlined" onClick={handlePost}>Post</Button>
+      </div>
+      <div>
+        {resource.comments.map(comment => 
+          <div id="userComments">
+            {comment.text}
+            <div><b>Comment By: </b>{comment.user.name}</div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
-  

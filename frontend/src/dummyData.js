@@ -6,7 +6,9 @@ import cat5 from './images/cat5.PNG';
 import map1 from './zippedMaps/map1.zip';
 import map2 from './zippedMaps/map2.zip';
 import imgMap1 from './images/map1.jpg';
-import imgMap2 from './images/map2.jpg'
+import imgMap2 from './images/map2.jpg';
+import texture1 from './images/texture1.jpeg';
+import zippedTexture from './zippedTextures/text.zip';
 
 // users
 
@@ -42,6 +44,8 @@ const someoneElse = {
     isAdmin: false,
     bio: ""
 };
+
+// maps
 
 const maps = [
     {
@@ -203,16 +207,22 @@ const theirSkins = [
 // resources
 const iansResourcePacks = [ 
     {
-        id: 1,
-        createdAt: 1,
-        image: cat4,
+        id: 3,
+        createdAt: 7,
+        image: texture1,
         name: 'Cool Texture',
         user: ian,
+        file: zippedTexture,
         comments: [
             {
                 createdAt: 0,
                 user: hannah,
                 text: 'wow this is awesome!'
+            },
+            {
+                createdAt: 0,
+                user: ian,
+                text: 'its crafty isn\' t it'
             }
         ]
     }
@@ -220,7 +230,7 @@ const iansResourcePacks = [
 
 export const allMaps = maps;
 export const allSkins = theirSkins.concat(hannahsSkins);
-export const allUsers = [hannah, someoneElse];
+export const allUsers = [hannah, someoneElse, ian];
 export const allResourcePacks = iansResourcePacks;
 export const currUserX = hannah;
 export const emptySkin = [["#fff", "ffff", "#fff", "ffff"],

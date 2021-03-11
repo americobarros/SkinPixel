@@ -132,10 +132,10 @@ export default function Landing(props) {
     <div>
       <div id="searchFunctionality">
         <TextField className="TextFieldStyle" label="Search" variant="outlined" onChange={handleSearch} />
-        <Button className="ButtonStyle">
+        {/* <Button className="ButtonStyle">
           Filter
           <FilterListIcon className="icon"/>
-        </Button>
+        </Button> */}
         <Button className="ButtonStyle" onClick={handleClick}>
           Sort By
           <SortIcon className="icon"/>
@@ -179,6 +179,7 @@ export default function Landing(props) {
             )}
           </div>
       </TabPanel>
+      
       <TabPanel className="pb-3 pl-3" value={value} index={2}>
         <div id="skinsDisplay">
           {console.log(allMaps)}

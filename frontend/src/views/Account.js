@@ -13,11 +13,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import SkinCard from '../components/SkinCard';
+import MapCard from '../components/MapCard';
+import ResourceCard from '../components/ResourceCard';
 
 import './Account.css';
 
 export default function Account(props) {
-    const { currUser, allSkins, allUsers, handleSnackbarClick, allMaps } = props;
+    const { currUser, allSkins, allUsers, handleSnackbarClick, allMaps, allResourcePacks} = props;
 
     const [drawerItem, setDrawerItem] = useState("Account Settings");
     const [open, setOpen] = useState(false);
@@ -113,14 +115,14 @@ export default function Account(props) {
                 <div id="settings" scroll="no">
                     {currUser.isAdmin
                         ? <>
-                            {["Account Settings", "My Skins", "My Maps", "Admin Settings"].map((item, idx) =>
+                            {["Account Settings", "My Skins", "My Maps", "My Textures", "Admin Settings"].map((item, idx) =>
                                 <div className="listItem" key={idx} onClick={() => setDrawerItem(item)}>
                                     {item}
                                 </div>
                             )}
                         </>
                         : <>
-                            {["Account Settings", "My Maps", "My Skins"].map((item, idx) =>
+                            {["Account Settings", "My Maps", "My Skins", "My Textures"].map((item, idx) =>
                                 <div className="listItem" key={idx} onClick={() => setDrawerItem(item)}>
                                     {item}
                                 </div>
@@ -182,6 +184,28 @@ export default function Account(props) {
                                 {skin.user.id == currUser.id && (
                                     <Link key={`link-${skin.id}`} to={`/skin/edit/${skin.id}`}>
                                         <SkinCard skin={skin} id={skin.id} />
+                                    </Link>
+                                )}
+                            </>
+                        )}
+                    </div>
+                    </>
+                )}
+
+                {drawerItem === "My Textures" && (
+                    <>
+                    <Link key={`link-newskin`} to={`/newresource`}>
+                        <div className="newSkinButton">
+                            <AddCircleIcon style={{ marginRight: '10px' }} />
+                            <div>Add a New Texture</div>
+                        </div>
+                    </Link>
+                    <div id="skinsDisplay">
+                        {allResourcePacks.map(resource =>
+                            <>
+                                {resource.user.id == currUser.id && (
+                                    <Link key={`link-${resource.id}`} to={`/resource/edit/${resource.id}`}>
+                                        <SkinCard skin={resource} />
                                     </Link>
                                 )}
                             </>
