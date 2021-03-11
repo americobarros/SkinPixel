@@ -10,10 +10,13 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import {Skin, CameraControls, Pixel} from "./3d_view";
 
 import 'react-edit-text/dist/index.css';
 
 import './EditSkin.css';
+import {Canvas, useFrame} from 'react-three-fiber';
+
 
 export default function EditSkin(props) {
   const { allSkins, handleSnackbarClick, emptySkin, currUser } = props;
@@ -128,17 +131,16 @@ export default function EditSkin(props) {
       </div>
 
       <div class="displayFlex">
-        <div id="threeDView">
-          {editingSkin.map((row, outer_idx) =>
-            <div class="displayFlex">
-              {row.map((color, inner_idx) => (
-                <div>
-                  <div className="cube" onClick={() => setSkinColor(outer_idx, inner_idx)} style={{ backgroundColor: color }} />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <Canvas>
+          <CameraControls/>
+          <ambientLight intensity={0.5} />
+          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+          <pointLight position={[-10, -10, -10]} />
+          <Pixel color={color} position={[0,0,0]}/>
+          <Pixel color={color} position={[1,0,0]}/>
+          <Pixel color={color} position={[1,1,0]}/>
+          <Pixel color={color} position={[0,1,0]}/>
+        </Canvas>
         <div className="rightItems">
             <SwatchesPicker height="600px" onChangeComplete={handleChangeComplete}/>
           <Button className="ButtonStyle" variant="outlined" onClick={handleSave}>Save</Button>
