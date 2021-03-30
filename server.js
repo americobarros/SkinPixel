@@ -96,7 +96,7 @@ app.use(
         },
         // store the sessions on the database in production
         store: env === 'production' ? MongoStore.create({
-                                                mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/StudentAPI'
+                                                mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/SkinPixelAPI'
                                  }) : null
     })
 );
