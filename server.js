@@ -28,7 +28,7 @@ const { mongoose } = require("./db/mongoose");
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
 // import the mongoose models
-const { Student } = require("./models/student");
+// const { Student } = require("./models/student");
 const { User } = require("./models/user");
 
 // to validate object IDs
