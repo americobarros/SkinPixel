@@ -182,7 +182,6 @@ export default function Landing(props) {
       
       <TabPanel className="pb-3 pl-3" value={value} index={2}>
         <div id="skinsDisplay">
-          {console.log(allMaps)}
             {allMaps.map(map =>
               <Link key={`link-${map.id}`} to={`/map/${map.id}`}>
                 <MapCard map={map} />

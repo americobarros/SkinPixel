@@ -58,7 +58,7 @@ export default function App() {
     }
     setSnackbar({ ...snackbar, open: false });
   };
-
+  
   return (
     <StylesProvider injectFirst>
       <SignInModal

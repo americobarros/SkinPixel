@@ -103,6 +103,7 @@ app.use(
 
 // A route to login and create a session
 app.post("/users/login", (req, res) => {
+
     const email = req.body.email;
     const password = req.body.password;
 
@@ -115,7 +116,7 @@ app.post("/users/login", (req, res) => {
             // We can check later if this exists to ensure we are logged in.
             req.session.user = user._id;
             req.session.email = user.email; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
-            res.send({ currentUser: user.email });
+            res.send(user);
         })
         .catch(error => {
             res.status(400).send()
@@ -157,8 +158,12 @@ app.get("/users/check-session", (req, res) => {
 app.post('/api/users', mongoChecker, async (req, res) => {
     log(req.body)
 
+    var current_date=new Date();
+
     // Create a new user
     const user = new User({
+        createdAt: current_date,
+        username: req.body.username,
         email: req.body.email,
         password: req.body.password
     })

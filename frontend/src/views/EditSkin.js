@@ -110,7 +110,6 @@ export default function EditSkin(props) {
 
   return (
     <div id="skinEditView">
-      {console.log(newName)}
       <Dialog
         open={open}
         onClose={handleClose}

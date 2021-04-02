@@ -41,11 +41,11 @@ export const updateLoginForm = (loginComp, field) => {
 };
 
 // A function to send a POST request with the user to be logged in
-export const login = (loginComp, app) => {
+export const login = (user, setCurrUser) => {
     // Create our request constructor with all the parameters we need
     const request = new Request(`${API_HOST}/users/login`, {
         method: "post",
-        body: JSON.stringify(loginComp.state),
+        body: JSON.stringify(user),
         headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json"
@@ -59,9 +59,9 @@ export const login = (loginComp, app) => {
                 return res.json();
             }
         })
-        .then(json => {
-            if (json.currentUser !== undefined) {
-                app.setState({ currentUser: json.currentUser });
+        .then(currentUser => {
+            if (currentUser !== undefined) {
+                setCurrUser(currentUser);
             }
         })
         .catch(error => {

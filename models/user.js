@@ -19,10 +19,34 @@ const UserSchema = new mongoose.Schema({
 			message: 'Not valid email'
 		}
 	}, 
+	username: {
+		type: String,
+		minlength: 1,
+		trim: true,
+		unique: true,
+	}, 
 	password: {
 		type: String,
 		required: true,
 		minlength: 6
+	},
+	name: {
+		type: String,
+		trim: true,
+		default: ""
+	},
+	bio: {
+		type: String,
+		trim: true,
+		default: ""
+	},
+	createdAt: {
+		type: String,
+		required: true
+	},
+	isAdmin: {
+		type: Boolean,
+        default: false
 	}
 })
 
@@ -54,6 +78,7 @@ UserSchema.statics.findByEmailPassword = function(email, password) {
 
 	// First find the user by their email
 	return User.findOne({ email: email }).then((user) => {
+
 		if (!user) {
 			return Promise.reject()  // a rejected promise
 		}

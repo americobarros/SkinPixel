@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
 import './SignInModal.css';
+import { login } from '../actions/user';
 
 export default function SignInModal(props) {  
     const { open, handleClose, setCurrUser, allUsers, handleSnackbarClick } = props;
@@ -19,7 +20,7 @@ export default function SignInModal(props) {
         var re = /\S+@\S+\.\S+/;
         if (re.test(e.target.value)) {
             setEmail(e.target.value);
-            handleSnackbarClick({ message: "Email successfully changed", color: 'green' })
+            handleSnackbarClick({ message: "Email correct", color: 'green' })
         }
         else {
             handleSnackbarClick({ message: "Email is incorrect format", color: 'red' })
@@ -31,7 +32,13 @@ export default function SignInModal(props) {
     }
 
     function handleLogin() {
-        const user = allUsers.find(el => el.email == email && el.password == password);
+        // const user = allUsers.find(el => el.email == email && el.password == password);
+        const user = {
+            email: email,
+            password: password
+        }
+
+        login(user, setCurrUser)
 
         if (user) {
             handleSnackbarClick({ message: 'Success logging in!', color: 'green' });
@@ -41,7 +48,6 @@ export default function SignInModal(props) {
         }
 
         handleClose();
-        setCurrUser(user);
     }
 
     return (
