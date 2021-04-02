@@ -24,6 +24,7 @@ import Account from './views/Account';
 
 import Header from './components/Header';
 import SignInModal from './components/SignInModal';
+import { logout } from './actions/user';
 
 export default function App() {
   const [currUser, setCurrUser] = useState(currUserX);
@@ -38,7 +39,7 @@ export default function App() {
   
   const handleClickOpen = () => {
     if (currUser) {
-      setCurrUser(null)
+      logout(setCurrUser)
     } else {
       setOpen(true);
     }

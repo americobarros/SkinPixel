@@ -70,15 +70,12 @@ export const login = (user, setCurrUser) => {
 };
 
 // A function to send a GET request to logout the current user
-export const logout = (app) => {
+export const logout = (setCurrUser) => {
     const url = `${API_HOST}/users/logout`;
 
     fetch(url)
         .then(res => {
-            app.setState({
-                currentUser: null,
-                message: { type: "", body: "" }
-            });
+            setCurrUser(null)
         })
         .catch(error => {
             console.log(error);
