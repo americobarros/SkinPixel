@@ -96,7 +96,7 @@ app.use(
         },
         // store the sessions on the database in production
         store: env === 'production' ? MongoStore.create({
-                                                mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/SkinPixelAPI'
+                                                mongoUrl: 'mongodb+srv://mymongo:mymongo@cluster0.ihqrm.mongodb.net/SkinPixelAPI'
                                  }) : null
     })
 );
@@ -182,42 +182,14 @@ app.post('/api/users', mongoChecker, async (req, res) => {
     }
 })
 
-/** Student resource routes **/
-// a POST route to *create* a student
-app.post('/api/students', mongoChecker, authenticate, async (req, res) => {
-    log(`Adding student ${req.body.name}, created by user ${req.user._id}`)
-
-    // Create a new student using the Student mongoose model
-    const student = new Student({
-        name: req.body.name,
-        year: req.body.year,
-        creator: req.user._id // creator id from the authenticate middleware
-    })
-
-
-    // Save student to the database
-    // async-await version:
-    try {
-        const result = await student.save() 
-        res.send(result)
-    } catch(error) {
-        log(error) // log server error to the console, not to the client.
-        if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
-            res.status(500).send('Internal server error')
-        } else {
-            res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
-        }
-    }
-})
-
 // a GET route to get all students
-app.get('/api/students', mongoChecker, authenticate, async (req, res) => {
+app.get('/api/users', mongoChecker, authenticate, async (req, res) => {
 
     // Get the students
     try {
-        const students = await Student.find({creator: req.user._id})
+        const users = await Student.find({ isAdmin: true })
         // res.send(students) // just the array
-        res.send({ students }) // can wrap students in object if want to add more properties
+        res.send({ users }) // can wrap students in object if want to add more properties
     } catch(error) {
         log(error)
         res.status(500).send("Internal Server Error")
