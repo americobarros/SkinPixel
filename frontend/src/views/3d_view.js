@@ -19,10 +19,10 @@ const CameraControls = () => {
             ref={controls}
             args={[camera, domElement]}
             enableZoom={true}
-            maxAzimuthAngle={Math.PI / 4}
+/*            maxAzimuthAngle={Math.PI / 4}
             maxPolarAngle={Math.PI}
             minAzimuthAngle={-Math.PI / 4}
-            minPolarAngle={0}
+            minPolarAngle={0}*/
         />
     );
 };
@@ -32,12 +32,17 @@ const CameraControls = () => {
 function Pixel(props) {
     const mesh = useRef();
     const [hovered, setHover] = useState(false);
-    const [color, setColor] = useState('black');
+
+    const [color, setColor] = useState(props.clr.clr);
     return (
         <mesh
             {...props}
             ref={mesh}
-            onClick={(e) => setColor(props.color)}
+            onClick={(e) => {
+                setColor(props.color)
+                props.clr.clr = props.color
+            }
+                }
             onPointerOver={(e) => setHover(true)}
             onPointerOut={(e) => setHover(false)}>
             <boxBufferGeometry args={[1, 1, 1]} />

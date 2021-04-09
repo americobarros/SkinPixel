@@ -38,6 +38,7 @@ export default function EditSkin(props) {
   };
 
   function handleSave() {
+    console.log(arr2.map(x => {return x.clr}))
     if (skin) {
       skin.skin2D = editingSkin;
       if (newName != "") {
@@ -102,6 +103,77 @@ export default function EditSkin(props) {
       allFiles.forEach(f => f.remove())
   }
 
+  class Clr{
+    constructor(color, pos) {
+      this.clr = color
+      this.pos = pos
+    }
+  }
+  //const array = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, -1], [1, 0, -1], [1, 1, -1], [0, 1, -1]];
+  let array = [];
+  // build head
+  for (let i = 0; i < 8; ++i){
+    for (let j = 0; j < 8; ++j){
+      array.push([i, j, 0]);
+      array.push([i, j, 7]);
+      if(i == 0 || i == 7 || j == 0 || j == 7) {
+        for (let k = 1; k < 7; ++k) {
+        array.push([i, j, k])
+        }
+      }
+    }
+  }
+
+  for (let i = -4; i < 12; ++i){
+    array.push([i, -1, 2]);
+    array.push([i, -1, 3]);
+    array.push([i, -1, 4]);
+    array.push([i, -1, 5]);
+    array.push([i, -12, 2]);
+    array.push([i, -12, 3]);
+    array.push([i, -12, 4]);
+    array.push([i, -12, 5]);
+    for (let j = -2; j > -12; --j){
+      array.push([i, j, 2]);
+      array.push([i, j, 5]);
+      if(i == -4 || i == 11){
+        array.push([i, j, 3]);
+        array.push([i, j, 4]);
+      }
+    }
+
+  }
+
+  for (let i = 0; i < 8; ++i){
+    for (let j = -13; j > -24; --j){
+      array.push([i, j, 2]);
+      array.push([i, j, 5]);
+      if(i == 0 || i == 7){
+        array.push([i, j, 3]);
+        array.push([i, j, 4]);
+      }
+    }
+    array.push([i, -24, 2])
+    array.push([i, -24, 3])
+    array.push([i, -24, 4])
+    array.push([i, -24, 5])
+
+  }
+
+  const arr2 = array.map(x => {
+    return new Clr('white', x)
+  });
+  /*[
+      new Clr('white', [0, 0, 0]),
+    new Clr('white', [1, 0, 0]),
+    new Clr('white', [1, 1, 0]),
+    new Clr('white', [0, 1, 0])]*/
+
+
+  const pixels = arr2.map( x => {
+    return <Pixel color={color} position={x.pos} clr={x}/>;
+  });
+
   return (
     <div id="skinEditView">
       {console.log(newName)}
@@ -131,15 +203,16 @@ export default function EditSkin(props) {
       </div>
 
       <div class="displayFlex">
-        <Canvas>
+        <Canvas camera={{position : [20, 20, 20]}}>
           <CameraControls/>
           <ambientLight intensity={0.5} />
-          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-          <pointLight position={[-10, -10, -10]} />
+          <spotLight position={[100, 100, 100]} angle={0.15} penumbra={1} />
+          {pixels}
+{/*          <pointLight position={[-10, -10, -10]} />
           <Pixel color={color} position={[0,0,0]}/>
           <Pixel color={color} position={[1,0,0]}/>
           <Pixel color={color} position={[1,1,0]}/>
-          <Pixel color={color} position={[0,1,0]}/>
+          <Pixel color={color} position={[0,1,0]}/>*/}
         </Canvas>
         <div className="rightItems">
             <SwatchesPicker height="600px" onChangeComplete={handleChangeComplete}/>
