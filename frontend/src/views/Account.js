@@ -14,12 +14,15 @@ import SkinCard from '../components/SkinCard';
 
 import './Account.css';
 
+import { deleteUser, updateUser } from '../actions/user';
+
 export default function Account(props) {
-    const { currUser, allSkins, allUsers, handleSnackbarClick, allMaps, allResourcePacks} = props;
+    const { currUser, allSkins, allUsers, handleSnackbarClick, allMaps, allResourcePacks, setCurrUser} = props;
 
     const [drawerItem, setDrawerItem] = useState("Account Settings");
     const [open, setOpen] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
+    
     const [newUsername, setNewUsername] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [oldPassword, setOldPassword] = useState("");
@@ -28,7 +31,7 @@ export default function Account(props) {
 
     const handleClickOpen = (user) => {
         setUserToDelete(user)
-      setOpen(true);
+        setOpen(true);
     };
   
     const handleClose = () => {
@@ -36,19 +39,17 @@ export default function Account(props) {
     };
 
     function handleDeleteUser() {
-        const index = allUsers.indexOf(userToDelete);
-
-        if (index > -1) {
-          allUsers.splice(index, 1);
-        }
+        deleteUser(userToDelete);
         handleClose();
     }
 
     function handleSaveChanges() {
         let saveUsername = true, savePassword = true, saveEmail = true;
 
+        let updatedUser = currUser;
+
         if (newUsername != "") {
-            const userExists = allUsers.find(user => user.username == newUsername);
+            const userExists = allUsers.find(user => user.username == newUsername); // double check how allUsers comes back
             if (userExists) {
                 handleSnackbarClick({ message: "User with this username exists", color: 'red' })
                 saveUsername = false;
@@ -62,7 +63,7 @@ export default function Account(props) {
 
         }
         if (newBio != "") {
-            currUser.bio = newBio;
+            updatedUser.bio = newBio;
         }
         if (newEmail != "") {
             var re = /\S+@\S+\.\S+/;
@@ -74,17 +75,20 @@ export default function Account(props) {
 
         if (saveUsername && savePassword && saveEmail) {
             if (saveUsername && newUsername != "") {
-                currUser.username = newUsername
+                updatedUser.username = newUsername
             }
             if (savePassword && newPassword != "") {
-                currUser.password = newPassword
+                updatedUser.password = newPassword
             }
             if (newBio != "") {
-                currUser.bio = newBio
+                updatedUser.bio = newBio
             }
             if (newEmail != "") {
-                currUser.email = newEmail
+                updatedUser.email = newEmail
             }
+
+            updateUser(updatedUser, setCurrUser)
+
             handleSnackbarClick({ message: "Successfully saved changes", color: 'green' })
         }
     }
