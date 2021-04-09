@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
   BrowserRouter as Router,
@@ -41,10 +41,11 @@ export default function App() {
   const [currUser, setCurrUser] = useState(null);
 
   const [open, setOpen] = useState(false);
-  const [allUsers, setAllUsers] = useState(getAllUsers(setAllUsers))
-  // useEffect(() => {
-  //   getAllUsers(setAllUsers)
-  // }, [])
+  const [allUsers, setAllUsers] = useState(null)
+
+  useEffect(() => {
+    getAllUsers(setAllUsers)
+  }, [])
 
   const [snackbar, setSnackbar] = useState({
                                             open: false,
