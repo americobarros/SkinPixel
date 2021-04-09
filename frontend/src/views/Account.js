@@ -214,7 +214,7 @@ export default function Account(props) {
                     </>
                 )}
 
-                {drawerItem === "Admin Settings" && (
+                {currUser.isAdmin && drawerItem === "Admin Settings" && (
                     <>
                         <h2>Remove Users</h2>
                         <div>
