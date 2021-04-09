@@ -182,19 +182,81 @@ app.post('/api/users', mongoChecker, async (req, res) => {
     }
 })
 
-// a GET route to get all students
+// a GET route to get all users
 app.get('/api/users', mongoChecker, authenticate, async (req, res) => {
 
-    // Get the students
     try {
-        const users = await Student.find({ isAdmin: true })
-        // res.send(students) // just the array
+        const users = await User.find({ isAdmin: true })
         res.send({ users }) // can wrap students in object if want to add more properties
     } catch(error) {
         log(error)
         res.status(500).send("Internal Server Error")
     }
 
+})
+
+// other student API routes can go here...
+// ...
+// a GET route to get a certain user
+app.get('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
+
+    const id = req.params.id
+
+    try {
+        const user = await User.findById(id)
+        if (!user) {
+			res.status(404).send('Resource not found')
+		} else { 
+			res.send({ user })
+		}
+        
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+// a DELETE route to delete a certain user
+app.delete('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
+
+    const id = req.params.id
+
+    try {
+        const user = await User.removeById(id)
+        if (!user) {
+			res.status(404).send('Resource not found')
+		} else { 
+			res.send({ user })
+		}
+        
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+// a PATCH route to edit a user's credentials
+app.patch('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
+
+    const id = req.params.id
+
+    const fieldsToUpdate = {}
+	req.body.map((change) => {
+		const propertyToChange = change.path.substr(1)
+		fieldsToUpdate[propertyToChange] = change.value
+	})
+
+    try {
+        const user = await user.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, { new: true, useFindAndModify: false})
+		if (!user) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(user)
+		}
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
 })
 
 // POST route to create skin
@@ -255,8 +317,6 @@ app.patch('/skin/edit/:skinId', mongoChecker, async (req, res) => {
 
 // GET route to get skin
 
-// other student API routes can go here...
-// ...
 
 /*** Webpage routes below **********************************/
 // Serve the build
