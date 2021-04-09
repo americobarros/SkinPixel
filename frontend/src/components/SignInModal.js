@@ -32,7 +32,6 @@ export default function SignInModal(props) {
     }
 
     function handleLogin() {
-        // const user = allUsers.find(el => el.email == email && el.password == password);
         const user = {
             email: email,
             password: password

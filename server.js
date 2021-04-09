@@ -30,6 +30,9 @@ mongoose.set('useFindAndModify', false); // for some deprecation issues
 // import the mongoose models
 // const { Student } = require("./models/student");
 const { User } = require("./models/user");
+const { Skin } = require("./models/skin");
+const { Map } = require("./models/map");
+const { Resource } = require("./models/resource");
 
 // to validate object IDs
 const { ObjectID } = require("mongodb");
@@ -183,10 +186,10 @@ app.post('/api/users', mongoChecker, async (req, res) => {
 })
 
 // a GET route to get all users
-app.get('/api/users', mongoChecker, authenticate, async (req, res) => {
+app.get('/api/users', mongoChecker, async (req, res) => {
 
     try {
-        const users = await User.find({ isAdmin: true })
+        const users = await User.find()
         res.send({ users }) // can wrap students in object if want to add more properties
     } catch(error) {
         log(error)
@@ -386,7 +389,7 @@ app.post('/newresource', mongoChecker, async (req, res) => {
     var current_date=new Date();
 
 	// create the mf resource
-    const resource = new Skin({
+    const resource = new Resource({
         id: Math.random(),
         createdAt: current_date,
         image: req.body.image,
