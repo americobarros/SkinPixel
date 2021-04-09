@@ -201,7 +201,7 @@ app.get('/api/users', mongoChecker, async (req, res) => {
 // other student API routes can go here...
 // ...
 // a GET route to get a certain user
-app.get('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
+app.get('/api/users/:id', mongoChecker, async (req, res) => {
 
     const id = req.params.id
 
@@ -220,12 +220,12 @@ app.get('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
 })
 
 // a DELETE route to delete a certain user
-app.delete('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
+app.delete('/api/users/:id', mongoChecker, async (req, res) => {
 
     const id = req.params.id
 
     try {
-        const user = await User.removeById(id)
+        const user = await User.remove({ _id: id })
         if (!user) {
 			res.status(404).send('Resource not found')
 		} else { 
