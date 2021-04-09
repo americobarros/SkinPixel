@@ -30,6 +30,9 @@ mongoose.set('useFindAndModify', false); // for some deprecation issues
 // import the mongoose models
 // const { Student } = require("./models/student");
 const { User } = require("./models/user");
+const { Skin } = require("./models/skin");
+const { Map } = require("./models/map");
+const { Resource } = require("./models/resource");
 
 // to validate object IDs
 const { ObjectID } = require("mongodb");
@@ -386,7 +389,7 @@ app.post('/newresource', mongoChecker, async (req, res) => {
     var current_date=new Date();
 
 	// create the mf resource
-    const resource = new Skin({
+    const resource = new Resource({
         id: Math.random(),
         createdAt: current_date,
         image: req.body.image,
