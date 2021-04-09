@@ -11,7 +11,7 @@ import { StylesProvider } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import './App.css';
-import { currUserX, allUsers, allSkins, allResourcePacks, emptySkin, allMaps } from './dummyData.js';
+import { allSkins, allResourcePacks, allMaps } from './dummyData.js';
 
 import Landing from './views/Landing';
 import ViewResource from './views/ViewResourcePack'; 
@@ -24,12 +24,24 @@ import Account from './views/Account';
 
 import Header from './components/Header';
 import SignInModal from './components/SignInModal';
-import { logout } from './actions/user';
+import { logout, getAllUsers } from './actions/user';
+
+const emptySkin = [["#fff", "ffff", "#fff", "ffff"],
+                   ["#fff", "ffff", "#fff", "ffff"],
+                   ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+                   ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+                   ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+                   ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
+                   ["#fff", "ffff", "#fff", "ffff"],
+                   ["#fff", "ffff", "#fff", "ffff"],
+                   ["#fff", "ffff", "#fff", "ffff"],
+                   ["#fff", "ffff", "#fff", "ffff"]];
 
 export default function App() {
-  const [currUser, setCurrUser] = useState(currUserX);
+  const [currUser, setCurrUser] = useState(null);
 
   const [open, setOpen] = useState(false);
+  const [allUsers, setAllUsers] = useState(getAllUsers(setAllUsers))
 
   const [snackbar, setSnackbar] = useState({
                                             open: false,
@@ -84,13 +96,21 @@ export default function App() {
                   backgroundColor: snackbar.color
                 },
               }}
-              
             />
           <Switch>
             <Route exact path="/" children={<Landing allUsers={allUsers} allSkins={allSkins} allMaps={allMaps} allResourcePacks={allResourcePacks}/>} />
             
             {currUser
-              ? <Route exact path="/account" children={<Account currUser={currUser} allSkins={allSkins} allUsers={allUsers} allResourcePacks={allResourcePacks} handleSnackbarClick={handleSnackbarClick} allMaps={allMaps} />}/>
+              ? <Route exact path="/account" children={<Account
+                                                        currUser={currUser}
+                                                        allSkins={allSkins}
+                                                        allUsers={allUsers}
+                                                        allMaps={allMaps}
+                                                        allResourcePacks={allResourcePacks}
+                                                        handleSnackbarClick={handleSnackbarClick}
+                                                        setCurrUser={setCurrUser}
+                                                      />}
+                  />
               : <Redirect exact to="/" allUsers={allUsers} allSkins={allSkins} allMaps={allMaps}/>
             }
             

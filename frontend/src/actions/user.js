@@ -81,3 +81,84 @@ export const logout = (setCurrUser) => {
             console.log(error);
         });
 };
+
+// A function to send a DELETE request to delete a user
+export const deleteUser = (userToDelete) => {
+    // Create our request constructor with all the parameters we need
+    const request = new Request(`${API_HOST}/api/users/${userToDelete.id}`, {
+        method: "delete",
+        body: {},
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            }
+        })
+        .then(user => {
+            console.log(user)
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+// A function to send a GET request to get all users
+export const getAllUsers = (setAllUsers) => {
+    // Create our request constructor with all the parameters we need
+    const request = new Request(`${API_HOST}/api/users`, {
+        method: "get",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            }
+        })
+        .then(allUsers => {
+            setAllUsers(allUsers)
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+// A function to send a GET request to get all users
+export const updateUser = (updatedUser, setCurrUser) => {
+    // Create our request constructor with all the parameters we need
+    const request = new Request(`${API_HOST}/api/users/${updatedUser.id}`, {
+        method: "patch",
+        body: JSON.stringify(updatedUser),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            }
+        })
+        .then(user => {
+            setCurrUser(user)
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
+

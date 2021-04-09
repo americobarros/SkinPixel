@@ -186,10 +186,10 @@ app.post('/api/users', mongoChecker, async (req, res) => {
 })
 
 // a GET route to get all users
-app.get('/api/users', mongoChecker, authenticate, async (req, res) => {
+app.get('/api/users', mongoChecker, async (req, res) => {
 
     try {
-        const users = await User.find({ isAdmin: true })
+        const users = await User.find()
         res.send({ users }) // can wrap students in object if want to add more properties
     } catch(error) {
         log(error)

@@ -232,14 +232,3 @@ export const allMaps = maps;
 export const allSkins = theirSkins.concat(hannahsSkins);
 export const allUsers = [hannah, someoneElse, ian];
 export const allResourcePacks = iansResourcePacks;
-export const currUserX = hannah;
-export const emptySkin = [["#fff", "ffff", "#fff", "ffff"],
-                            ["#fff", "ffff", "#fff", "ffff"],
-                            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-                            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-                            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-                            ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-                            ["#fff", "ffff", "#fff", "ffff"],
-                            ["#fff", "ffff", "#fff", "ffff"],
-                            ["#fff", "ffff", "#fff", "ffff"],
-                            ["#fff", "ffff", "#fff", "ffff"]];
