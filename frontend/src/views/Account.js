@@ -87,7 +87,6 @@ export default function Account(props) {
                 updatedUser.email = newEmail
             }
 
-            console.log(updatedUser)
             updateUser(updatedUser, setCurrUser)
 
             handleSnackbarClick({ message: "Successfully saved changes", color: 'green' })
