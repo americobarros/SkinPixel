@@ -294,25 +294,23 @@ app.patch('/skin/edit/:skinId', mongoChecker, async (req, res) => {
 	// get wildcards
     const skin_id = req.params.id
 
-	// try {
-	// 	const restaurant = await Restaurant.findById(id)
-	// 	if (!restaurant) {
-	// 		res.status(404).send('Resource not found')  // could not find this student
-	// 	} else { 
-	// 		const patched_reservation = restaurant.reservations.id(resv_id)
-	// 		patched_reservation = [req.body.time, req.body.people]
-	// 		const result = await restaurant.save()	
-	// 		if (!result) {
-	// 			res.status(404).send()
-	// 		} else {   
-	// 			res.send({reservation: patched_reservation, restaurant: result})
-	// 		}
-			
-	// 	}
-	// } catch(error) {
-	// 	log(error)
-	// 	res.status(500).send('Internal Server Error')  // server error
-	// }
+    const fieldsToUpdate = {}
+	req.body.map((change) => {
+		const propertyToChange = change.path.substr(1)
+		fieldsToUpdate[propertyToChange] = change.value
+	})
+
+    try {
+        const skin = await skin.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, { new: true, useFindAndModify: false})
+		if (!skin) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(skin)
+		}
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
 })
 
 // GET route to get skin
