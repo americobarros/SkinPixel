@@ -197,6 +197,40 @@ app.get('/api/users', mongoChecker, authenticate, async (req, res) => {
 
 })
 
+// POST route to create skin
+app.post('/newskin', mongoChecker, async (req, res) => {
+    log(req.body)
+
+    var current_date=new Date();
+
+	// create the mf skin
+    const skin = new Skin({
+        id: Math.random(),
+        createdAt: current_date,
+        image: req.body.image,
+        name: req.body.name,
+        skin2D: req.body.skin2D,
+        username: req.body.username,
+    })
+
+    // save the mf skin now
+    try {
+        const newSkin = await user.save()
+        res.send(newSkin)
+    } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+// PATCH route to edit skin
+
+// GET route to get skin
+
 // other student API routes can go here...
 // ...
 
@@ -209,12 +243,18 @@ app.get("*", (req, res) => {
     // check for page routes that we expect in the frontend to provide correct status code.
     const goodPageRoutes = ["/", 
                             "/account",
+
+                            // patch (edit)
                             "/skin/edit/:skinId",
                             "/resource/edit/:resourceId",
                             "/map/edit/:mapId",
+
+                            // get (view)
                             "/map/:mapId",
                             "/resource/:resourceId",
                             "/skin/:skinId",
+                            
+                            // post (create)
                             "/newskin",
                             "/newmap",
                             "/newresource"
