@@ -190,7 +190,7 @@ app.get('/api/users', mongoChecker, async (req, res) => {
 
     try {
         const users = await User.find()
-        res.send({ users }) // can wrap students in object if want to add more properties
+        res.send(users) // can wrap students in object if want to add more properties
     } catch(error) {
         log(error)
         res.status(500).send("Internal Server Error")
@@ -201,7 +201,7 @@ app.get('/api/users', mongoChecker, async (req, res) => {
 // other student API routes can go here...
 // ...
 // a GET route to get a certain user
-app.get('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
+app.get('/api/users/:id', mongoChecker, async (req, res) => {
 
     const id = req.params.id
 
@@ -210,7 +210,7 @@ app.get('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
         if (!user) {
 			res.status(404).send('Resource not found')
 		} else { 
-			res.send({ user })
+			res.send(user)
 		}
         
     } catch(error) {
@@ -220,16 +220,16 @@ app.get('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
 })
 
 // a DELETE route to delete a certain user
-app.delete('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
+app.delete('/api/users/:id', mongoChecker, async (req, res) => {
 
     const id = req.params.id
 
     try {
-        const user = await User.removeById(id)
+        const user = await User.remove({ _id: id })
         if (!user) {
 			res.status(404).send('Resource not found')
 		} else { 
-			res.send({ user })
+			res.send(user)
 		}
         
     } catch(error) {
@@ -239,18 +239,17 @@ app.delete('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
 })
 
 // a PATCH route to edit a user's credentials
-app.patch('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
+app.patch('/api/users/:id', mongoChecker, async (req, res) => {
 
     const id = req.params.id
 
-    const fieldsToUpdate = {}
-	req.body.map((change) => {
-		const propertyToChange = change.path.substr(1)
-		fieldsToUpdate[propertyToChange] = change.value
-	})
+    const username = req.body.username;
+    const bio = req.body.bio;
+    const password = req.body.password;
+    const email = req.body.email;
 
     try {
-        const user = await user.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, { new: true, useFindAndModify: false})
+        const user = await User.findOneAndUpdate({_id: id}, {$set: { username: username, bio: bio, password: password, email: email }}, { new: true, useFindAndModify: false})
 		if (!user) {
 			res.status(404).send('Resource not found')
 		} else {   

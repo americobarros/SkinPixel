@@ -22,7 +22,7 @@ export default function Account(props) {
     const [drawerItem, setDrawerItem] = useState("Account Settings");
     const [open, setOpen] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
-    
+
     const [newUsername, setNewUsername] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [oldPassword, setOldPassword] = useState("");

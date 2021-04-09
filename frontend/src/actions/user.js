@@ -137,6 +137,8 @@ export const getAllUsers = (setAllUsers) => {
 
 // A function to send a GET request to get all users
 export const updateUser = (updatedUser, setCurrUser) => {
+    console.log(updatedUser)
+
     // Create our request constructor with all the parameters we need
     const request = new Request(`${API_HOST}/api/users/${updatedUser.id}`, {
         method: "patch",
