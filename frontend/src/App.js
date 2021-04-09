@@ -42,6 +42,9 @@ export default function App() {
 
   const [open, setOpen] = useState(false);
   const [allUsers, setAllUsers] = useState(getAllUsers(setAllUsers))
+  // useEffect(() => {
+  //   getAllUsers(setAllUsers)
+  // }, [])
 
   const [snackbar, setSnackbar] = useState({
                                             open: false,
