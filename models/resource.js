@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 // Making a Mongoose model a little differently: a Mongoose Schema
 // Allows us to add additional functionality.
-const SkinSchema = new mongoose.Schema({
+const ResourceSchema = new mongoose.Schema({
     id: {
         type: Number,
         required: true,
@@ -20,12 +20,13 @@ const SkinSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    name: {
+    file: {
+        // file path
         type: String,
         required: true
     },
-    skin2D: {
-        type: Array,
+    name: {
+        type: String,
         required: true
     },
 	username: {
@@ -39,6 +40,6 @@ const SkinSchema = new mongoose.Schema({
 })
 
 // make a model using the User schema
-const Skin = mongoose.model('Skin', SkinSchema)
-module.exports = { Skin }
+const Resource = mongoose.model('Resource', ResourceSchema)
+module.exports = { Resource }
 
