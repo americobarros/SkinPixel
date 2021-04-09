@@ -259,6 +259,8 @@ app.patch('/api/users/:id', mongoChecker, authenticate, async (req, res) => {
     }
 })
 
+// SKINS ------------------------------------------------------------------------------------------------
+
 // POST route to create skin
 app.post('/newskin', mongoChecker, async (req, res) => {
     log(req.body)
@@ -277,7 +279,7 @@ app.post('/newskin', mongoChecker, async (req, res) => {
 
     // save the mf skin now
     try {
-        const newSkin = await user.save()
+        const newSkin = await skin.save()
         res.send(newSkin)
     } catch (error) {
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
@@ -292,7 +294,7 @@ app.post('/newskin', mongoChecker, async (req, res) => {
 // PATCH route to edit skin
 app.patch('/skin/edit/:skinId', mongoChecker, async (req, res) => {
 	// get wildcards
-    const skin_id = req.params.id
+    const id = req.params.id
 
     const fieldsToUpdate = {}
 	req.body.map((change) => {
@@ -313,7 +315,125 @@ app.patch('/skin/edit/:skinId', mongoChecker, async (req, res) => {
     }
 })
 
-// GET route to get skin
+// GET route to get skin 
+
+
+
+// MAPS ------------------------------------------------------------------------------------------------
+
+// POST route to create map
+app.post('/newmap', mongoChecker, async (req, res) => {
+    log(req.body)
+
+    var current_date=new Date();
+
+	// create the mf map
+    const map = new Map({
+        id: Math.random(),
+        createdAt: current_date,
+        image: req.body.image,
+        file: req.body.file,
+        name: req.body.name,
+        username: req.body.username,
+    })
+
+    // save the mf map now
+    try {
+        const newMap = await map.save()
+        res.send(newMap)
+    } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+// PATCH route to edit map
+app.patch('/map/edit/:mapId', mongoChecker, async (req, res) => {
+	// get wildcards
+    const id = req.params.id
+
+    const fieldsToUpdate = {}
+	req.body.map((change) => {
+		const propertyToChange = change.path.substr(1)
+		fieldsToUpdate[propertyToChange] = change.value
+	})
+
+    try {
+        const map = await map.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, { new: true, useFindAndModify: false})
+		if (!map) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(map)
+		}
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+// GET route to get map
+
+// RESOURCES ------------------------------------------------------------------------------------------------
+
+// POST route to create resource
+app.post('/newresource', mongoChecker, async (req, res) => {
+    log(req.body)
+
+    var current_date=new Date();
+
+	// create the mf resource
+    const resource = new Skin({
+        id: Math.random(),
+        createdAt: current_date,
+        image: req.body.image,
+        file: req.body.file,
+        name: req.body.name,
+        username: req.body.username,
+    })
+
+    // save the mf resource now
+    try {
+        const newResource = await resource.save()
+        res.send(newResource)
+    } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+// PATCH route to edit resource
+app.patch('/resource/edit/:resourceId', mongoChecker, async (req, res) => {
+	// get wildcards
+    const id = req.params.id
+
+    const fieldsToUpdate = {}
+	req.body.map((change) => {
+		const propertyToChange = change.path.substr(1)
+		fieldsToUpdate[propertyToChange] = change.value
+	})
+
+    try {
+        const resource = await resource.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, { new: true, useFindAndModify: false})
+		if (!resource) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(resource)
+		}
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+// GET route to get resource
 
 
 /*** Webpage routes below **********************************/
