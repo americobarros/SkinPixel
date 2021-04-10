@@ -56,7 +56,7 @@ function isMongoError(error) { // checks for first error returned by promise rej
 const mongoChecker = (req, res, next) => {
     // check mongoose connection established.
     if (mongoose.connection.readyState != 1) {
-        console.log('Issue with mongoose connection')
+        log('Issue with mongoose connection')
         res.status(500).send('Internal server error')
         return;
     } else {
@@ -272,6 +272,7 @@ app.post('/api/newskin', mongoChecker, async (req, res) => {
 
 	// create the mf skin
     const skin = new Skin({
+        id: Math.random(),
         createdAt: current_date,
         image: req.body.image,
         name: req.body.name,
@@ -289,7 +290,7 @@ app.post('/api/newskin', mongoChecker, async (req, res) => {
             res.status(500).send('Internal server error')
         } else {
             log(error)
-            res.status(400).send('Bad Request') // bad request for changing the student.
+            res.status(400).send('Bad Request') // bad request for changing.
         }
     }
 })
@@ -321,7 +322,7 @@ app.get('/api/skins', mongoChecker, async (req, res) => {
 })
 
 // PATCH route to edit skin
-app.patch('/skin/edit/:skinId', mongoChecker, async (req, res) => {
+app.patch('/api/skins/:skinId', mongoChecker, async (req, res) => {
 	// get wildcards
     const id = req.params.id
 
@@ -351,19 +352,18 @@ app.patch('/skin/edit/:skinId', mongoChecker, async (req, res) => {
 // MAPS ------------------------------------------------------------------------------------------------
 
 // POST route to create map
-app.post('/newmap', mongoChecker, async (req, res) => {
+app.post('/api/maps', mongoChecker, async (req, res) => {
     log(req.body)
 
     var current_date=new Date();
 
 	// create the mf map
     const map = new Map({
-        id: Math.random(),
         createdAt: current_date,
         image: req.body.image,
         file: req.body.file,
         name: req.body.name,
-        username: req.body.username,
+        username: req.body.username
     })
 
     // save the mf map now
@@ -375,13 +375,13 @@ app.post('/newmap', mongoChecker, async (req, res) => {
             res.status(500).send('Internal server error')
         } else {
             log(error)
-            res.status(400).send('Bad Request') // bad request for changing the student.
+            res.status(400).send('Bad Request') // bad request for changing.
         }
     }
 })
 
 // PATCH route to edit map
-app.patch('/map/edit/:mapId', mongoChecker, async (req, res) => {
+app.patch('/api/maps/:id', mongoChecker, async (req, res) => {
 	// get wildcards
     const id = req.params.id
 
@@ -404,24 +404,53 @@ app.patch('/map/edit/:mapId', mongoChecker, async (req, res) => {
     }
 })
 
-// GET route to get map
+// a GET route to get a map
+app.get('/api/maps/:id', mongoChecker, async (req, res) => {
+
+    const id = req.params.id
+
+    try {
+        const map = await Map.findById(id)
+        if (!map) {
+			res.status(404).send('Resource not found')
+		} else {
+			res.send(map)
+		}
+
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+// a GET route to get all maps
+app.get('/api/maps', mongoChecker, async (req, res) => {
+
+    try {
+        const maps = await Map.find()
+        res.send(maps)
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
 
 // RESOURCES ------------------------------------------------------------------------------------------------
 
 // POST route to create resource
-app.post('/newresource', mongoChecker, async (req, res) => {
+app.post('/api/resource', mongoChecker, async (req, res) => {
     log(req.body)
 
     var current_date=new Date();
 
 	// create the mf resource
     const resource = new Resource({
-        id: Math.random(),
         createdAt: current_date,
         image: req.body.image,
         file: req.body.file,
         name: req.body.name,
-        username: req.body.username,
+        username: req.body.username
     })
 
     // save the mf resource now
@@ -439,7 +468,7 @@ app.post('/newresource', mongoChecker, async (req, res) => {
 })
 
 // PATCH route to edit resource
-app.patch('/resource/edit/:resourceId', mongoChecker, async (req, res) => {
+app.patch('/api/resource/:id', mongoChecker, async (req, res) => {
 	// get wildcards
     const id = req.params.id
 
@@ -450,7 +479,7 @@ app.patch('/resource/edit/:resourceId', mongoChecker, async (req, res) => {
 	})
 
     try {
-        const resource = await resource.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, { new: true, useFindAndModify: false})
+        const resource = await Resource.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, { new: true, useFindAndModify: false})
 		if (!resource) {
 			res.status(404).send('Resource not found')
 		} else {   
@@ -462,8 +491,37 @@ app.patch('/resource/edit/:resourceId', mongoChecker, async (req, res) => {
     }
 })
 
-// GET route to get resource
+// a GET route to get a resource
+app.get('/api/resource/:id', mongoChecker, async (req, res) => {
 
+    const id = req.params.id
+
+    try {
+        const resouce = await Resource.findById(id)
+        if (!resource) {
+			res.status(404).send('Resource not found')
+		} else {
+			res.send(resource)
+		}
+
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+// a GET route to get all resource packs
+app.get('/api/resource', mongoChecker, async (req, res) => {
+
+    try {
+        const resouces = await Resource.find()
+        res.send(resouces)
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
 
 /*** Webpage routes below **********************************/
 // Serve the build
@@ -488,12 +546,10 @@ app.get("*", (req, res) => {
                             // post (create)
                             "/newskin",
                             "/newmap",
-                            "/newresource",
-                            "/api/skins"
+                            "/newresource"
                         ];
     if (!goodPageRoutes.includes(req.url)) {
         // if url not in expected page routes, set status to 404.
-        log('bad route');
         res.status(404);
     }
 

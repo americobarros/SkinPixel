@@ -40,7 +40,7 @@ export const getSkins = async (user) => {
 
 export const getSkin = (image_id) => {
     let url = `${API_HOST}/api/skins?image_id=${image_id}`
-    fetch(url)
+    return fetch(url)
         .then(res => {
             if (res.status === 200) {
                 return res.json();
@@ -48,5 +48,6 @@ export const getSkin = (image_id) => {
         })
         .catch(error => {
             console.log(error);
+            return new Promise((resolve => {resolve({skins: []})}))
         });
 }
