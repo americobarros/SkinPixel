@@ -358,7 +358,6 @@ app.post('/api/maps', mongoChecker, async (req, res) => {
 
 	// create the mf map
     const map = new Map({
-        id: Math.random(),
         createdAt: current_date,
         image: req.body.image,
         file: req.body.file,
@@ -381,7 +380,7 @@ app.post('/api/maps', mongoChecker, async (req, res) => {
 })
 
 // PATCH route to edit map
-app.patch('/api/maps/:mapId', mongoChecker, async (req, res) => {
+app.patch('/api/maps/:id', mongoChecker, async (req, res) => {
 	// get wildcards
     const id = req.params.id
 
@@ -404,7 +403,7 @@ app.patch('/api/maps/:mapId', mongoChecker, async (req, res) => {
     }
 })
 
-// a GET route to get a map skin
+// a GET route to get a map
 app.get('/api/maps/:id', mongoChecker, async (req, res) => {
 
     const id = req.params.id
@@ -446,7 +445,6 @@ app.post('/api/resource', mongoChecker, async (req, res) => {
 
 	// create the mf resource
     const resource = new Resource({
-        id: Math.random(),
         createdAt: current_date,
         image: req.body.image,
         file: req.body.file,
@@ -469,7 +467,7 @@ app.post('/api/resource', mongoChecker, async (req, res) => {
 })
 
 // PATCH route to edit resource
-app.patch('/api/resource/:resourceId', mongoChecker, async (req, res) => {
+app.patch('/api/resource/:id', mongoChecker, async (req, res) => {
 	// get wildcards
     const id = req.params.id
 
@@ -480,7 +478,7 @@ app.patch('/api/resource/:resourceId', mongoChecker, async (req, res) => {
 	})
 
     try {
-        const resource = await resource.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, { new: true, useFindAndModify: false})
+        const resource = await Resource.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, { new: true, useFindAndModify: false})
 		if (!resource) {
 			res.status(404).send('Resource not found')
 		} else {   
@@ -492,8 +490,37 @@ app.patch('/api/resource/:resourceId', mongoChecker, async (req, res) => {
     }
 })
 
-// GET route to get resource
+// a GET route to get a resource
+app.get('/api/resource/:id', mongoChecker, async (req, res) => {
 
+    const id = req.params.id
+
+    try {
+        const resouce = await Resource.findById(id)
+        if (!resource) {
+			res.status(404).send('Resource not found')
+		} else { 
+			res.send(resource)
+		}
+        
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+// a GET route to get all resource packs
+app.get('/api/resource', mongoChecker, async (req, res) => {
+
+    try {
+        const resouces = await Resource.find()
+        res.send(resouces)
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
 
 /*** Webpage routes below **********************************/
 // Serve the build
