@@ -39,8 +39,10 @@ export default function ViewSkin(props) {
   const [newComment, setNewComment] = useState("");
 
   function handlePost() {
-    skin.comments.push({ createdAt: 3, user: currUser, text: newComment});
-    setNewComment("");
+    if(currUser){
+      skin.comments.push({ createdAt: 3, user: currUser, text: newComment});
+      setNewComment("");
+    }
   }
 
   return (
@@ -73,7 +75,7 @@ export default function ViewSkin(props) {
               <text>Skin Info:</text>
               <h3>{skin.name}</h3>
               <img src={skin.image} alt={skin.name} className="skinImage"/>
-              <p>Skin Created On: {skin.createdAt}</p>
+              <p>Skin Created On: <br></br>{skin.createdAt}</p>
             </span>
           </div>
           <div id="userInfo">
@@ -86,11 +88,11 @@ export default function ViewSkin(props) {
           </div>
         </div>
       </div>
-
+      
       {/* comment bar */}
       <div class="displayFlex">
-        <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} onChange={(e) => setNewComment(e.target.value)}/>
-        <Button className="commentButton" variant="outlined" onClick={handlePost}>Post</Button>
+        <TextField id="outlined-basic" label={currUser?"Comment":"Login to comment"} disable variant="outlined" disabled={!currUser} className={classnames("comment", classes.root)} onChange={(e) => setNewComment(e.target.value)}/>
+        <Button className="commentButton" variant="outlined" onClick={handlePost} disabled={!currUser}>Post</Button>
       </div>
 
       {/* comment display */}
