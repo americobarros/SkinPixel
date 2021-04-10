@@ -11,7 +11,7 @@ import { StylesProvider } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import './App.css';
-import { allSkins, allResourcePacks, allMaps } from './dummyData.js';
+import { allSkins, allMaps } from './dummyData.js';
 
 import Landing from './views/Landing';
 import ViewResource from './views/ViewResourcePack'; 
@@ -25,6 +25,7 @@ import Account from './views/Account';
 import Header from './components/Header';
 import SignInModal from './components/SignInModal';
 import { logout, getAllUsers } from './actions/user';
+import {getAllResourcePacks} from './actions/resource';
 
 
 export default function App() {
@@ -32,9 +33,14 @@ export default function App() {
 
   const [open, setOpen] = useState(false);
   const [allUsers, setAllUsers] = useState(null)
+  const [allResourcePacks, setAllResourcePacks] = useState(null)
 
   useEffect(() => {
     getAllUsers(setAllUsers)
+  }, [])
+
+  useEffect(() => {
+    getAllResourcePacks(setAllResourcePacks)
   }, [])
 
   const [snackbar, setSnackbar] = useState({
