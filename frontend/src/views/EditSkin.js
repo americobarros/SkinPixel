@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { Link, useParams, useHistory } from "react-router-dom";
 import { SwatchesPicker } from 'react-color';
 import Dropzone from 'react-dropzone-uploader'
@@ -10,10 +10,16 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import {CameraControls, Pixel} from "./3d_view";
+
+import {createSkin, getSkins} from "../actions/skin";
 
 import 'react-edit-text/dist/index.css';
 
 import './EditSkin.css';
+import {Canvas} from 'react-three-fiber';
+import SkinCard from "../components/SkinCard";
+import {getSkin} from "../actions/skin";
 
 export default function EditSkin(props) {
   const { allSkins, handleSnackbarClick, emptySkin, currUser } = props;
@@ -21,27 +27,77 @@ export default function EditSkin(props) {
   let history = useHistory()
   // const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
 
-  const skin = allSkins.find(skin => skin.id == skinId);
+  //const skin = allSkins.find(skin => skin.id === skinId);
 
   const [color, setColor] = useState(null);
   const [rerender, setRerender] = useState(false);
-  const [editingSkin, setEditingSkin] = useState(skin ? skin.skin2D : emptySkin);
+  //const [editingSkin, setEditingSkin] = useState(skin ? skin.skin2D : emptySkin);
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState("");
-  const [file, setFile] = useState("")
+  const [file, setFile] = useState("");
+  const [clrs, setClrs] = useState([]);
+  const [skin, setSkin] = useState(null);
 
-  function handleChangeComplete(color, event) {
+  function handleChangeComplete(color) {
     setColor(color.hex.toString());
   };
 
-  function handleSave() {
-    if (skin) {
-      skin.skin2D = editingSkin;
-      if (newName != "") {
-        skin.name = newName;
+  function SkinRendering() {
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const buildPixels = (positions, skinColors) => {
+      const clrs = [];
+      for(let i = 0; i < positions.length; i++){
+        clrs.push(new Clr(skinColors[i], positions[i]))
       }
-      if (skin.image != null) {
-        skin.image = file;
+      return clrs;
+    }
+    useEffect(() => {
+      if(skinId) {
+        getSkin(skinId)
+            .then(
+                (result) => {
+                  setIsLoaded(true);
+                  setClrs(buildPixels(getPositions(), result.skin2D));
+                },
+                (error) => {
+                  setIsLoaded(true);
+                  setError(error);
+                }
+            )
+      } else {
+          setIsLoaded(true);
+          setClrs(buildPixels(getPositions(), Array(1036).fill('white')));
+          setSkin({name:""})
+      }
+    }, [])
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+          <Canvas camera={{position : [20, 20, 20]}}>
+            <CameraControls/>
+            <ambientLight intensity={0.5} />
+            <spotLight position={[100, 100, 100]} angle={0.15} penumbra={1} />
+            { clrs.map( x => {
+              return <Pixel color={color} position={x.pos} clr={x}/>;
+            })}
+          </Canvas>
+      );
+    }
+  }
+
+  function handleSave() {
+    let colors = clrs.map(x => {return x.clr});
+    if (skinId) {
+      const updateSkin = {
+        skin2D: colors,
+      }
+      if (newName != "") {
+        updateSkin.name = newName;
       }
       
       handleSnackbarClick({ message: 'Successfully saved skin', color: 'green' });
@@ -50,18 +106,20 @@ export default function EditSkin(props) {
     else {
       if (newName != "" && file != null) {
         const latestId = Math.max.apply(Math, allSkins.map(function(skin) { return skin.id; })) + 1;
-        
+        console.log(file);
         const newSkin = {
             id: latestId,
             createdAt: 10,
             image: file,
             name: newName,
-            skin2D: editingSkin,
-            user: currUser,
+            skin2D: colors,
+            username: currUser.username,
+            user: currUser._id,
             comments: []
         };
 
-        allSkins.push(newSkin);
+        createSkin(newSkin)
+        //allSkins.push(newSkin);
         handleSnackbarClick({ message: 'New skin successfully saved', color: 'green' });
         history.push("/account")
       }
@@ -72,16 +130,16 @@ export default function EditSkin(props) {
   }
 
   function handleDelete() {
-    const index = allSkins.indexOf(skin);
-
-    if (index > -1) {
-      allSkins.splice(index, 1);
-    }
-    history.push("/account")
+    // const index = allSkins.indexOf(skin);
+    //
+    // if (index > -1) {
+    //   allSkins.splice(index, 1);
+    // }
+    // history.push("/account")
   }
 
   const handleClickOpen = () => {
-    if (skin) {
+    if (skinId) {
       setOpen(true);
     }
     else {
@@ -93,20 +151,76 @@ export default function EditSkin(props) {
     setOpen(false);
   };
 
-  function setSkinColor(outer_index, inner_index) {
-    if (color) {
-      const changedSkin = editingSkin;
-      changedSkin[outer_index][inner_index] = color;
-      setEditingSkin(changedSkin);
-    }
-    setRerender(!rerender)
-  }
-
   // Return array of uploaded files after submit button is clicked
   const handleSubmit = (files, allFiles) => {
       setFile(URL.createObjectURL(files[0].file))
       allFiles.forEach(f => f.remove())
   }
+
+  class Clr {
+    constructor(color, pos) {
+      this.clr = color
+      this.pos = pos
+    }
+  }
+
+  function getPositions() {
+    // build head
+    let array = [];
+
+    for (let i = 0; i < 8; ++i) {
+      for (let j = 0; j < 8; ++j) {
+        array.push([i, j, 0]);
+        array.push([i, j, 7]);
+        if (i === 0 || i === 7 || j === 0 || j === 7) {
+          for (let k = 1; k < 7; ++k) {
+            array.push([i, j, k])
+          }
+        }
+      }
+    }
+
+    // build torso
+    for (let i = -4; i < 12; ++i) {
+      array.push([i, -1, 2]);
+      array.push([i, -1, 3]);
+      array.push([i, -1, 4]);
+      array.push([i, -1, 5]);
+      array.push([i, -12, 2]);
+      array.push([i, -12, 3]);
+      array.push([i, -12, 4]);
+      array.push([i, -12, 5]);
+      for (let j = -2; j > -12; --j) {
+        array.push([i, j, 2]);
+        array.push([i, j, 5]);
+        if (i == -4 || i == 11) {
+          array.push([i, j, 3]);
+          array.push([i, j, 4]);
+        }
+      }
+
+    }
+
+    // build legs
+    for (let i = 0; i < 8; ++i) {
+      for (let j = -13; j > -24; --j) {
+        array.push([i, j, 2]);
+        array.push([i, j, 5]);
+        if (i == 0 || i == 7) {
+          array.push([i, j, 3]);
+          array.push([i, j, 4]);
+        }
+      }
+      array.push([i, -24, 2])
+      array.push([i, -24, 3])
+      array.push([i, -24, 4])
+      array.push([i, -24, 5])
+
+    }
+    return array;
+  }
+
+
 
   return (
     <div id="skinEditView">
@@ -136,17 +250,7 @@ export default function EditSkin(props) {
       </div>
 
       <div class="displayFlex">
-        <div id="threeDView">
-          {editingSkin.map((row, outer_idx) =>
-            <div class="displayFlex">
-              {row.map((color, inner_idx) => (
-                <div>
-                  <div className="cube" onClick={() => setSkinColor(outer_idx, inner_idx)} style={{ backgroundColor: color }} />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <SkinRendering/>
         <div className="rightItems">
           <SwatchesPicker height="600px" onChangeComplete={handleChangeComplete}/>
           <Button className="ButtonStyle" variant="outlined" style={{ marginTop: '30px' }} onClick={handleSave}>Save</Button>
