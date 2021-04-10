@@ -22,7 +22,7 @@ To edit any of the commodities, follow the same path, but instead of clicking th
 
 ## Phase 2 Additions
 
-Routes were added to access (GET), create (POST) and edit (PATCH) user information, skins, maps and texture packs. MongoDB (along with Mongoose) was used to hold the information associated with these resources. 
+Routes were added to access (GET), create (POST) and edit (PATCH) user information, skins, maps and texture packs. Backend technologies that were used include MongoDB (along with Mongoose) and Express (for server side). MongoDB was used to hold the information associated with these resources (each had its own collection within the SkinPixel db). Debugging the database related actions was done in MongoDB Compass. Postman was also used to debug the request related actions. Express was used for the server side architecture. and as mentioned previously we had routes created for all four resource types (user, skins, maps and texture packs).
 
 ## Admin Privileges
 As admin, you can delete users from the Account page (navigable by the button on the nav bar).
