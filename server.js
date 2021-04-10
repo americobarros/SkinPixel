@@ -318,7 +318,11 @@ app.patch('/skin/edit/:skinId', mongoChecker, async (req, res) => {
 })
 
 // GET route to get skin 
+// app.get('/skin/edit/:skinId', mongoChecker, async (req, res) => {
+// 	// get wildcards
+//     const id = req.params.id
 
+// }
 
 
 // MAPS ------------------------------------------------------------------------------------------------
