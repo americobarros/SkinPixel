@@ -274,7 +274,7 @@ app.post('/api/skins', mongoChecker, async (req, res) => {
         image: req.body.image,
         name: req.body.name,
         skin2D: req.body.skin2D,
-        username: req.body.username,
+        username: req.body.username
     })
 
     // save the mf skin now
@@ -286,7 +286,7 @@ app.post('/api/skins', mongoChecker, async (req, res) => {
             res.status(500).send('Internal server error')
         } else {
             log(error)
-            res.status(400).send('Bad Request') // bad request for changing the student.
+            res.status(400).send('Bad Request') // bad request for changing.
         }
     }
 })
@@ -339,7 +339,7 @@ app.get('/api/skins', mongoChecker, async (req, res) => {
 
     try {
         const skins = await Skin.find()
-        res.send(skins) // can wrap students in object if want to add more properties
+        res.send(skins) 
     } catch(error) {
         log(error)
         res.status(500).send("Internal Server Error")
@@ -363,7 +363,7 @@ app.post('/api/maps', mongoChecker, async (req, res) => {
         image: req.body.image,
         file: req.body.file,
         name: req.body.name,
-        username: req.body.username,
+        username: req.body.username
     })
 
     // save the mf map now
@@ -375,7 +375,7 @@ app.post('/api/maps', mongoChecker, async (req, res) => {
             res.status(500).send('Internal server error')
         } else {
             log(error)
-            res.status(400).send('Bad Request') // bad request for changing the student.
+            res.status(400).send('Bad Request') // bad request for changing.
         }
     }
 })
@@ -404,12 +404,42 @@ app.patch('/api/maps/:mapId', mongoChecker, async (req, res) => {
     }
 })
 
-// GET route to get map
+// a GET route to get a map skin
+app.get('/api/maps/:id', mongoChecker, async (req, res) => {
+
+    const id = req.params.id
+
+    try {
+        const map = await Map.findById(id)
+        if (!map) {
+			res.status(404).send('Resource not found')
+		} else { 
+			res.send(map)
+		}
+        
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+// a GET route to get all maps
+app.get('/api/maps', mongoChecker, async (req, res) => {
+
+    try {
+        const maps = await Map.find()
+        res.send(maps)
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
 
 // RESOURCES ------------------------------------------------------------------------------------------------
 
 // POST route to create resource
-app.post('/api/resouce', mongoChecker, async (req, res) => {
+app.post('/api/resource', mongoChecker, async (req, res) => {
     log(req.body)
 
     var current_date=new Date();
@@ -421,7 +451,7 @@ app.post('/api/resouce', mongoChecker, async (req, res) => {
         image: req.body.image,
         file: req.body.file,
         name: req.body.name,
-        username: req.body.username,
+        username: req.body.username
     })
 
     // save the mf resource now
