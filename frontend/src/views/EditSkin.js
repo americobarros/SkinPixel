@@ -22,8 +22,8 @@ import SkinCard from "../components/SkinCard";
 import {getSkin} from "../actions/skin";
 
 export default function EditSkin(props) {
-  const { allSkins, handleSnackbarClick, emptySkin, currUser } = props;
-  let { skinId } = useParams();
+  const {allSkins, handleSnackbarClick, emptySkin, currUser} = props;
+  let {skinId} = useParams();
   let history = useHistory()
   // const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
 
@@ -35,30 +35,58 @@ export default function EditSkin(props) {
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState("");
   const [file, setFile] = useState("");
-  const [clrs, setClrs] = useState([]);
   const [skin, setSkin] = useState(null);
+  const [clrs, setClrs] = useState([]);
 
   function handleChangeComplete(color) {
     setColor(color.hex.toString());
   };
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(null);
+
+  const positions = getPositions();
+
+  const buildPixels = (skinColors) => {
+    const clrs = [];
+    for (let i = 0; i < positions.length; i++) {
+      clrs.push(new Clr(skinColors[i], positions[i]))
+    }
+    return clrs;
+  }
+
+  useEffect(() => {
+    if (skinId) {
+      getSkin(skinId)
+          .then(
+              (result) => {
+                setIsLoaded(true);
+                setClrs(buildPixels(result.skin2D));
+              },
+              (error) => {
+                setIsLoaded(true);
+                setError(error);
+              }
+          )
+    } else {
+      setIsLoaded(true);
+      setClrs(buildPixels(Array(1036).fill('white')));
+      setSkin({name: ""})
+    }
+  }, [isLoaded])
+
 
   function SkinRendering() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const buildPixels = (positions, skinColors) => {
-      const clrs = [];
-      for(let i = 0; i < positions.length; i++){
-        clrs.push(new Clr(skinColors[i], positions[i]))
-      }
-      return clrs;
-    }
+    const [clrs2, setClrs] = useState([]);
+
     useEffect(() => {
-      if(skinId) {
+      if (skinId) {
         getSkin(skinId)
             .then(
                 (result) => {
                   setIsLoaded(true);
-                  setClrs(buildPixels(getPositions(), result.skin2D));
+                  setClrs(buildPixels(positions, result.skin2D));
                 },
                 (error) => {
                   setIsLoaded(true);
@@ -66,11 +94,11 @@ export default function EditSkin(props) {
                 }
             )
       } else {
-          setIsLoaded(true);
-          setClrs(buildPixels(getPositions(), Array(1036).fill('white')));
-          setSkin({name:""})
+        setIsLoaded(true);
+        setClrs(buildPixels(positions, Array(1036).fill('white')));
+        setSkin({name: ""})
       }
-    }, [])
+    }, [isLoaded])
 
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -78,11 +106,11 @@ export default function EditSkin(props) {
       return <div>Loading...</div>;
     } else {
       return (
-          <Canvas camera={{position : [20, 20, 20]}}>
+          <Canvas camera={{position: [20, 20, 20]}}>
             <CameraControls/>
-            <ambientLight intensity={0.5} />
-            <spotLight position={[100, 100, 100]} angle={0.15} penumbra={1} />
-            { clrs.map( x => {
+            <ambientLight intensity={0.5}/>
+            <spotLight position={[100, 100, 100]} angle={0.15} penumbra={1}/>
+            {clrs.map(x => {
               return <Pixel color={color} position={x.pos} clr={x}/>;
             })}
           </Canvas>
@@ -91,7 +119,9 @@ export default function EditSkin(props) {
   }
 
   function handleSave() {
-    let colors = clrs.map(x => {return x.clr});
+    let colors = clrs.map(x => {
+      return x.clr
+    });
     if (skinId) {
       const updateSkin = {
         skin2D: colors,
@@ -99,32 +129,32 @@ export default function EditSkin(props) {
       if (newName != "") {
         updateSkin.name = newName;
       }
-      
-      handleSnackbarClick({ message: 'Successfully saved skin', color: 'green' });
+
+      handleSnackbarClick({message: 'Successfully saved skin', color: 'green'});
       history.push("/account")
-    }
-    else {
+    } else {
       if (newName != "" && file != null) {
-        const latestId = Math.max.apply(Math, allSkins.map(function(skin) { return skin.id; })) + 1;
+        const latestId = Math.max.apply(Math, allSkins.map(function (skin) {
+          return skin.id;
+        })) + 1;
         console.log(file);
         const newSkin = {
-            id: latestId,
-            createdAt: 10,
-            image: file,
-            name: newName,
-            skin2D: colors,
-            username: currUser.username,
-            user: currUser._id,
-            comments: []
+          id: latestId,
+          createdAt: 10,
+          image: file,
+          name: newName,
+          skin2D: colors,
+          username: currUser.username,
+          user: currUser._id,
+          comments: []
         };
 
         createSkin(newSkin)
         //allSkins.push(newSkin);
-        handleSnackbarClick({ message: 'New skin successfully saved', color: 'green' });
+        handleSnackbarClick({message: 'New skin successfully saved', color: 'green'});
         history.push("/account")
-      }
-      else {
-        handleSnackbarClick({ message: 'Not all info for skin included', color: 'red' });
+      } else {
+        handleSnackbarClick({message: 'Not all info for skin included', color: 'red'});
       }
     }
   }
@@ -141,8 +171,7 @@ export default function EditSkin(props) {
   const handleClickOpen = () => {
     if (skinId) {
       setOpen(true);
-    }
-    else {
+    } else {
       history.push("/account")
     }
   };
@@ -153,8 +182,8 @@ export default function EditSkin(props) {
 
   // Return array of uploaded files after submit button is clicked
   const handleSubmit = (files, allFiles) => {
-      setFile(URL.createObjectURL(files[0].file))
-      allFiles.forEach(f => f.remove())
+    setFile(URL.createObjectURL(files[0].file))
+    allFiles.forEach(f => f.remove())
   }
 
   class Clr {
@@ -220,56 +249,69 @@ export default function EditSkin(props) {
     return array;
   }
 
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+        <div id="skinEditView">
+          <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete this skin?"}</DialogTitle>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Close
+              </Button>
+              <Button onClick={handleDelete} color="secondary" autoFocus>
+                DELETE
+              </Button>
+            </DialogActions>
+          </Dialog>
 
-
-  return (
-    <div id="skinEditView">
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete this skin?"}</DialogTitle>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Close
-          </Button>
-          <Button onClick={handleDelete} color="secondary" autoFocus>
-            DELETE
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <div class="displayFlex">
-        <Link to="/account" style={{ color: 'black', alignSelf: 'center' }}>
-          <ArrowBackIcon className="backIcon" />
-        </Link>
-        <TextField id="filled-basic" id="textfield" label={skin ? skin.name : "New Skin Name"} variant="filled" onChange={(e) => setNewName(e.target.value)}/>
-        <h2 style={{ display: 'none' }}>{skinId}</h2>
-      </div>
-
-      <div class="displayFlex">
-        <SkinRendering/>
-        <div className="rightItems">
-          <SwatchesPicker height="600px" onChangeComplete={handleChangeComplete}/>
-          <Button className="ButtonStyle" variant="outlined" style={{ marginTop: '30px' }} onClick={handleSave}>Save</Button>
-          <Button className="ButtonStyle" variant="outlined" onClick={handleClickOpen}>{skin ? "Delete" : "Cancel"}</Button>
-        </div>
-      </div>
-        <div style={{ marginLeft: '15px', display: 'flex' }}>
-          <div style={{ width: '500px', filter: 'grayscale(100%)' }}>
-            <Dropzone
-              onSubmit={handleSubmit}
-              maxFiles={1}
-              inputContent="Drop an cover image, or click to browse"
-              submitButtonDisabled={files => files.length > 1}
-              accept="image/*"
-            />
+          <div class="displayFlex">
+            <Link to="/account" style={{color: 'black', alignSelf: 'center'}}>
+              <ArrowBackIcon className="backIcon"/>
+            </Link>
+            <TextField id="filled-basic" id="textfield" label={skin ? skin.name : "New Skin Name"} variant="filled"
+                       onChange={(e) => setNewName(e.target.value)}/>
+            <h2 style={{display: 'none'}}>{skinId}</h2>
           </div>
-          <img src={skin ? skin.image : file} style={{ maxHeight: "115px", marginLeft: '30px', filter: 'grayscale(0%)' }}/>
+
+          <div class="displayFlex">
+            <Canvas camera={{position: [20, 20, 20]}}>
+              <CameraControls/>
+              <ambientLight intensity={0.5}/>
+              <spotLight position={[100, 100, 100]} angle={0.15} penumbra={1}/>
+              {clrs.map(x => {
+                return <Pixel color={color} position={x.pos} clr={x}/>;
+              })}
+            </Canvas>
+            <div className="rightItems">
+              <SwatchesPicker height="600px" onChangeComplete={handleChangeComplete}/>
+              <Button className="ButtonStyle" variant="outlined" style={{marginTop: '30px'}}
+                      onClick={handleSave}>Save</Button>
+              <Button className="ButtonStyle" variant="outlined"
+                      onClick={handleClickOpen}>{skin ? "Delete" : "Cancel"}</Button>
+            </div>
+          </div>
+          <div style={{marginLeft: '15px', display: 'flex'}}>
+            <div style={{width: '500px', filter: 'grayscale(100%)'}}>
+              <Dropzone
+                  onSubmit={handleSubmit}
+                  maxFiles={1}
+                  inputContent="Drop an cover image, or click to browse"
+                  submitButtonDisabled={files => files.length > 1}
+                  accept="image/*"
+              />
+            </div>
+            <img src={skin ? skin.image : file}
+                 style={{maxHeight: "115px", marginLeft: '30px', filter: 'grayscale(0%)'}}/>
+          </div>
         </div>
-    </div>
-  );
+    );
+  }
 }
   
