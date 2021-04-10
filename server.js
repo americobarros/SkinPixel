@@ -56,11 +56,11 @@ function isMongoError(error) { // checks for first error returned by promise rej
 const mongoChecker = (req, res, next) => {
     // check mongoose connection established.
     if (mongoose.connection.readyState != 1) {
-        log('Issue with mongoose connection')
+        console.log('Issue with mongoose connection')
         res.status(500).send('Internal server error')
         return;
     } else {
-        next()  
+        next()
     }   
 }
 
@@ -87,6 +87,7 @@ const authenticate = (req, res, next) => {
 
 
 /*** Session handling **************************************/
+app.disable('etag');
 // Create a session and session cookie
 app.use(
     session({
@@ -105,7 +106,7 @@ app.use(
 );
 
 // A route to login and create a session
-app.post("/users/login", (req, res) => {
+app.post("/users/login", mongoChecker, async (req, res) => {
 
     const email = req.body.email;
     const password = req.body.password;
@@ -264,19 +265,19 @@ app.patch('/api/users/:id', mongoChecker, async (req, res) => {
 // SKINS ------------------------------------------------------------------------------------------------
 
 // POST route to create skin
-app.post('/newskin', mongoChecker, async (req, res) => {
+app.post('/api/newskin', mongoChecker, async (req, res) => {
     log(req.body)
 
-    var current_date=new Date();
+    let current_date=new Date();
 
 	// create the mf skin
     const skin = new Skin({
-        id: Math.random(),
         createdAt: current_date,
         image: req.body.image,
         name: req.body.name,
         skin2D: req.body.skin2D,
         username: req.body.username,
+        user: req.body.user
     })
 
     // save the mf skin now
@@ -291,6 +292,32 @@ app.post('/newskin', mongoChecker, async (req, res) => {
             res.status(400).send('Bad Request') // bad request for changing the student.
         }
     }
+})
+
+// GET route to get skin
+
+app.get('/api/skins', mongoChecker, async (req, res) => {
+    let img_id = req.query.image_id;
+    let user_id = req.query.user_id;
+    try {
+        if (img_id) {
+            const skins = await Skin.findById(img_id);
+            res.send(skins);
+        } else if (user_id) {
+            const skins = await Skin.find({"user": user_id}, '-skin2D');
+            const response = {"skins": skins};
+            log(response);
+            res.status(200).send(response);
+        } else {
+            const skins = await Skin.find({}, '-skin2D');
+            const response = {"skins": skins};
+            res.send(response);
+        }
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
 })
 
 // PATCH route to edit skin
@@ -317,7 +344,7 @@ app.patch('/skin/edit/:skinId', mongoChecker, async (req, res) => {
     }
 })
 
-// GET route to get skin 
+
 
 
 
@@ -461,10 +488,12 @@ app.get("*", (req, res) => {
                             // post (create)
                             "/newskin",
                             "/newmap",
-                            "/newresource"
+                            "/newresource",
+                            "/api/skins"
                         ];
     if (!goodPageRoutes.includes(req.url)) {
         // if url not in expected page routes, set status to 404.
+        log('bad route');
         res.status(404);
     }
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 import Input from '@material-ui/core/Input';
@@ -9,6 +9,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import {getSkins} from "../actions/skin";
 
 import SkinCard from '../components/SkinCard';
 
@@ -17,7 +18,7 @@ import './Account.css';
 import { deleteUser, updateUser } from '../actions/user';
 
 export default function Account(props) {
-    const { currUser, allSkins, allUsers, handleSnackbarClick, allMaps, allResourcePacks, setCurrUser} = props;
+    const { currUser, allUsers, handleSnackbarClick, allMaps, allResourcePacks, setCurrUser} = props;
 
     const [drawerItem, setDrawerItem] = useState("Account Settings");
     const [open, setOpen] = useState(false);
@@ -42,6 +43,75 @@ export default function Account(props) {
         deleteUser(userToDelete);
         handleClose();
     }
+
+    function SkinCards() {
+        const [error, setError] = useState(null);
+        const [isLoaded, setIsLoaded] = useState(false);
+        const [items, setItems] = useState([]);
+        useEffect(() => {
+            getSkins(currUser)
+                .then(
+                    (result) => {
+                        setIsLoaded(true);
+                        setItems(result.skins);
+                    },
+                    (error) => {
+                        setIsLoaded(true);
+                        setError(error);
+                    }
+                )
+        }, [])
+
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>;
+        } else {
+            return (
+                    items.map(skin =>
+                        <>
+                            {(
+                                <Link key={`link-${skin._id}`} to={`/skin/edit/${skin._id}`}>
+                                    <SkinCard key={skin._id} skin={skin} id={skin._id}/>
+                                </Link>
+                            )}
+                        </>
+                    )
+            );
+        }
+    }
+
+    // function BuildSkinCards() {
+    //     const [skins, setSkins] = useState([])
+    //     useEffect(() => {
+    //         getSkins(currUser)
+    //             .then(json => {
+    //                 json.skins.map((skin) => {
+    //                     const curSkins = skins.slice();
+    //                     curSkins.push(skin);
+    //
+    //                     setSkins(curSkins);
+    //                 })
+    //             })
+    //     })
+    //     return (
+    //         <div>
+    //             {
+    //                 skins.map(skin =>
+    //                     <>
+    //                         {console.log(skin) &&
+    //                         skin.user.id === currUser.id && (
+    //                             <Link key={`link-${skin.id}`} to={`/skin/edit/${skin.id}`}>
+    //                                 <SkinCard skin={skin} id={skin.id}/>
+    //                             </Link>
+    //                         )}
+    //                     </>
+    //                 )
+    //             }
+    //         </div>
+    //
+    //     )
+    // }
 
     function handleSaveChanges() {
         let saveUsername = true, savePassword = true, saveEmail = true;
@@ -179,15 +249,7 @@ export default function Account(props) {
                         </div>
                     </Link>
                     <div id="skinsDisplay">
-                        {allSkins.map(skin =>
-                            <>
-                                {skin.user.id == currUser.id && (
-                                    <Link key={`link-${skin.id}`} to={`/skin/edit/${skin.id}`}>
-                                        <SkinCard skin={skin} id={skin.id} />
-                                    </Link>
-                                )}
-                            </>
-                        )}
+                        <SkinCards/>
                     </div>
                     </>
                 )}

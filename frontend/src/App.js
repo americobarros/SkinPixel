@@ -86,6 +86,7 @@ export default function App() {
         handleSnackbarClick={handleSnackbarClick}
         handleSnackbarClose={handleSnackbarClose}
       />
+
       <Router>
         <div>
           <Header currUser={currUser} handleClickOpen={handleClickOpen} />
@@ -107,7 +108,6 @@ export default function App() {
             {currUser
               ? <Route exact path="/account" children={<Account
                                                         currUser={currUser}
-                                                        allSkins={allSkins}
                                                         allUsers={allUsers}
                                                         allMaps={allMaps}
                                                         allResourcePacks={allResourcePacks}

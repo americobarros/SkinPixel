@@ -10,12 +10,14 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-import {Skin, CameraControls, Pixel} from "./3d_view";
+import {CameraControls, Pixel} from "./3d_view";
+
+import {createSkin} from "../actions/skin";
 
 import 'react-edit-text/dist/index.css';
 
 import './EditSkin.css';
-import {Canvas, useFrame} from 'react-three-fiber';
+import {Canvas} from 'react-three-fiber';
 
 
 export default function EditSkin(props) {
@@ -24,7 +26,7 @@ export default function EditSkin(props) {
   let history = useHistory()
   // const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
 
-  const skin = allSkins.find(skin => skin.id == skinId);
+  const skin = allSkins.find(skin => skin.id === skinId);
 
   const [color, setColor] = useState(null);
   const [rerender, setRerender] = useState(false);
@@ -33,14 +35,14 @@ export default function EditSkin(props) {
   const [newName, setNewName] = useState("");
   const [file, setFile] = useState("")
 
-  function handleChangeComplete(color, event) {
+  function handleChangeComplete(color) {
     setColor(color.hex.toString());
   };
 
   function handleSave() {
-    console.log(arr2.map(x => {return x.clr}))
+    let colors = arr2.map(x => {return x.clr});
     if (skin) {
-      skin.skin2D = editingSkin;
+      skin.skin2D = colors;
       if (newName != "") {
         skin.name = newName;
       }
@@ -54,18 +56,20 @@ export default function EditSkin(props) {
     else {
       if (newName != "" && file != null) {
         const latestId = Math.max.apply(Math, allSkins.map(function(skin) { return skin.id; })) + 1;
-        
+        console.log(file);
         const newSkin = {
             id: latestId,
             createdAt: 10,
             image: file,
             name: newName,
-            skin2D: editingSkin,
-            user: currUser,
+            skin2D: colors,
+            username: currUser.username,
+            user: currUser._id,
             comments: []
         };
 
-        allSkins.push(newSkin);
+        createSkin(newSkin)
+        //allSkins.push(newSkin);
         handleSnackbarClick({ message: 'New skin successfully saved', color: 'green' });
         history.push("/account")
       }
@@ -97,27 +101,19 @@ export default function EditSkin(props) {
     setOpen(false);
   };
 
-  function setSkinColor(outer_index, inner_index) {
-    if (color) {
-      const changedSkin = editingSkin;
-      changedSkin[outer_index][inner_index] = color;
-      setEditingSkin(changedSkin);
-    }
-    setRerender(!rerender)
-  }
-
   // Return array of uploaded files after submit button is clicked
   const handleSubmit = (files, allFiles) => {
       setFile(URL.createObjectURL(files[0].file))
       allFiles.forEach(f => f.remove())
   }
 
-  class Clr{
+  class Clr {
     constructor(color, pos) {
       this.clr = color
       this.pos = pos
     }
   }
+
   //const array = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, -1], [1, 0, -1], [1, 1, -1], [0, 1, -1]];
   let array = [];
   // build head
@@ -125,7 +121,7 @@ export default function EditSkin(props) {
     for (let j = 0; j < 8; ++j){
       array.push([i, j, 0]);
       array.push([i, j, 7]);
-      if(i == 0 || i == 7 || j == 0 || j == 7) {
+      if(i === 0 || i === 7 || j === 0 || j === 7) {
         for (let k = 1; k < 7; ++k) {
         array.push([i, j, k])
         }
@@ -172,11 +168,6 @@ export default function EditSkin(props) {
   const arr2 = array.map(x => {
     return new Clr('white', x)
   });
-  /*[
-      new Clr('white', [0, 0, 0]),
-    new Clr('white', [1, 0, 0]),
-    new Clr('white', [1, 1, 0]),
-    new Clr('white', [0, 1, 0])]*/
 
 
   const pixels = arr2.map( x => {

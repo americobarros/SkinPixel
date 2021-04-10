@@ -135,7 +135,7 @@ export const getAllUsers = (setAllUsers) => {
         });
 };
 
-// A function to send a GET request to get all users
+// A function to send a PATH request to update users
 export const updateUser = (updatedUser, setCurrUser) => {
     console.log(updatedUser)
 

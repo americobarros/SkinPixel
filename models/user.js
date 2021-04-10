@@ -75,7 +75,6 @@ UserSchema.pre('save', function(next) {
 //  to a given one, for example when logging in.
 UserSchema.statics.findByEmailPassword = function(email, password) {
 	const User = this // binds this to the User model
-
 	// First find the user by their email
 	return User.findOne({ email: email }).then((user) => {
 

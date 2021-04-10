@@ -6,11 +6,6 @@ const mongoose = require('mongoose')
 // Making a Mongoose model a little differently: a Mongoose Schema
 // Allows us to add additional functionality.
 const SkinSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        required: true,
-        unique: true
-    },
 	createdAt: {
 		type: String,
 		required: true
@@ -18,7 +13,7 @@ const SkinSchema = new mongoose.Schema({
     image: {
         // file path
         type: String,
-        required: true
+        required: false
     },
     name: {
         type: String,
@@ -33,8 +28,7 @@ const SkinSchema = new mongoose.Schema({
         required: true
     },
     comments: {
-        type: Array,
-        default: ""
+        type: Array
     }
 })
 

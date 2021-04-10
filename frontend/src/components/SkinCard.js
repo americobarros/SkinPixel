@@ -13,7 +13,7 @@ export default function SkinCard(props) {
                     {skin.name}
                 </div>
                 <div>
-                    {skin.user.name}
+                    {skin.username}
                 </div>
             </div>
         </div>
