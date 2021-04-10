@@ -262,7 +262,7 @@ app.patch('/api/users/:id', mongoChecker, async (req, res) => {
 // SKINS ------------------------------------------------------------------------------------------------
 
 // POST route to create skin
-app.post('/api/skins', mongoChecker, async (req, res) => {
+app.post('/api/skin', mongoChecker, async (req, res) => {
     log(req.body)
 
     var current_date=new Date();
@@ -292,7 +292,7 @@ app.post('/api/skins', mongoChecker, async (req, res) => {
 })
 
 // PATCH route to edit skin
-app.patch('/api/skins/:skinId', mongoChecker, async (req, res) => {
+app.patch('/api/skin/:skinId', mongoChecker, async (req, res) => {
 	// get wildcards
     const id = req.params.id
 
@@ -316,7 +316,7 @@ app.patch('/api/skins/:skinId', mongoChecker, async (req, res) => {
 })
 
 // a GET route to get a certain skin
-app.get('/api/skins/:id', mongoChecker, async (req, res) => {
+app.get('/api/skin/:id', mongoChecker, async (req, res) => {
 
     const id = req.params.id
 
@@ -335,7 +335,7 @@ app.get('/api/skins/:id', mongoChecker, async (req, res) => {
 })
 
 // a GET route to get all skins
-app.get('/api/skins', mongoChecker, async (req, res) => {
+app.get('/api/skin', mongoChecker, async (req, res) => {
 
     try {
         const skins = await Skin.find()
@@ -351,7 +351,7 @@ app.get('/api/skins', mongoChecker, async (req, res) => {
 // MAPS ------------------------------------------------------------------------------------------------
 
 // POST route to create map
-app.post('/api/maps', mongoChecker, async (req, res) => {
+app.post('/api/map', mongoChecker, async (req, res) => {
     log(req.body)
 
     var current_date=new Date();
@@ -380,7 +380,7 @@ app.post('/api/maps', mongoChecker, async (req, res) => {
 })
 
 // PATCH route to edit map
-app.patch('/api/maps/:id', mongoChecker, async (req, res) => {
+app.patch('/api/map/:id', mongoChecker, async (req, res) => {
 	// get wildcards
     const id = req.params.id
 
@@ -404,7 +404,7 @@ app.patch('/api/maps/:id', mongoChecker, async (req, res) => {
 })
 
 // a GET route to get a map
-app.get('/api/maps/:id', mongoChecker, async (req, res) => {
+app.get('/api/map/:id', mongoChecker, async (req, res) => {
 
     const id = req.params.id
 
@@ -423,7 +423,7 @@ app.get('/api/maps/:id', mongoChecker, async (req, res) => {
 })
 
 // a GET route to get all maps
-app.get('/api/maps', mongoChecker, async (req, res) => {
+app.get('/api/map', mongoChecker, async (req, res) => {
 
     try {
         const maps = await Map.find()
@@ -531,21 +531,12 @@ app.get("*", (req, res) => {
     // check for page routes that we expect in the frontend to provide correct status code.
     const goodPageRoutes = ["/", 
                             "/account",
-
-                            // patch (edit)
-                            "/skin/edit/:skinId",
-                            "/resource/edit/:resourceId",
-                            "/map/edit/:mapId",
-
-                            // get (view)
-                            "/map/:mapId",
-                            "/resource/:resourceId",
-                            "/skin/:skinId",
-                            
-                            // post (create)
-                            "/newskin",
-                            "/newmap",
-                            "/newresource"
+                            "/skin/:id",
+                            "/resource/:id",
+                            "/map/:id",
+                            "/map",
+                            "/skin",
+                            "/resource"
                         ];
     if (!goodPageRoutes.includes(req.url)) {
         // if url not in expected page routes, set status to 404.
