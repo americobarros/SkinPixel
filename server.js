@@ -198,8 +198,6 @@ app.get('/api/users', mongoChecker, async (req, res) => {
 
 })
 
-// other student API routes can go here...
-// ...
 // a GET route to get a certain user
 app.get('/api/users/:id', mongoChecker, async (req, res) => {
 
@@ -264,7 +262,7 @@ app.patch('/api/users/:id', mongoChecker, async (req, res) => {
 // SKINS ------------------------------------------------------------------------------------------------
 
 // POST route to create skin
-app.post('/newskin', mongoChecker, async (req, res) => {
+app.post('/api/skins', mongoChecker, async (req, res) => {
     log(req.body)
 
     var current_date=new Date();
@@ -294,7 +292,7 @@ app.post('/newskin', mongoChecker, async (req, res) => {
 })
 
 // PATCH route to edit skin
-app.patch('/skin/edit/:skinId', mongoChecker, async (req, res) => {
+app.patch('/api/skins/:skinId', mongoChecker, async (req, res) => {
 	// get wildcards
     const id = req.params.id
 
@@ -317,18 +315,43 @@ app.patch('/skin/edit/:skinId', mongoChecker, async (req, res) => {
     }
 })
 
-// GET route to get skin 
-// app.get('/skin/edit/:skinId', mongoChecker, async (req, res) => {
-// 	// get wildcards
-//     const id = req.params.id
+// a GET route to get a certain skin
+app.get('/api/skins/:id', mongoChecker, async (req, res) => {
 
-// }
+    const id = req.params.id
+
+    try {
+        const skin = await Skin.findById(id)
+        if (!skin) {
+			res.status(404).send('Resource not found')
+		} else { 
+			res.send(skin)
+		}
+        
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+// a GET route to get all skins
+app.get('/api/skins', mongoChecker, async (req, res) => {
+
+    try {
+        const skins = await Skin.find()
+        res.send(skins) // can wrap students in object if want to add more properties
+    } catch(error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
 
 
 // MAPS ------------------------------------------------------------------------------------------------
 
 // POST route to create map
-app.post('/newmap', mongoChecker, async (req, res) => {
+app.post('/api/maps', mongoChecker, async (req, res) => {
     log(req.body)
 
     var current_date=new Date();
@@ -358,7 +381,7 @@ app.post('/newmap', mongoChecker, async (req, res) => {
 })
 
 // PATCH route to edit map
-app.patch('/map/edit/:mapId', mongoChecker, async (req, res) => {
+app.patch('/api/maps/:mapId', mongoChecker, async (req, res) => {
 	// get wildcards
     const id = req.params.id
 
@@ -386,7 +409,7 @@ app.patch('/map/edit/:mapId', mongoChecker, async (req, res) => {
 // RESOURCES ------------------------------------------------------------------------------------------------
 
 // POST route to create resource
-app.post('/newresource', mongoChecker, async (req, res) => {
+app.post('/api/resouce', mongoChecker, async (req, res) => {
     log(req.body)
 
     var current_date=new Date();
@@ -416,7 +439,7 @@ app.post('/newresource', mongoChecker, async (req, res) => {
 })
 
 // PATCH route to edit resource
-app.patch('/resource/edit/:resourceId', mongoChecker, async (req, res) => {
+app.patch('/api/resource/:resourceId', mongoChecker, async (req, res) => {
 	// get wildcards
     const id = req.params.id
 
