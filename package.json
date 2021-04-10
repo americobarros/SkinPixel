@@ -9,6 +9,7 @@
     "validator": "^13.5.2"
   },
   "scripts": {
-    "frontend": "npm start"
+    "frontend": "npm start",
+    "start": "npm start"
  }
 }
