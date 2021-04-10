@@ -26,16 +26,6 @@ import Header from './components/Header';
 import SignInModal from './components/SignInModal';
 import { logout, getAllUsers } from './actions/user';
 
-const emptySkin = [["#fff", "ffff", "#fff", "ffff"],
-                   ["#fff", "ffff", "#fff", "ffff"],
-                   ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-                   ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-                   ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-                   ["#fff", "ffff", "#fff", "ffff", "#fff", "ffff", "#fff", "ffff"],
-                   ["#fff", "ffff", "#fff", "ffff"],
-                   ["#fff", "ffff", "#fff", "ffff"],
-                   ["#fff", "ffff", "#fff", "ffff"],
-                   ["#fff", "ffff", "#fff", "ffff"]];
 
 export default function App() {
   const [currUser, setCurrUser] = useState(null);

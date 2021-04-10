@@ -11,5 +11,5 @@
   "scripts": {
     "frontend": "npm start",
     "start": "npm start"
- }
+  }
 }
