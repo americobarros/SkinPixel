@@ -84,7 +84,7 @@ export default function Landing(props) {
     const searchResults = allSkins.filter(skin => skin.name.toLowerCase().includes(searchTerm));
     
     // resources
-    const searchResourceResults = allResourcePacks.filter(resource => resource.nametoLowerCase().includes(searchTerm));
+    const searchResourceResults = allResourcePacks.filter(resource => resource.name.toLowerCase().includes(searchTerm));
 
     setResourcesShowing(searchResourceResults);
     setSkinsShowing(searchResults);
