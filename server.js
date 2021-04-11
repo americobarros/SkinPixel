@@ -512,8 +512,8 @@ app.get('/api/resource/:id', mongoChecker, async (req, res) => {
 app.get('/api/resource', mongoChecker, async (req, res) => {
 
     try {
-        const resouces = await Resource.find()
-        res.send(resouces)
+        const resources = await Resource.find()
+        res.send(resources)
     } catch(error) {
         log(error)
         res.status(500).send("Internal Server Error")

@@ -13,7 +13,7 @@ export default function MapCard(props) {
                     {map.name}
                 </div>
                 <div>
-                    {map.user.name}
+                    @{map.user.name}
                 </div>
             </div>
         </div>

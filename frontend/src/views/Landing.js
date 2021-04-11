@@ -225,8 +225,8 @@ export default function Landing(props) {
           <TabPanel className="pb-3 pl-3" value={value} index={1}>
             <div id="resourcesDisplay">
               {resourcesShowing.map(resource =>
-                  <Link key={`link-${resource.id}`} to={`/resource/${resource.id}`}>
-                    <ResourceCard resource={resource} id={resource.id}/>
+                  <Link key={`link-${resource._id}`} to={`/resource/${resource._id}`}>
+                    <ResourceCard resource={resource} id={resource._id}/>
                   </Link>
               )}
             </div>
