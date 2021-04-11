@@ -9,6 +9,9 @@ Our web application enables the sharing of resources relating to minecraft, cent
 **Email:** hey@gmail.com [admin]
 
 **Password:** 123456
+**Email:** misc@tom.ac [regular user]
+
+**Password:** foobar2000 
 
 ## How To Use
 
