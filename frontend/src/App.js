@@ -112,9 +112,9 @@ export default function App() {
                                                                        currUser={currUser} />}/>
             <Route exact path="/newskin" children={<EditSkin handleSnackbarClick={handleSnackbarClick}
                                                                        currUser={currUser} />}/>
-            <Route exact path="/newresource" children={<EditTexture handleSnackbarClick={handleSnackbarClick}
+            <Route exact path="/newresource" children={<EditTexture allMaps={allResourcePacks} handleSnackbarClick={handleSnackbarClick}
                                                                        currUser={currUser} />}/>
-            <Route exact path="/newmap" children={<EditMap handleSnackbarClick={handleSnackbarClick}
+            <Route exact path="/newmap" children={<EditMap allMaps={allMaps} handleSnackbarClick={handleSnackbarClick}
                                                                        currUser={currUser} />}/>
 
             {currUser
