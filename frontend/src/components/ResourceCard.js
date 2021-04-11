@@ -13,7 +13,7 @@ export default function ResourceCard(props) {
                     {resource.name}
                 </div>
                 <div>
-                    {resource.user}
+                    {resource.user.username}
                 </div>
             </div>
         </div>

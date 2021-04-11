@@ -33,16 +33,18 @@ export default function ViewResourcePack(props) {
   const { allResourcePacks, currUser } = props;
 
   const classes = useStyles();
-  let { resourceId } = useParams();
+  let { id } = useParams();
 
-  const resource = allResourcePacks.find(resource => resource.id == resourceId);
+  const resource = allResourcePacks.find(resource => resource.id == id);
   const [newComment, setNewComment] = useState("");
 
   function handlePost() {
     resource.comments.push({ createdAt: 3, user: currUser, text: newComment});
     setNewComment("");
   }
-
+  if (!allResourcePacks) {
+    return <div>Loading...</div>;
+  } else {
   return (
     <div style={{ maxWidth: '1400px' }}>
       <div style={{ display: 'flex' }}>
@@ -74,18 +76,21 @@ export default function ViewResourcePack(props) {
           </div>
         </div>
       </div>
-      <div style={{ display: 'flex' }}>
-        <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} onChange={(e) => setNewComment(e.target.value)}/>
-        <Button className="commentButton" variant="outlined" onClick={handlePost}>Post</Button>
-      </div>
+      <div class="displayFlex">
+            <TextField id="outlined-basic" label={currUser ? "Comment" : "Login to comment"} disable variant="outlined"
+                       disabled={!currUser} className={classnames("comment", classes.root)}
+                       onChange={(e) => setNewComment(e.target.value)}/>
+            <Button className="commentButton" variant="outlined" onClick={handlePost} disabled={!currUser}>Post</Button>
+          </div>
       <div>
         {resource.comments.map(comment => 
           <div id="userComments">
             {comment.text}
-            <div><b>Comment By: </b>{comment.user.name}</div>
+            <div><b>Comment By: </b></div>{/*</div></b>{comment.user.name}</div>*/}
           </div>
         )}
       </div>
     </div>
   );
+        }
 }

@@ -2,16 +2,12 @@
 'use strict';
 
 const mongoose = require('mongoose')
+const { UserSchema } = require("./user");
 
 // Making a Mongoose model a little differently: a Mongoose Schema
 // Allows us to add additional functionality.
 const ResourceSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        required: true,
-        unique: true
-    },
-	createdAt: {
+    createdAt: {
 		type: String,
 		required: true
 	},
@@ -29,8 +25,8 @@ const ResourceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-	username: {
-		type: String,
+	user: {
+		type: Array,
         required: true
     },
     comments: {

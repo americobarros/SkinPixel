@@ -9,7 +9,7 @@ const env = process.env.NODE_ENV // read the environment variable (will be 'prod
 
 const USE_TEST_USER = env !== 'production' && process.env.TEST_USER_ON // option to turn on the test user.
 const TEST_USER_ID = '5fb8b011b864666580b4efe3' // the id of our test user (you will have to replace it with a test user that you made). can also put this into a separate configutation file
-const TEST_USER_EMAIL = 'test@user.com'
+const TEST_USER_USERNAME = 'test@user.com'
 //////
 
 const log = console.log;
@@ -108,18 +108,18 @@ app.use(
 // A route to login and create a session
 app.post("/users/login", mongoChecker, async (req, res) => {
 
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
 
     // log(email, password);
     // Use the static method on the User model to find a user
     // by their email and password
-    User.findByEmailPassword(email, password)
+    User.findByUsernamePassword(username, password)
         .then(user => {
             // Add the user's id to the session.
             // We can check later if this exists to ensure we are logged in.
             req.session.user = user._id;
-            req.session.email = user.email; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
+            req.session.username = user.username; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
             res.send(user);
         })
         .catch(error => {
@@ -143,13 +143,13 @@ app.get("/users/logout", (req, res) => {
 app.get("/users/check-session", (req, res) => {
     if (env !== 'production' && USE_TEST_USER) { // test user on development environment.
         req.session.user = TEST_USER_ID;
-        req.session.email = TEST_USER_EMAIL;
-        res.send({ currentUser: TEST_USER_EMAIL })
+        req.session.username = TEST_USER_USERNAME;
+        res.send({ currentUser: TEST_USER_USERNAME })
         return;
     }
 
     if (req.session.user) {
-        res.send({ currentUser: req.session.email });
+        res.send({ currentUser: req.session.username });
     } else {
         res.status(401).send();
     }
@@ -448,7 +448,7 @@ app.post('/api/resource', mongoChecker, async (req, res) => {
         image: req.body.image,
         file: req.body.file,
         name: req.body.name,
-        username: req.body.username
+        user: req.body.user
     })
 
     // save the mf resource now

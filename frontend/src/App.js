@@ -112,6 +112,10 @@ export default function App() {
                                                                        currUser={currUser} />}/>
             <Route exact path="/newskin" children={<EditSkin handleSnackbarClick={handleSnackbarClick}
                                                                        currUser={currUser} />}/>
+            <Route exact path="/newresource" children={<EditTexture handleSnackbarClick={handleSnackbarClick}
+                                                                       currUser={currUser} />}/>
+            <Route exact path="/newmap" children={<EditMap handleSnackbarClick={handleSnackbarClick}
+                                                                       currUser={currUser} />}/>
 
             {currUser
               ? <Route exact path="/account" children={<Account

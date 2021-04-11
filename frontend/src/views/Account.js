@@ -126,7 +126,7 @@ export default function Account(props) {
             }
         }
         if (newPassword != "" && oldPassword != "") {
-            if (oldPassword != currUser.password) {
+            if (oldPassword != currUser.password ) {
                 handleSnackbarClick({ message: "Passwords don't match", color: 'red' })
                 savePassword = false;
             }

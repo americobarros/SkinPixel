@@ -73,10 +73,12 @@ export default function ViewMap(props) {
           </div>
         </div>
       </div>
-      <div style={{ display: 'flex' }}>
-        <TextField id="outlined-basic" label="Comment" variant="outlined" className={classnames("comment", classes.root)} onChange={(e) => setNewComment(e.target.value)}/>
-        <Button className="commentButton" variant="outlined" onClick={handlePost}>Post</Button>
-      </div>
+      <div class="displayFlex" style={{ display: 'flex' }}>
+            <TextField id="outlined-basic" label={currUser ? "Comment" : "Login to comment"} disable variant="outlined"
+                       disabled={!currUser} className={classnames("comment", classes.root)}
+                       onChange={(e) => setNewComment(e.target.value)}/>
+            <Button className="commentButton" variant="outlined" onClick={handlePost} disabled={!currUser}>Post</Button>
+          </div>
       <div>
         {map.comments.map(comment => 
           <div id="userComments">
