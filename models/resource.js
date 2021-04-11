@@ -2,6 +2,7 @@
 'use strict';
 
 const mongoose = require('mongoose')
+const { UserSchema } = require("./user");
 
 // Making a Mongoose model a little differently: a Mongoose Schema
 // Allows us to add additional functionality.
@@ -29,8 +30,8 @@ const ResourceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-	username: {
-		type: String,
+	user: {
+		type: [UserSchema],
         required: true
     },
     comments: {

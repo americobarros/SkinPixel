@@ -6,13 +6,13 @@ To run view the instructions in frontend/README.md
 Our web application enables the sharing of resources relating to minecraft, centered around skins, resource packs and maps.
 
 ## Login Credentials
-**Email:** hey@gmail.com [admin]
+**Username:** admin [admin]
 
-**Password:** 123456
+**Password:** admin
 
-**Email:** misc@tom.ac [regular user]
+**Uername:** user [regular user]
 
-**Password:** foobar2000 
+**Password:** user 
 
 ## How To Use
 

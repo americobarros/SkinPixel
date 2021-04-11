@@ -23,7 +23,7 @@ const SkinSchema = new mongoose.Schema({
         type: Array,
         required: true
     },
-	username: {
+	user: {
 		type: String,
         required: true
     },

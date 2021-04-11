@@ -13,17 +13,14 @@ import { login } from '../actions/user';
 export default function SignInModal(props) {  
     const { open, handleClose, setCurrUser, allUsers, handleSnackbarClick } = props;
 
-    const [email, setEmail] = useState(null);
+    const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
 
-    function handleEmail(e) {
-        var re = /\S+@\S+\.\S+/;
+    function handleUsername(e) {
+        var re = /\S+/;
         if (re.test(e.target.value)) {
-            setEmail(e.target.value);
-            handleSnackbarClick({ message: "Email correct", color: 'green' })
-        }
-        else {
-            handleSnackbarClick({ message: "Email is incorrect format", color: 'red' })
+            setUsername(e.target.value);
+            handleSnackbarClick({ message: "Nice Username", color: 'green' })
         }
     }
 
@@ -33,7 +30,7 @@ export default function SignInModal(props) {
 
     function handleLogin() {
         const user = {
-            email: email,
+            username: username,
             password: password
         }
 
@@ -61,7 +58,7 @@ export default function SignInModal(props) {
                 <DialogContentText id="alert-dialog-description">
                 Sign in for more functionality.
                 </DialogContentText>
-                <TextField className="TextFieldStyle" label="Email" variant="outlined" style={{ marginBottom: '10px' }} onChange={handleEmail} />
+                <TextField className="TextFieldStyle" label="Username" variant="outlined" style={{ marginBottom: '10px' }} onChange={handleUsername} />
                 <TextField className="TextFieldStyle" label="Password" variant="outlined" onChange={handlePassword} />
             </DialogContent>
             <DialogActions>
