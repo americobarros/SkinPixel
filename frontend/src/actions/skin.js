@@ -36,7 +36,7 @@ export const updateSkin = (skin) => {
             }
         })
 }
-export const getSkins = async (user) => {
+export const getSkins = async (user=null) => {
     let url = `${API_HOST}/api/skins`
     if(user){
         url += `?user_id=${user._id}`;

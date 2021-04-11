@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 import { Link } from "react-router-dom";
 
@@ -21,6 +21,7 @@ import './Landing.css';
 import SkinCard from '../components/SkinCard';
 import MapCard from '../components/MapCard';
 import ResourceCard from '../components/ResourceCard';
+import {getSkins} from "../actions/skin";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,20 +70,35 @@ function TabPanel(props) {
 }
 
 export default function Landing(props) {
-  const { allSkins, allMaps, allResourcePacks} = props;
-  
+  const {allMaps, allResourcePacks} = props;
+
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [skinsShowing, setSkinsShowing] = useState(allSkins);
+  const [skinsShowing, setSkinsShowing] = useState([]);
   const [resourcesShowing, setResourcesShowing] = useState(allResourcePacks);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [allSkins, setAllSkins] = useState([]);
+  useEffect(() => {
+    getSkins()
+        .then(
+            (result) => {
+              setIsLoaded(true);
+              setAllSkins(result.skins);
+              setSkinsShowing(result.skins);
+            },
+            (error) => {
+              setIsLoaded(true);
+            }
+        )
+  }, [isLoaded])
 
   function handleSearch(e) {
     const searchTerm = e.target.value.toLowerCase();
-    
+
     // skins
     const searchResults = allSkins.filter(skin => skin.name.toLowerCase().includes(searchTerm));
-    
+
     // resources
     const searchResourceResults = allResourcePacks.filter(resource => resource.name.toLowerCase().includes(searchTerm));
 
@@ -107,20 +123,33 @@ export default function Landing(props) {
     let resultResources = [];
 
     if (sort == "name") {
-      resultsSkins = allSkins.sort(function(a, b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
-      resultResources = allResourcePacks.sort(function(a, b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
-    }
-    else if (sort == "newest") {
-      resultsSkins = allSkins.sort(function(a, b) {return (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0);} );
-      resultResources = allResourcePacks.sort(function(a, b) {return (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0);} );
-    }
-    else if (sort == "oldest") {
-      resultsSkins = allSkins.sort(function(a, b) {return (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0);} );
-      resultResources = allResourcePacks.sort(function(a, b) {return (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0);} );
-    }
-    else if (sort == "comments") {
-      resultsSkins = allSkins.sort(function(a, b) {return (a.comments.length > b.comments.length) ? 1 : ((b.comments.length > a.comments.length) ? -1 : 0);} );
-      resultResources = allResourcePacks.sort(function(a, b) {return (a.comments.length > b.comments.length) ? 1 : ((b.comments.length > a.comments.length) ? -1 : 0);} );
+      resultsSkins = allSkins.sort(function (a, b) {
+        return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+      });
+      resultResources = allResourcePacks.sort(function (a, b) {
+        return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+      });
+    } else if (sort == "newest") {
+      resultsSkins = allSkins.sort(function (a, b) {
+        return (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0);
+      });
+      resultResources = allResourcePacks.sort(function (a, b) {
+        return (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0);
+      });
+    } else if (sort == "oldest") {
+      resultsSkins = allSkins.sort(function (a, b) {
+        return (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0);
+      });
+      resultResources = allResourcePacks.sort(function (a, b) {
+        return (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0);
+      });
+    } else if (sort == "comments") {
+      resultsSkins = allSkins.sort(function (a, b) {
+        return (a.comments.length > b.comments.length) ? 1 : ((b.comments.length > a.comments.length) ? -1 : 0);
+      });
+      resultResources = allResourcePacks.sort(function (a, b) {
+        return (a.comments.length > b.comments.length) ? 1 : ((b.comments.length > a.comments.length) ? -1 : 0);
+      });
     }
 
     setSkinsShowing(resultsSkins);
@@ -128,77 +157,81 @@ export default function Landing(props) {
     handleClose();
   }
 
-  return (
-    <div>
-      <div id="searchFunctionality">
-        <TextField className="TextFieldStyle" label="Search" variant="outlined" onChange={handleSearch} />
-        {/* <Button className="ButtonStyle">
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+        <div>
+          <div id="searchFunctionality">
+            <TextField className="TextFieldStyle" label="Search" variant="outlined" onChange={handleSearch}/>
+            {/* <Button className="ButtonStyle">
           Filter
           <FilterListIcon className="icon"/>
         </Button> */}
-        <Button className="ButtonStyle" onClick={handleClick}>
-          Sort By
-          <SortIcon className="icon"/>
-        </Button>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={() => handleSort('name')}>Name</MenuItem>
-          <MenuItem onClick={() => handleSort('newest')}>Newest</MenuItem>
-          <MenuItem onClick={() => handleSort('oldest')}>Oldest</MenuItem>
-          <MenuItem onClick={() => handleSort('comments')}>Number of Comments</MenuItem>
-        </Menu>
-      </div>
-      <AppBar position="static" className={classes.root}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          centered
-          className={classes.tabs}
-          TabIndicatorProps={{
-            style: {
-              backgroundColor: '#5b8731',
-            }
-          }}
-        >
-          <Tab label="Skins" />
-          <Tab label="Resource Packs" />
-          <Tab label="Maps" />
-        </Tabs>
-        </AppBar>
-      <TabPanel className="pb-3 pl-3" value={value} index={0}>
-        <div id="skinsDisplay">
-            {skinsShowing.map(skin =>
-              <Link key={`link-${skin.id}`} to={`/skin/${skin.id}`}>
-                <SkinCard skin={skin} />
-              </Link>
-            )}
+            <Button className="ButtonStyle" onClick={handleClick}>
+              Sort By
+              <SortIcon className="icon"/>
+            </Button>
+            <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+              <MenuItem onClick={() => handleSort('name')}>Name</MenuItem>
+              <MenuItem onClick={() => handleSort('newest')}>Newest</MenuItem>
+              <MenuItem onClick={() => handleSort('oldest')}>Oldest</MenuItem>
+              <MenuItem onClick={() => handleSort('comments')}>Number of Comments</MenuItem>
+            </Menu>
           </div>
-      </TabPanel>
-      
-      <TabPanel className="pb-3 pl-3" value={value} index={2}>
-        <div id="skinsDisplay">
-            {allMaps.map(map =>
-              <Link key={`link-${map.id}`} to={`/map/${map.id}`}>
-                <MapCard map={map} />
-              </Link>
-            )}
-          </div>
-      </TabPanel>
+          <AppBar position="static" className={classes.root}>
+            <Tabs
+                value={value}
+                onChange={handleChange}
+                centered
+                className={classes.tabs}
+                TabIndicatorProps={{
+                  style: {
+                    backgroundColor: '#5b8731',
+                  }
+                }}
+            >
+              <Tab label="Skins"/>
+              <Tab label="Resource Packs"/>
+              <Tab label="Maps"/>
+            </Tabs>
+          </AppBar>
+          <TabPanel className="pb-3 pl-3" value={value} index={0}>
+            <div id="skinsDisplay">
+              {skinsShowing.map(skin =>
+                  <Link key={`link-${skin._id}`} to={`/skin/${skin._id}`}>
+                    <SkinCard skin={skin}/>
+                  </Link>
+              )}
+            </div>
+          </TabPanel>
 
-      <TabPanel className="pb-3 pl-3" value={value} index={1}>
-        <div id="resourcesDisplay">
-            {resourcesShowing.map(resource =>
-              <Link key={`link-${resource.id}`} to={`/resource/${resource.id}`}>
-                <ResourceCard resource={resource} id={resource.id} />
-              </Link>
-            )}
-          </div>
-      </TabPanel>
-    </div>
-  );
+          <TabPanel className="pb-3 pl-3" value={value} index={2}>
+            <div id="skinsDisplay">
+              {allMaps.map(map =>
+                  <Link key={`link-${map.id}`} to={`/map/${map.id}`}>
+                    <MapCard map={map}/>
+                  </Link>
+              )}
+            </div>
+          </TabPanel>
+
+          <TabPanel className="pb-3 pl-3" value={value} index={1}>
+            <div id="resourcesDisplay">
+              {resourcesShowing.map(resource =>
+                  <Link key={`link-${resource.id}`} to={`/resource/${resource.id}`}>
+                    <ResourceCard resource={resource} id={resource.id}/>
+                  </Link>
+              )}
+            </div>
+          </TabPanel>
+        </div>
+    );
+  }
 }

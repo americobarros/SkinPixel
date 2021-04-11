@@ -20,21 +20,85 @@ import './EditSkin.css';
 import {Canvas} from 'react-three-fiber';
 import SkinCard from "../components/SkinCard";
 
+export function getPositions() {
+  // build head
+  let array = [];
+
+  for (let i = 0; i < 8; ++i) {
+    for (let j = 0; j < 8; ++j) {
+      array.push([i, j, 0]);
+      array.push([i, j, 7]);
+      if (i === 0 || i === 7 || j === 0 || j === 7) {
+        for (let k = 1; k < 7; ++k) {
+          array.push([i, j, k])
+        }
+      }
+    }
+  }
+
+  // build torso
+  for (let i = -4; i < 12; ++i) {
+    array.push([i, -1, 2]);
+    array.push([i, -1, 3]);
+    array.push([i, -1, 4]);
+    array.push([i, -1, 5]);
+    array.push([i, -12, 2]);
+    array.push([i, -12, 3]);
+    array.push([i, -12, 4]);
+    array.push([i, -12, 5]);
+    for (let j = -2; j > -12; --j) {
+      array.push([i, j, 2]);
+      array.push([i, j, 5]);
+      if (i == -4 || i == 11) {
+        array.push([i, j, 3]);
+        array.push([i, j, 4]);
+      }
+    }
+
+  }
+
+  // build legs
+  for (let i = 0; i < 8; ++i) {
+    for (let j = -13; j > -24; --j) {
+      array.push([i, j, 2]);
+      array.push([i, j, 5]);
+      if (i == 0 || i == 7) {
+        array.push([i, j, 3]);
+        array.push([i, j, 4]);
+      }
+    }
+    array.push([i, -24, 2])
+    array.push([i, -24, 3])
+    array.push([i, -24, 4])
+    array.push([i, -24, 5])
+
+  }
+  return array;
+}
+
+export class Clr {
+  constructor(color, pos) {
+    this.clr = color
+    this.pos = pos
+  }
+}
 export default function EditSkin(props) {
-  const {allSkins, handleSnackbarClick, emptySkin, currUser} = props;
+  const {handleSnackbarClick, currUser} = props;
   let {skinId} = useParams();
   let history = useHistory()
   // const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
 
-  //const skin = allSkins.find(skin => skin.id === skinId);
 
+  const emptySkin = {
+    name: "new name"
+  }
   const [color, setColor] = useState(null);
   const [rerender, setRerender] = useState(false);
   //const [editingSkin, setEditingSkin] = useState(skin ? skin.skin2D : emptySkin);
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState("");
   const [file, setFile] = useState("");
-  const [skin, setSkin] = useState(null);
+  const [skin, setSkin] = useState(emptySkin);
   const [clrs, setClrs] = useState([]);
 
   function handleChangeComplete(color) {
@@ -91,12 +155,9 @@ export default function EditSkin(props) {
 
     } else {
       if (newName != "" && file != null) {
-        const latestId = Math.max.apply(Math, allSkins.map(function (skin) {
-          return skin.id;
-        })) + 1;
+
         console.log(file);
         const newSkin = {
-          id: latestId,
           createdAt: 10,
           image: file,
           name: newName,
@@ -142,68 +203,9 @@ export default function EditSkin(props) {
     allFiles.forEach(f => f.remove())
   }
 
-  class Clr {
-    constructor(color, pos) {
-      this.clr = color
-      this.pos = pos
-    }
-  }
 
-  function getPositions() {
-    // build head
-    let array = [];
 
-    for (let i = 0; i < 8; ++i) {
-      for (let j = 0; j < 8; ++j) {
-        array.push([i, j, 0]);
-        array.push([i, j, 7]);
-        if (i === 0 || i === 7 || j === 0 || j === 7) {
-          for (let k = 1; k < 7; ++k) {
-            array.push([i, j, k])
-          }
-        }
-      }
-    }
 
-    // build torso
-    for (let i = -4; i < 12; ++i) {
-      array.push([i, -1, 2]);
-      array.push([i, -1, 3]);
-      array.push([i, -1, 4]);
-      array.push([i, -1, 5]);
-      array.push([i, -12, 2]);
-      array.push([i, -12, 3]);
-      array.push([i, -12, 4]);
-      array.push([i, -12, 5]);
-      for (let j = -2; j > -12; --j) {
-        array.push([i, j, 2]);
-        array.push([i, j, 5]);
-        if (i == -4 || i == 11) {
-          array.push([i, j, 3]);
-          array.push([i, j, 4]);
-        }
-      }
-
-    }
-
-    // build legs
-    for (let i = 0; i < 8; ++i) {
-      for (let j = -13; j > -24; --j) {
-        array.push([i, j, 2]);
-        array.push([i, j, 5]);
-        if (i == 0 || i == 7) {
-          array.push([i, j, 3]);
-          array.push([i, j, 4]);
-        }
-      }
-      array.push([i, -24, 2])
-      array.push([i, -24, 3])
-      array.push([i, -24, 4])
-      array.push([i, -24, 5])
-
-    }
-    return array;
-  }
 
   if (!isLoaded) {
     return <div>Loading...</div>;

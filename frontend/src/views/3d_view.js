@@ -50,10 +50,23 @@ function Pixel(props) {
         </mesh>
     )
 }
+function FixedPixel(props) {
+    const mesh = useRef();
+
+    const color = props.clr.clr;
+    return (
+        <mesh
+            {...props}
+            ref={mesh}>
+            <boxBufferGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color={color} roughness={0.1} metalness={0.3}/>
+        </mesh>
+    )
+}
 
 function Skin(props){
     const group = new THREE.Object3D();
     group.add(Pixel(props));
     return group;
 }
-export {Pixel, CameraControls, Skin};
+export {Pixel, CameraControls, Skin, FixedPixel};
