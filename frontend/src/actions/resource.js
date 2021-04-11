@@ -25,6 +25,7 @@ export const getAllResourcePacks = (setAllResourcePacks) => {
         })
         .then(allResourcePacks => {
             setAllResourcePacks(allResourcePacks)
+            console.log(allResourcePacks)
         })
         .catch(error => {
             console.log(error);

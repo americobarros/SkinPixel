@@ -35,6 +35,8 @@ export default function App() {
   const [allUsers, setAllUsers] = useState(null)
   const [allResourcePacks, setAllResourcePacks] = useState(null)
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     getAllUsers(setAllUsers)
   }, [])
@@ -71,7 +73,9 @@ export default function App() {
     }
     setSnackbar({ ...snackbar, open: false });
   };
-  
+  if (!allResourcePacks) {
+    return <div>Loading...</div>;
+  } else {
   return (
     <StylesProvider injectFirst>
       <SignInModal
@@ -127,4 +131,5 @@ export default function App() {
       </Router>
       </StylesProvider>
   );
+  }
 }
