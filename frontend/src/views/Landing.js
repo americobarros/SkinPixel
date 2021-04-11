@@ -91,7 +91,7 @@ export default function Landing(props) {
               setIsLoaded(true);
             }
         )
-  })
+  }, [isLoaded])
 
   function handleSearch(e) {
     const searchTerm = e.target.value.toLowerCase();
