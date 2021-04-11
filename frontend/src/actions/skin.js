@@ -12,7 +12,7 @@ export const createSkin = (skin) => {
         }
     });
 
-    fetch(request)
+    return fetch(request)
         .then(res => {
             if (res.status === 200) {
                 return res.json();
@@ -20,6 +20,22 @@ export const createSkin = (skin) => {
         })
 }
 
+export const updateSkin = (skin) => {
+    const request = new Request( `${API_HOST}/api/skin/${skin._id}`, {
+        method: "PATCH",
+        body: JSON.stringify(skin),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+    return fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            }
+        })
+}
 export const getSkins = async (user) => {
     let url = `${API_HOST}/api/skins`
     if(user){

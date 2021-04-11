@@ -12,14 +12,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import {CameraControls, Pixel} from "./3d_view";
 
-import {createSkin, getSkins} from "../actions/skin";
+import {createSkin, getSkin, updateSkin} from "../actions/skin";
 
 import 'react-edit-text/dist/index.css';
 
 import './EditSkin.css';
 import {Canvas} from 'react-three-fiber';
 import SkinCard from "../components/SkinCard";
-import {getSkin} from "../actions/skin";
 
 export default function EditSkin(props) {
   const {allSkins, handleSnackbarClick, emptySkin, currUser} = props;
@@ -61,6 +60,7 @@ export default function EditSkin(props) {
               (result) => {
                 setIsLoaded(true);
                 setClrs(buildPixels(result.skin2D));
+                setSkin(result);
               },
               (error) => {
                 setIsLoaded(true);
@@ -75,63 +75,20 @@ export default function EditSkin(props) {
   }, [isLoaded])
 
 
-  function SkinRendering() {
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [clrs2, setClrs] = useState([]);
-
-    useEffect(() => {
-      if (skinId) {
-        getSkin(skinId)
-            .then(
-                (result) => {
-                  setIsLoaded(true);
-                  setClrs(buildPixels(positions, result.skin2D));
-                },
-                (error) => {
-                  setIsLoaded(true);
-                  setError(error);
-                }
-            )
-      } else {
-        setIsLoaded(true);
-        setClrs(buildPixels(positions, Array(1036).fill('white')));
-        setSkin({name: ""})
-      }
-    }, [isLoaded])
-
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-          <Canvas camera={{position: [20, 20, 20]}}>
-            <CameraControls/>
-            <ambientLight intensity={0.5}/>
-            <spotLight position={[100, 100, 100]} angle={0.15} penumbra={1}/>
-            {clrs.map(x => {
-              return <Pixel color={color} position={x.pos} clr={x}/>;
-            })}
-          </Canvas>
-      );
-    }
-  }
-
   function handleSave() {
     let colors = clrs.map(x => {
       return x.clr
     });
     if (skinId) {
-      const updateSkin = {
-        skin2D: colors,
-      }
-      if (newName != "") {
-        updateSkin.name = newName;
-      }
+      skin.skin2D = colors;
 
-      handleSnackbarClick({message: 'Successfully saved skin', color: 'green'});
-      history.push("/account")
+      if (newName != "") {
+        skin.name = newName;
+      }
+      updateSkin(skin).then(()=>{handleSnackbarClick({message: 'Successfully saved skin', color: 'green'});
+        history.push("/account")
+      })
+
     } else {
       if (newName != "" && file != null) {
         const latestId = Math.max.apply(Math, allSkins.map(function (skin) {
@@ -149,8 +106,7 @@ export default function EditSkin(props) {
           comments: []
         };
 
-        createSkin(newSkin)
-        //allSkins.push(newSkin);
+        createSkin(newSkin);
         handleSnackbarClick({message: 'New skin successfully saved', color: 'green'});
         history.push("/account")
       } else {
