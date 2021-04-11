@@ -1,5 +1,5 @@
 # team04
-Currently we have two main branches, the "main" branch has the most functional version of our code, and the "3d" branch upgrades the skin editor to a fully featured 3d editor which is sitll a work in progress, we intend to have it complete for phase 2.
+
 
 To run view the instructions in frontend/README.md
 
@@ -9,6 +9,10 @@ Our web application enables the sharing of resources relating to minecraft, cent
 **Email:** hey@gmail.com [admin]
 
 **Password:** 123456
+
+**Email:** misc@tom.ac [regular user]
+
+**Password:** foobar2000 
 
 ## How To Use
 
@@ -27,9 +31,38 @@ Routes were added to access (GET), create (POST) and edit (PATCH) user informati
 ## Admin Privileges
 As admin, you can delete users from the Account page (navigable by the button on the nav bar).
 
-## Testing out 3D functionality
+## Routes
+POST: /users/login {email, password} => {username, password, name, bio, createdAt, isAdmin}
 
-If you want to check out the version with the 3D skin editor checkout the 3d branch and start up as normal, navigate to the skin editor and you can view the 3d rendering. You can zoom in using the scroll wheel, and if you click and drag you can change the orientation. If you select a color and hover over one of the blocks the block will change color, if you click on a block it will apply the color change to that block. 
+GET: /users/check-session {user} => {user.email}
+
+POST: /api/users {username, email, password} => {\_id, createdAt, username, email}
+
+GET: /api/users => [{user}, {user}, ...]
+
+GET: /api/users/{id} => {user}
+
+DELETE: /api/users/{id}
+
+PATCH: /api/users/{id} {username, bio, password, email} => {user}
+
+POST: /api/newskin {image, name, skin2D, username, user_id} => {\_id, image, name skin2D, username, user_id}
+
+GET: /api/skins?skin_id?user_id => [{skin}, {skin}] (if no query, or user_id} {skin] (if skin_id}
+
+PATCH: /api/skin/{skin_id} {image, name, skin2D, username, user_id, \_id} => {\_id, image, name skin2D, username, user_id}
+
+POST: /api/maps {image, name, file, username} => {\_id, image, name file, username, }
+
+GET: /api/maps/:id => {map}
+
+GET: /api/map => [{map}, {map}]
+
+POST: /api/resource {image, name, file, username} => {\_id, image, name file, username}
+
+GET: /api/resource/:id => {resource}
+
+GET: /api/resource => [{resource}, {resource}]
 
 # 3rd Party Libraries
 * Classnames
