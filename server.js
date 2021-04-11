@@ -324,20 +324,18 @@ app.get('/api/skins', mongoChecker, async (req, res) => {
 // PATCH route to edit skin
 app.patch('/api/skin/:skinId', mongoChecker, async (req, res) => {
 	// get wildcards
-    const id = req.params.id
+    const id = req.params.skinId
 
     const fieldsToUpdate = {}
-	req.body.map((change) => {
-		const propertyToChange = change.path.substr(1)
-		fieldsToUpdate[propertyToChange] = change.value
-	})
 
     try {
-        const skin = await skin.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, { new: true, useFindAndModify: false})
+        const skin = await Skin.findOneAndUpdate({_id: id}, {$set: req.body}, { new: true, useFindAndModify: false})
 		if (!skin) {
-			res.status(404).send('Resource not found')
+		    log(id);
+		    log('not found');
+			res.status(404).send('Resource not found');
 		} else {   
-			res.send(skin)
+			res.send(skin);
 		}
     } catch(error) {
         log(error)
