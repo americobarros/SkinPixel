@@ -1,5 +1,5 @@
 # team04
-Currently we have two main branches, the "main" branch has the most functional version of our code, and the "3d" branch upgrades the skin editor to a fully featured 3d editor which is sitll a work in progress, we intend to have it complete for phase 2.
+
 
 To run view the instructions in frontend/README.md
 
@@ -27,9 +27,6 @@ Routes were added to access (GET), create (POST) and edit (PATCH) user informati
 ## Admin Privileges
 As admin, you can delete users from the Account page (navigable by the button on the nav bar).
 
-## Testing out 3D functionality
-
-If you want to check out the version with the 3D skin editor checkout the 3d branch and start up as normal, navigate to the skin editor and you can view the 3d rendering. You can zoom in using the scroll wheel, and if you click and drag you can change the orientation. If you select a color and hover over one of the blocks the block will change color, if you click on a block it will apply the color change to that block. 
 
 # 3rd Party Libraries
 * Classnames
