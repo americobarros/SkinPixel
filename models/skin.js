@@ -29,6 +29,10 @@ const SkinSchema = new mongoose.Schema({
     },
     comments: {
         type: Array
+    },
+    user: {
+	    type: String,
+        required: true
     }
 })
 
