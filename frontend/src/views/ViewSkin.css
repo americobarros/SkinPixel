@@ -12,6 +12,10 @@
     width: 80%;
 }
 
+#threeDVdiv {
+    min-height: 800px;
+}
+
 #userInfo {
     border: 1px solid rgba(0, 0, 0, 0.2);
     height: 400px;

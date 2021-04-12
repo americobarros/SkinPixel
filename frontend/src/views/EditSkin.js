@@ -239,7 +239,7 @@ export default function EditSkin(props) {
           </div>
 
           <div class="displayFlex">
-            <Canvas camera={{position: [20, 20, 20]}}>
+            <Canvas id="threeDV" camera={{position: [20, 20, 20]}}>
               <CameraControls/>
               <ambientLight intensity={0.5}/>
               <spotLight position={[100, 100, 100]} angle={0.15} penumbra={1}/>
