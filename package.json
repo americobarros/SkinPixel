@@ -10,6 +10,6 @@
   },
   "scripts": {
     "frontend": "npm start",
-    "start": "npm start"
+    "start": "node server.js"
   }
 }
