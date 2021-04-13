@@ -104,7 +104,7 @@ export default function ViewSkin(props) {
             {/*      </div>*/}
             {/*  )}*/}
             {/*</div>*/}
-            <Canvas camera={{position: [20, 20, 20]}}>
+            <Canvas id="threeDV" camera={{position: [20, 20, 20]}}>
               <CameraControls/>
               <ambientLight intensity={0.5}/>
               <spotLight position={[100, 100, 100]} angle={0.15} penumbra={1}/>
@@ -122,7 +122,7 @@ export default function ViewSkin(props) {
             </span>
               </div>
               <div id="userInfo">
-          <span>
+            <span>
               <text>Creator:</text>
               {/* <h3>{skin.userInfo.name}</h3> */}
               <h4>@{skin.username}</h4>
