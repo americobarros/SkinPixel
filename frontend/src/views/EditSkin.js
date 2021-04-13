@@ -155,8 +155,12 @@ export default function EditSkin(props) {
 
     } else {
       if (newName != "" && file != null) {
-
-        console.log(file);
+        const userInfo = {
+          name: currUser.name,
+          username: currUser.username,
+          "bio": currUser.bio
+          };
+          
         const newSkin = {
           createdAt: 10,
           image: file,
@@ -164,6 +168,7 @@ export default function EditSkin(props) {
           skin2D: colors,
           username: currUser.username,
           user: currUser._id,
+          "userInfo": userInfo,
           comments: []
         };
 

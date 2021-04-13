@@ -14,7 +14,7 @@
 
 #userInfo {
     border: 1px solid rgba(0, 0, 0, 0.2);
-    height: 400px;
+    max-height: 300px;
     border-radius: 5px;
     width: 20vw;
     margin: 15px 0px;
@@ -38,7 +38,7 @@
 }
 
 #skinInfo{
-    height: 400px;
+    min-height: 500px;
     border-radius: 5px;
     width: 20vw;
     margin-top: 15px;
@@ -46,6 +46,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: scroll;
 }
 
 .skinImage {
@@ -79,4 +80,8 @@
 .commentButton {
     width: 20%;
     margin: 22px 0px;
+}
+
+.Canvas{
+    min-height: 800px;
 }

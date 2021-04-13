@@ -30,7 +30,7 @@ const SkinSchema = new mongoose.Schema({
     comments: {
         type: Array
     },
-    user: {
+    username: {
 	    type: String,
         required: true
     }

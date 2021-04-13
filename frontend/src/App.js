@@ -107,7 +107,7 @@ export default function App() {
 
             <Route exact path="/map/:mapId" children={<ViewMap allMaps={allMaps} currUser={currUser} />}/>
             <Route exact path="/resource/:resourceId" children={<ViewResource allResourcePacks={allResourcePacks} currUser={currUser} />}/>
-            <Route exact path="/skin/:skinId" children={<ViewSkin allSkins={allSkins} currUser={currUser} />}/>
+            <Route exact path="/skin/:skinId" children={<ViewSkin allSkins={allSkins} allUsers={allUsers} currUser={currUser} />}/>
             <Route exact path="/skin/edit/:skinId" children={<EditSkin handleSnackbarClick={handleSnackbarClick}
                                                                        currUser={currUser} />}/>
             <Route exact path="/newskin" children={<EditSkin handleSnackbarClick={handleSnackbarClick}

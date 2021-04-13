@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function ViewSkin(props) {
-  const {currUser} = props;
+  const {allUsers, currUser} = props;
 
   const classes = useStyles();
   let {skinId} = useParams();
@@ -124,9 +124,9 @@ export default function ViewSkin(props) {
               <div id="userInfo">
           <span>
               <text>Creator:</text>
-              <h3>{skin.name}</h3>
+              {/* <h3>{skin.userInfo.name}</h3> */}
               <h4>@{skin.username}</h4>
-              {/*<p>{skin.user.bio}</p>*/}
+              {/* <p>{skin.userInfo.bio}</p> */}
             </span>
               </div>
             </div>
