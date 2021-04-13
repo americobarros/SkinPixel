@@ -58,8 +58,8 @@ export default function SignInModal(props) {
                 <DialogContentText id="alert-dialog-description">
                 Sign in for more functionality.
                 </DialogContentText>
-                <TextField className="TextFieldStyle" label="Username" variant="outlined" style={{ marginBottom: '10px' }} onChange={handleUsername} />
-                <TextField className="TextFieldStyle" label="Password" variant="outlined" onChange={handlePassword} />
+                <TextField className="TextFieldStyle" label="Username" variant="outlined" style={{ marginBottom: '10px', width:"auto"}} onChange={handleUsername}/>
+                <TextField className="TextFieldStyle" label="Password" variant="outlined" style={{ width:"auto"}} onChange={handlePassword}/>
             </DialogContent>
             <DialogActions>
             <Button onClick={handleLogin} color="primary" autoFocus>

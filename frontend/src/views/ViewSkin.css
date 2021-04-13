@@ -12,8 +12,17 @@
     width: 80%;
 }
 
-#threeDVdiv {
+#threeDV {
     min-height: 800px;
+    max-height: 800px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    margin: 15px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
 }
 
 #userInfo {
@@ -84,8 +93,4 @@
 .commentButton {
     width: 20%;
     margin: 22px 0px;
-}
-
-.Canvas{
-    min-height: 800px;
 }
