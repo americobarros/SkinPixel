@@ -16,7 +16,7 @@ Our web application enables the sharing of resources relating to minecraft, cent
 
 ## How To Use
 
-Access the web application at https://mc.tom.ac/.
+~~Access the web application at americobarros.ca.~~
 
 After boot up you should land on the home page. You can first login with the above credentials by accessing the login modal in the top right of the screen. After being logged in, you can nagivate through the web app by using the scroll bar to navigate between viewing skins, resource packs and maps. You can click on any card from this page to view further details about it. On this viewing skin page, you may comment as well.
 
