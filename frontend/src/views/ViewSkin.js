@@ -50,7 +50,11 @@ export default function ViewSkin(props) {
 
   function handlePost() {
     if (currUser) {
-      skin.comments.push({createdAt: 3, username: currUser.name, text: newComment});
+      skin.comments.push({
+        createdAt: 3,
+        username: currUser.username,
+        text: newComment,
+      });
       setNewComment("");
     }
   }
@@ -140,17 +144,19 @@ export default function ViewSkin(props) {
             <Button className="commentButton" variant="outlined" onClick={handlePost} disabled={!currUser}>Post</Button>
           </div>
 
-          {/* comment display */}
-          <div>
-            {skin.comments.map(comment =>
-                <div id="userComments">
-                  {comment.text}
-                  <div><b>Comment By: </b>{comment.user.name}</div>
-                </div>
-            )}
-          </div>
-
+        {/* comment display */}
+        <div>
+          {skin.comments.map((comment) => (
+            <div id="userComments">
+              {comment.text}
+              <div>
+                <b>Comment By: </b>
+                {comment.username}
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
     );
   }
 }
